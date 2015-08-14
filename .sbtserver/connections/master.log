@@ -1,0 +1,7 @@
+New log file opened at Thu Aug 13 13:12:55 COT 2015 by 6876@ISIS2503-7
+Taking next connection to: 50214
+New client attempting to connect on port: 50215-50214
+  Address = /172.24.100.37:50214
+This client on port 50215 has uuid bb97e798-aadf-448b-bb94-a3ad41a40502 configName activator humanReadableName Activator protocolVersion 3 featureTags Vector()
+Connected Clients: activator-bb97e798-aadf-448b-bb94-a3ad41a40502
+Taking next connection to: 50214
