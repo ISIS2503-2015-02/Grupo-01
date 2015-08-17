@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Model;
+import com.fasterxml.jackson.databind.JsonNode;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +9,7 @@ import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Tranvia extends Vehiculo{
 
 	//-----------------------------------
@@ -20,19 +22,18 @@ public class Tranvia extends Vehiculo{
 
 	private boolean panico;
 	
-	private List<Revision> revisiones;
+	private ArrayList<Revision> revisiones;
 
 	//-----------------------------------
 	// Constructores
 	//-----------------------------------
 
 	public Tranvia(){
-		revisiones = new ArrayList<Revision>();
 	}
 
 	public Tranvia(double ubicacionX, double ubicacionY,
 			String estado, double presionChoque, double temperatura,
-			boolean panico, List<Revision> revisiones) {
+			boolean panico, ArrayList<Revision> revisiones) {
 		super(ubicacionX, ubicacionY, estado);
 		this.presionChoque = presionChoque;
 		this.temperatura = temperatura;
@@ -65,11 +66,11 @@ public class Tranvia extends Vehiculo{
 		this.panico = panico;
 	}
 
-	public List<Revision> getRevisiones() {
+	public ArrayList<Revision> getRevisiones() {
 		return revisiones;
 	}
 
-	public void setRevisiones(List<Revision> revisiones) {
+	public void setRevisiones(ArrayList<Revision> revisiones) {
 		this.revisiones = revisiones;
 	}
 
@@ -77,10 +78,10 @@ public class Tranvia extends Vehiculo{
     public static Tranvia bind(JsonNode j) {
         double ubicacionX = j.findPath("ubicacionX").asDouble();
         double ubicacionY = j.findPath("ubicacionY").asDouble();
-        String estado = j.findPath("estado").asString();
+        String estado = j.findPath("estado").asText();
         double presionChoque = j.findPath("presionChoque").asDouble();
         double temperatura = j.findPath("temperatura").asDouble();
-        boolean panico = j.findPath("panico").asBoolean());
+        boolean panico = j.findPath("panico").asBoolean();
         Tranvia tranvia = new Tranvia(ubicacionX, ubicacionY, estado, presionChoque,
          temperatura, panico, new ArrayList<Revision>());
         return tranvia;

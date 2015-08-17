@@ -1,6 +1,7 @@
-package tbcClasses;
+package models;
 
 import java.util.Date;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.avaje.ebean.Model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import javax.persistence.Id;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Revision {
 
 	//-----------------------------------
@@ -70,6 +72,11 @@ public class Revision {
 		this.kilometraje = kilometraje;
 	}
 
+	// Crea un objeto a partir de un nodo JSon
+    public static Revision bind(JsonNode j) {
+        Revision revision = null;
+        return revision;
+    }
 
 
 	
