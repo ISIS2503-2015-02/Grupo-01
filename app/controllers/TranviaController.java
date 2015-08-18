@@ -12,7 +12,6 @@ import play.mvc.Result;
 
 import java.util.List;
 
-
 public class TranviaController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
@@ -20,6 +19,7 @@ public class TranviaController extends Controller {
         JsonNode j = Controller.request().body().asJson();
         Tranvia tranvia = Tranvia.bind(j);
         tranvia.save();
+
         return ok(Json.toJson(tranvia));
     }
 
@@ -35,13 +35,13 @@ public class TranviaController extends Controller {
         Revision revision = Revision.bind(j);
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
         tranvia.agregarRevision(revision);
-        revision.save();
+        tranvia.update();
         return ok(Json.toJson(tranvia));
     }
 
     public Result readRevisiones(Long id) {
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
-        List<Revision> revisiones = tranvia.getRevisiones();
+        Collection<Revision> revisiones = tranvia.getRevisiones();
         return ok(Json.toJson(revisiones));
     }
 }

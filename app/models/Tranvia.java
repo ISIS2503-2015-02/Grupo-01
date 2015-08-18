@@ -2,12 +2,18 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Entity
 public class Tranvia extends Vehiculo{
@@ -22,7 +28,8 @@ public class Tranvia extends Vehiculo{
 
 	private boolean panico;
 	
-	private ArrayList<Revision> revisiones;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Revision> revisiones;
 
 	//-----------------------------------
 	// Constructores
@@ -33,7 +40,7 @@ public class Tranvia extends Vehiculo{
 
 	public Tranvia(double ubicacionX, double ubicacionY,
 			String estado, double presionChoque, double temperatura,
-			boolean panico, ArrayList<Revision> revisiones) {
+			boolean panico, List<Revision> revisiones) {
 		super(ubicacionX, ubicacionY, estado);
 		this.presionChoque = presionChoque;
 		this.temperatura = temperatura;
@@ -66,11 +73,11 @@ public class Tranvia extends Vehiculo{
 		this.panico = panico;
 	}
 
-	public ArrayList<Revision> getRevisiones() {
+	public List<Revision> getRevisiones() {
 		return revisiones;
 	}
 
-	public void setRevisiones(ArrayList<Revision> revisiones) {
+	public void setRevisiones(List<Revision> revisiones) {
 		this.revisiones = revisiones;
 	}
 
@@ -85,6 +92,8 @@ public class Tranvia extends Vehiculo{
         double presionChoque = j.findPath("presionChoque").asDouble();
         double temperatura = j.findPath("temperatura").asDouble();
         boolean panico = j.findPath("panico").asBoolean();
+        ArrayList<Revision> revs = new ArrayList<Revision>();
+        revs.add(crearRevisionDummy());
         Tranvia tranvia = new Tranvia(ubicacionX, ubicacionY, estado, presionChoque,
          temperatura, panico, new ArrayList<Revision>());
         return tranvia;
