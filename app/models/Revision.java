@@ -74,11 +74,21 @@ public class Revision {
 
 	// Crea un objeto a partir de un nodo JSon
     public static Revision bind(JsonNode j) {
-        Revision revision = null;
+    	String fechaAntStr = j.findPath("fechaAnt").asText();
+    	Date fechaAnt = stringToDate(fechaAntStr);
+    	String fechaStr = j.findPath("fecha").asText();
+    	Date fecha = stringToDate(fechaStr);
+    	double kilometraje = j.findPath("kilometraje").asDouble();
+        Revision revision = new Revision(fechaAnt, fecha, kilometraje);
         return revision;
     }
 
+    // Auxiliar
 
+    public Date stringToDate(String dateStr){
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		Date parsedDate = formatter.parse(dateStr);
+    }
 	
 	
 	

@@ -74,6 +74,9 @@ public class Tranvia extends Vehiculo{
 		this.revisiones = revisiones;
 	}
 
+	public void agregarRevision(Revision rev){
+		this.revisiones.add(rev);
+	}
 	// Crea un objeto a partir de un nodo JSon
     public static Tranvia bind(JsonNode j) {
         double ubicacionX = j.findPath("ubicacionX").asDouble();
