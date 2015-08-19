@@ -5,7 +5,7 @@ public class Estacion
 {
 	//Constante
 	/**
-	 * Capacidad de la estacion
+	 * Capacidad 
 	 */
 	public final static int CAPACIDAD = 10;
 
