@@ -36,6 +36,10 @@ public class Revision extends Model {
 	@ManyToOne
 	@JoinColumn(name="tranvia_id")
 	private Tranvia tranv;
+
+	@ManyToOne
+	@JoinColumn(name="mobibus_id")
+	private Mobibus mobi;	
 	
 	//-----------------------------------
 	// Constructores

@@ -125,15 +125,14 @@ public class Ruta extends Model {
         String tipoo = j.findPath("tipo").asText();
         String terminado = j.findPath("terminado").asText();
         String tipoAccidente = j.findPath("accidente").asText();
-        Vehiculo carro;
         Ruta rout;
-        if(tipo.equals("tranvia")){
-            carro = Tranvia.bind(j.findPath("tranvia"));
-            rout = new Ruta(ubicacionOri, ubicacionDes, tipo, tiempoTrayecto, terminado, tipoAccidente, new Mobibus(), carro);
+        if(tipoo.equals("tranvia")){
+           Tranvia carro = Tranvia.bind(j.findPath("tranvia"));
+            rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, terminado, tipoAccidente,null, carro);
         }
         else{
-            carro = Mobibus.bind(j.findPath("mobibus"));
-            rout = new Ruta(ubicacionOri, ubicacionDes, tipo, tiempoTrayecto, terminado, tipoAccidente, carro, new tranvia());
+            Mobibus carro = Mobibus.bind(j.findPath("mobibus"));
+            rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, terminado, tipoAccidente, carro, null);
         }
         return rout;
     }
