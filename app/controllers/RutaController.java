@@ -31,24 +31,24 @@ public class RutaController extends Controller {
 
     public Result darRutasAccidenteTranvia(){
       List<Ruta> rutas = new Model.Finder(Long.class, Tranvia.class).
-      where().neq("tipoAccidente", "ninguno").eq("tipo", "tranvia").findList();
+      where().eq("accidente", "choque").eq("tipo", "tranvia").findList();
       return ok(Json.toJson(rutas));  
     }
 
 
     public Result find(Long id){
-    	Ruta ruta = new Model.Finder(Long.class, Ruta.class).byId(id);
-    	return ok(Json.toJson(ruta));
+        Ruta ruta = new Model.Finder(Long.class, Ruta.class).byId(id);
+        return ok(Json.toJson(ruta));
     }
 
     public Result alertMobibusAccident(Long id, String accidente, double longitud, double latitud) {
-    	Ruta ruta = new Model.Finder(Long.class, Ruta.class).byId(id);
-    	ruta.setTerminado("accidentado");	
-    	ruta.setTipoAccidente(accidente);
-    	Mobibus bus = ruta.getBus();
-    	bus.setUbicacionX(longitud);
-    	bus.setUbicacionY(latitud);
-    	bus.setEstado("accidentado");
+        Ruta ruta = new Model.Finder(Long.class, Ruta.class).byId(id);
+        ruta.setTerminado("accidentado");   
+        ruta.setTipoAccidente(accidente);
+        Mobibus bus = ruta.getBus();
+        bus.setUbicacionX(longitud);
+        bus.setUbicacionY(latitud);
+        bus.setEstado("accidentado");
         return ok(Json.toJson(ruta));
     }
 
@@ -86,5 +86,4 @@ public class RutaController extends Controller {
         where().eq("terminado", "terminado").eq("tipo","tranvia").findList();
         return ok(Json.toJson(rutas));
     }
-
 }
