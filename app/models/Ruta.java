@@ -13,6 +13,10 @@ public class Ruta extends Model {
     // Atributos
     //-----------------------------------------------------------
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+    
     private String ubicaiconOrigen;
 
     private String ubicacionDestino;

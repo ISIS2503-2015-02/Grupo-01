@@ -19,13 +19,13 @@ public class MobibusController extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public Result create() {
         JsonNode j = Controller.request().body().asJson();
-        Tranvia tranvia = Tranvia.bind(j);
-        tranvia.save();
-        return ok(Json.toJson(tranvia));
+        Mobibus bus = Mobibus.bind(j);
+        bus.save();
+        return ok(Json.toJson(bus));
     }
 
     public Result read() {
-        List<Tranvia> tranvias = new Model.Finder(String.class, Tranvia.class).all();
-        return ok(Json.toJson(tranvias));
+        List<Mobibus> buses = new Model.Finder(String.class, Mobibus.class).all();
+        return ok(Json.toJson(buses));
     }
 }
