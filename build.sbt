@@ -18,3 +18,5 @@ routesGenerator := InjectedRoutesGenerator
 
 
 fork in run := false
+
+fork in run := true
