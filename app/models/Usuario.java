@@ -8,7 +8,6 @@ public class Usuario  extends Persona{
     //Atributos
     //--------------------------------------------
     private String condicion;
-    private TarjetaDeCredito tarjetaDeCredito;
 
     //--------------------------------------------
     //Constructores
@@ -30,13 +29,4 @@ public class Usuario  extends Persona{
         this.condicion = condicion;
     }
 
-    public TarjetaDeCredito getTarjetaDeCredito() {
-        return tarjetaDeCredito;
-    }
-
-    public void registrarTarjetaDeCredito(String nombreTarjeta, String numeroTarjeta,
-                                          String cvv, String fechaVencimiento) {
-        TarjetaDeCredito nueva = new TarjetaDeCredito(nombreTarjeta, numeroTarjeta, cvv, fechaVencimiento);
-        this.tarjetaDeCredito = nueva;
-    }
 }
