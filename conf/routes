@@ -23,7 +23,7 @@ POST        /rutas                 		controllers.RutaController.crearRuta()
 
 GET 		/rutas                 		controllers.RutaController.darRutas()
 
-GET			/rutas/accidentesTranvias			controllers.RutaController.darRutasAccidenteTranvia()
+GET			/rutas/accidentesTranvias	controllers.RutaController.darRutasAccidenteTranvia()
 
 # Servicios de conductor
 
@@ -37,11 +37,18 @@ GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
 
 GET			/estaciones/ocupacion		controllers.EstacionController.darEstacionesOcupadas()
 
-UPDATE		/estaciones/ocupacion/:id		controllers.actualizarOcupacion.(id: Long)
+UPDATE		/estaciones/ocupacion/:id	controllers.actualizarOcupacion.(id: Long)
 
 # Servicios de mobibus
 
-# Servicios de vcub			
+
+# Servicios de vcub	
+
+POST        /vcubs                 		controllers.VcubController.crearVcub()
+
+GET         /vcubs                 		controllers.VcubController.darVcubs()
+
+GET			/vcubs/:id 					controllers.VcubController.darVcub(id: Long)		
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
