@@ -3,6 +3,9 @@ package models;
 import models.Vcub;
 
 import java.util.ArrayList;
+import java.util.List;
+
+
 
 
 public class Estacion 
@@ -11,14 +14,16 @@ public class Estacion
 	/**
 	 * Capacidad 
 	 */
-	public final static int CAPACIDAD = 10;
+	private int capacidad;
 
 	//Atributos
 	
 	/**
 	 * Identificador de la estacion
 	 */
-	private String ID;;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private String id;
 	
 	/**
 	 * Ubicacion de la estacion
@@ -28,7 +33,8 @@ public class Estacion
 	/**
 	 * Vector que contiene los Vcubs de la estacion
 	 */
-	private ArrayList<Vcub> vcubs;
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Vcub> vcubs;
 	
 	/**
 	 * Indica si la estacion esta llena
@@ -40,6 +46,7 @@ public class Estacion
 	 */
 	private double ocupacion;
 	
+	public Estacion(){}
 	
 	//Constructor
 	/**
@@ -49,11 +56,11 @@ public class Estacion
 	 */
 	public Estacion (String ID, String ubicacion)
 	{
-		this.ID = ID;
+		this.id = id;
 		this.ubicacion = ubicacion;
-		vcubs = new ArrayList<Vcub>();
-		llena = false;
-		ocupacion = 0.0;
+		this.vcubs = new ArrayList<Vcub>();
+		this.llena = false;
+		this.ocupacion = 0.0;
 	}
 
 	//Metodos
@@ -79,7 +86,7 @@ public class Estacion
 	 * Devuelve en vector con los Vcub de la estacion
 	 * @return Los Vcub. ArrayList
 	 */
-	public ArrayList<Vcub> darVcubs()
+	public List<Vcub> darVcubs()
 	{
 		return vcubs;
 	}

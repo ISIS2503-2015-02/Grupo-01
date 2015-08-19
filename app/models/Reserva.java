@@ -13,9 +13,13 @@ public class Reserva extends Model {
     // Atributos
     //-----------------------------------------------------------
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+
     private String estado;
 
-    private String fecha;
+    private Date fecha;
 
     private double costo;
 
@@ -26,6 +30,10 @@ public class Reserva extends Model {
     //-----------------------------------------------------------
     // Constructores
     //-----------------------------------------------------------
+
+    public Reserva(){
+        
+    }
 
     public Reserva (String nEstado, String nFecha, double nCosto, int nTurno, Ruta nRuta){
         estado = nEstado;
@@ -43,7 +51,7 @@ public class Reserva extends Model {
         return estado;
     }
 
-    public String getFecha(){
+    public Date getFecha(){
         return fecha;
     }
 
@@ -59,7 +67,7 @@ public class Reserva extends Model {
         estado = nEstado;
     }
 
-    public void setFecha(String nFecha){
+    public void setFecha(Date nFecha){
         fecha = nFecha;
     }
 
@@ -78,11 +86,32 @@ public class Reserva extends Model {
     public static Reserva bind(JsonNode j){
         String esta = j.findPath("estado").asText();
         String fechaa = j.findPath("fecha").asText();
+        Date fechaDate = stringToDate(fechaa);
         double elCosto = j.findPath("costo").asDouble();
         int turnoEnFila = j.findPath("turno").asInt();
         JsonNode rutaJson = j.get("ruta");
         Ruta rout = Ruta.bind(rutaJson);
-        Reserva reserva = new Reserva(esta, fechaa, elCosto, turnoEnFila, rout);
+        Reserva reserva = new Reserva(esta, fechaDate, elCosto, turnoEnFila, rout);
         return reserva;
+    }
+
+    public static Date stringToDate(String dateStr){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        try{
+            Date parsedDate = formatter.parse(dateStr);
+            return parsedDate;
+        }
+        catch(Exception e){
+            return null;
+        }
+    }
+
+    public static Date maniana(){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        Calendar cal =  Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, 1);
+        return cal.getTime();
     }
 }

@@ -25,6 +25,10 @@ public class Mobibus extends Vehiculo{
     // Constructores
     //-----------------------------------------------------------
 
+    public Mobibus(){
+        
+    }
+
     public Mobibus(double ubicacionX, double ubicacionY,
             String estado, int capacida, String placa, ArrayList<Revision> revisiones) {
         super(ubicacionX, ubicacionY, estado);

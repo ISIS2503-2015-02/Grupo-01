@@ -1,27 +1,28 @@
+
 package controllers;
 
-
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.databind.JsonNode;
 import models.Conductor;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
-import com.avaje.ebean.Model;
-import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 
-public class ConductorController extends Controller {
-
-    @BodyParser.Of(BodyParser.Json.class)
-    public static Result crearConductor() {
+public class ConductorController extends Controller{
+	
+	@BodyParser.Of(BodyParser.Json.class)
+    public Result crearConductor() {
         JsonNode j = Controller.request().body().asJson();
-        Conductor conductor = Conductor.bind(j);
-       // conductor.save();
+        Conductor condcutor = Conductor.bind(j);
+        conductor.save();
+
         return ok(Json.toJson(conductor));
     }
 
-    public Result read() {
+    public Result darConductores() {
         List<Conductor> conductores = new Model.Finder(String.class, Conductor.class).all();
         return ok(Json.toJson(conductores));
     }
