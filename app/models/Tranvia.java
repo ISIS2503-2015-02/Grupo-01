@@ -93,7 +93,6 @@ public class Tranvia extends Vehiculo{
         double temperatura = j.findPath("temperatura").asDouble();
         boolean panico = j.findPath("panico").asBoolean();
         ArrayList<Revision> revs = new ArrayList<Revision>();
-        revs.add(crearRevisionDummy());
         Tranvia tranvia = new Tranvia(ubicacionX, ubicacionY, estado, presionChoque,
          temperatura, panico, new ArrayList<Revision>());
         return tranvia;

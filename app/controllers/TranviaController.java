@@ -41,7 +41,7 @@ public class TranviaController extends Controller {
 
     public Result readRevisiones(Long id) {
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
-        Collection<Revision> revisiones = tranvia.getRevisiones();
+        List<Revision> revisiones = tranvia.getRevisiones();
         return ok(Json.toJson(revisiones));
     }
 }
