@@ -31,7 +31,7 @@ public class RutaController extends Controller {
 
     public Result darRutasAccidenteTranvia(){
       List<Ruta> rutas = new Model.Finder(Long.class, Tranvia.class).
-      where().eq("accidente", "choque").findList();
+      where().eq("accidente", "choque").eq("tipo", "tranvia").findList();
       return ok(Json.toJson(rutas));  
     }
 }
