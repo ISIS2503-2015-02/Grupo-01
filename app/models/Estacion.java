@@ -8,7 +8,7 @@ public class Estacion
 {
 	//Constante
 	/**
-	 * Capacidad de la estacion
+	 * Capacidad 
 	 */
 	private int capacidad;
 

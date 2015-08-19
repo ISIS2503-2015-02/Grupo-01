@@ -1,14 +1,23 @@
 package models;
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.databind.JsonNode;
+import play.libs.Json;
+import play.mvc.BodyParser;
+import play.mvc.Controller;
+import play.mvc.Result;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 
-//@MappedSuperclass
+@MappedSuperclass
 public class Persona { //extends  Model{
 
 
     //--------------------------------------------
     //Atributos
     //--------------------------------------------
-
     @Id
     private String numeroIdentificacion;
     private int edad;
@@ -20,9 +29,8 @@ public class Persona { //extends  Model{
     //Constructores
     //--------------------------------------------
     public Persona(){};
-    public Persona (long id, String numeroIdentificacion, int edad, String nombre,
+    public Persona (String numeroIdentificacion, int edad, String nombre,
                     String tipoId, String telefono){
-        this.id = id;
         this.numeroIdentificacion = numeroIdentificacion;
         this.edad = edad;
         this.nombre = nombre;
@@ -33,14 +41,6 @@ public class Persona { //extends  Model{
     //--------------------------------------------
     //Getters & Setters
     //--------------------------------------------
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getNumeroIdentificacion() {
         return numeroIdentificacion;

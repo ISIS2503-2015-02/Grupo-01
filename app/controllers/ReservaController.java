@@ -13,23 +13,42 @@ import play.mvc.Result;
 import java.util.List;
 
 public class ReservaController extends Controller{
+
+	@BodyParser.Of(BodyParser.Json.class)
+	public Result crearReserva(){
+		JsonNode j = Controller.request().body().asJson();
+        Reserva reserva = Reserva.bind(j);
+        reserva.save();
+
+        return ok(Json.toJson(reserva));
+	}
+
+	public Result darReservas(){
+		List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).all();
+		return ok(Json.toJson(reservas));
+	}
 	
 	@BodyParser.Of(BodyParser.Json.class)
-    public Result crearTranvia() {
-        JsonNode j = Controller.request().body().asJson();
-        Tranvia tranvia = Tranvia.bind(j);
-        tranvia.save();
+	public Result asignarRuta(Long id){
+		JsonNodte j = Controller.request().body().asJson();
+		Ruta ruta = Ruta.bind(j);
 
-        return ok(Json.toJson(tranvia));
-    }
+		Reserva reserva = new Model.Finder(Long.class, Reserva.class).byId(id);
+		reserva.setRuta(ruta);
 
-    public Result darTranvias() {
-        List<Tranvia> tranvias = new Model.Finder(String.class, Tranvia.class).all();
-        return ok(Json.toJson(tranvias));
-    }
+		reserva.update();
 
-    public Result darTranvia(Long id){
-      Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
-      return ok(Json.toJson(tranvia));  
-    }
+		return ok(Json.toJson(reserva));
+	}
+
+	public Result darReservasSinRuta(){
+		List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).
+		where().isNull("ruta").findList();
+		return ok(Json.toJson(reservas));
+	}
+
+	public Result darReservasVencen(){
+		List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).where().isNulls("ruta").eq("fecha", Reserva.maniana()).findList();
+		return ok(Json.toJson(reservas));
+	}
 }

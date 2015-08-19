@@ -1,3 +1,4 @@
+
 package controllers;
 
 import com.avaje.ebean.Model;
@@ -31,3 +32,4 @@ public class ConductorController extends Controller{
       return ok(Json.toJson(conductor));  
     }
 }
+
