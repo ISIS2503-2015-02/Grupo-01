@@ -19,8 +19,6 @@ public class Persona { //extends  Model{
     //Atributos
     //--------------------------------------------
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private long id;
     private String numeroIdentificacion;
     private int edad;
     private String nombre;
