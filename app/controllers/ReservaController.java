@@ -30,7 +30,7 @@ public class ReservaController extends Controller{
 	
 	@BodyParser.Of(BodyParser.Json.class)
 	public Result asignarRuta(Long id){
-		JsonNodte j = Controller.request().body().asJson();
+		JsonNode j = Controller.request().body().asJson();
 		Ruta ruta = Ruta.bind(j);
 
 		Reserva reserva = new Model.Finder(Long.class, Reserva.class).byId(id);
