@@ -46,10 +46,6 @@ public class Ruta extends Model {
         this.bus = bus;
     }
 
-    public Ruta(){
-
-    }
-
     //-----------------------------------------------------------
     // Getters & Setters
     //-----------------------------------------------------------
@@ -110,11 +106,11 @@ public class Ruta extends Model {
         this.bus = bus;
     }
 
-    public Tranvia getBus() {
-        return bus;
+    public Tranvia getTren() {
+        return tranvia;
     }
 
-    public void setBus(Tranvia tren {
+    public void setTren(Tranvia tren) {
         this.tranvia = tren;
     }
     
@@ -126,18 +122,19 @@ public class Ruta extends Model {
         String ubicacionOri = j.findPath("ubicacionOrigen").asText();
         String ubicacionDes = j.findPath("ubicacionDestino").asText();
         double tiempoTrayecto = j.findPath("tiempoTrayecto").asDouble();
-        String tipo = j.findPath("tipo").asText();
+        String tipoo = j.findPath("tipo").asText();
         String terminado = j.findPath("terminado").asText();
         String tipoAccidente = j.findPath("accidente").asText();
         Vehiculo carro;
+        Ruta rout;
         if(tipo.equals("tranvia")){
             carro = Tranvia.bind(j.findPath("tranvia"));
+            rout = new Ruta(ubicacionOri, ubicacionDes, tipo, tiempoTrayecto, terminado, tipoAccidente, new Mobibus(), carro);
         }
         else{
             carro = Mobibus.bind(j.findPath("mobibus"));
+            rout = new Ruta(ubicacionOri, ubicacionDes, tipo, tiempoTrayecto, terminado, tipoAccidente, carro, new tranvia());
         }
-        Ruta rout = new Ruta(ubicaiconOri, ubicacionDest,
-            tipo, tiempoTrayecto, terminado, tipoAccidente, bus, tranvia)
-        return mobibus;
+        return rout;
     }
 }
