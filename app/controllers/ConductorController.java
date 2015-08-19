@@ -12,4 +12,22 @@ import java.util.List;
 
 public class ConductorController extends Controller{
 	
+	@BodyParser.Of(BodyParser.Json.class)
+    public Result crearConductor() {
+        JsonNode j = Controller.request().body().asJson();
+        Conductor condcutor = Conductor.bind(j);
+        conductor.save();
+
+        return ok(Json.toJson(conductor));
+    }
+
+    public Result darConductores() {
+        List<Conductor> conductores = new Model.Finder(String.class, Conductor.class).all();
+        return ok(Json.toJson(conductores));
+    }
+
+    public Result darConductor(String cedula){
+      Condcutor condcutor = (Conductor) new Model.Finder(String.class, Conductor.class).byId(cedula);
+      return ok(Json.toJson(conductor));  
+    }
 }
