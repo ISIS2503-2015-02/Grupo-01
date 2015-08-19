@@ -1,3 +1,7 @@
+package models;
+
+import models.Vehiculo;
+import models.Estacion;
 
 public class Vcub extends Vehiculo
 {

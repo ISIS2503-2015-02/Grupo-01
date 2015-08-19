@@ -63,13 +63,13 @@ public class Conductor extends Persona{
 
     public static Conductor bind(JsonNode j) {
         String identificacion = j.findPath("identificacion").asText();
-        double edad = j.findPath("edad").asDouble();
-        double nombre = j.findPath("nombre").asDouble();
+        int edad = j.findPath("edad").asDouble();
+        String nombre = j.findPath("nombre").asText();
         String tipoId = j.findPath("tipoId").asText();
-        int telefono = j.findPath("telefono").asInt();
-        double licenciaConducccion = j.findPath("licenciaConducccion").asDouble();
+        String telefono = j.findPath("telefono").asText();
+        String licenciaConducccion = j.findPath("licenciaConducccion").asText();
         String fechaVenLicencia = j.findPath("fechaVenLicencia").asText();
-        int estado = j.findPath("estado").asInt();
+        String estado = j.findPath("estado").asText();
         Conductor conductor = new Conductor(identificacion, edad, nombre, tipoId, telefono, licenciaConducccion, fechaVenLicencia, estado);
         return conductor;
     }

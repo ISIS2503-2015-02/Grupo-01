@@ -1,3 +1,7 @@
+package models;
+
+import models.Vcub;
+
 import java.util.ArrayList;
 
 

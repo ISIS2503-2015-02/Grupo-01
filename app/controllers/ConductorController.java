@@ -14,10 +14,10 @@ import java.util.List;
 public class ConductorController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
-    public static Result create() {
+    public static Result crearConductor() {
         JsonNode j = Controller.request().body().asJson();
         Conductor conductor = Conductor.bind(j);
-        conductor.save();
+       // conductor.save();
         return ok(Json.toJson(conductor));
     }
 
