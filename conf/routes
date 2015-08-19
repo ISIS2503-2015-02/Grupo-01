@@ -37,7 +37,7 @@ GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
 
 GET			/estaciones/ocupacion		controllers.EstacionController.darEstacionesOcupadas()
 
-UPDATE		/estaciones/ocupacion/:id	controllers.actualizarOcupacion.(id: Long)
+PUT			/estaciones/ocupacion/:id	controllers.EstacionController.actualizarOcupacion(id: Long)
 
 # Servicios de mobibus
 
