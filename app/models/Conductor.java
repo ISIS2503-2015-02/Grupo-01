@@ -7,6 +7,8 @@ import play.libs.Json;
 import play.mvc.*;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Conductor extends Persona{
@@ -19,19 +21,19 @@ public class Conductor extends Persona{
     private String estado;
 
     @OneToMany(cascade=CascadeType.ALL)
-    private List<Conductor> conductores;
+    private List<Ruta> rutas;
 
     //--------------------------------------------
     //Constructores
     //--------------------------------------------
     public Conductor(){super();}
     public Conductor(String identificacion, int edad, String nombre, String tipoId, String telefono,
-                     String nLicencia, String nFechaVen, String nEstado, List<Conductor> conductores){
+                     String nLicencia, String nFechaVen, String nEstado, List<Ruta> conductores){
         super(identificacion, edad, nombre, tipoId, telefono);
         licenciaDeConduccion = nLicencia;
         fechaVencimientoLicencia = nFechaVen;
         estado = nEstado;
-        this.conductores = conductores;
+        this.rutas = rutas;
     }
 
     //--------------------------------------------
@@ -63,12 +65,12 @@ public class Conductor extends Persona{
         this.estado = estado;
     }
 
-    public List<Conductor> getConductores(){
+    public List<Ruta> getRutas(){
         return conductores;
     }
 
-    public void setConductores(List<Conductor> conductores){
-        this.conductores = conductores;
+    public void setRutas(List<Ruta> rutas){
+        this.rutas = rutas;
     }
 
 
@@ -81,7 +83,8 @@ public class Conductor extends Persona{
         double licenciaConducccion = j.findPath("licenciaConducccion").asDouble();
         String fechaVenLicencia = j.findPath("fechaVenLicencia").asText();
         int estado = j.findPath("estado").asInt();
-        Conductor conductor = new Conductor(identificacion, edad, nombre, tipoId, telefono, licenciaConducccion, fechaVenLicencia, estado);
+        Conductor conductor = new Conductor(identificacion, edad, nombre, tipoId, telefono, licenciaConducccion,
+         fechaVenLicencia, estado, new ArrayList<Ruta>());
         return conductor;
     }
 }

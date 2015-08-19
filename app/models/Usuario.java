@@ -1,13 +1,21 @@
 package models;
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.databind.JsonNode;
+import play.libs.Json;
+import play.mvc.BodyParser;
+import play.mvc.Controller;
+import play.mvc.Result;
+import javax.persistence.*;
 
-
-//@Entity
+@Entity
 public class Usuario  extends Persona{
 
     //--------------------------------------------
     //Atributos
     //--------------------------------------------
     private String condicion;
+
+    @OneToMany(cascade=CascadeType.ALL)
     private List<Reserva> reservas;
 
 
@@ -15,8 +23,9 @@ public class Usuario  extends Persona{
     //Constructores
     //--------------------------------------------
     public Usuario(){ super();}
-    public Usuario(String condicion, List<Reserva> nReservas){
-        super();
+    public Usuario(String numeroIdentificacion, int edad, String nombre,
+                    String tipoId, String telefono, String condicion, List<Reserva> nReservas){
+        super(numeroIdentificacion, edad, nombre, tipoId, telefono);
         this.condicion = condicion;
         reservas = nReservas;
     }
@@ -44,4 +53,15 @@ public class Usuario  extends Persona{
         reservas.add(nReserva);
     }
 
+
+    public static Usuario bind(JsonNode j) {
+        String identificacion = j.findPath("identificacion").asText();
+        double edad = j.findPath("edad").asDouble();
+        double nombre = j.findPath("nombre").asDouble();
+        String tipoId = j.findPath("tipoId").asText();
+        int telefono = j.findPath("telefono").asInt();
+        String condicion = j.findPath("condicion").asText();
+        Usuario usuario = new Usuario(identificacion, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>);
+        return conductor;
+    }
 }

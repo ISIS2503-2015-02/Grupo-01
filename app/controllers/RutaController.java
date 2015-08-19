@@ -36,7 +36,7 @@ public class RutaController extends Controller {
     }
 
 
-    public Result find(Long id){
+    public Result darRuta(Long id){
         Ruta ruta = new Model.Finder(Long.class, Ruta.class).byId(id);
         return ok(Json.toJson(ruta));
     }

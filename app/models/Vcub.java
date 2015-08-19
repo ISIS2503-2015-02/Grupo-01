@@ -1,94 +1,62 @@
+package models;
 
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.databind.JsonNode;
+import models.Persona;
+import play.libs.Json;
+import play.mvc.*;
+import javax.management.modelmbean.ModelMBeanAttributeInfo;
+
+
+@Entity
 public class Vcub extends Vehiculo
 {
-	//Constantes
-	
-		public final static String PRESTADA = "prestada";
-		
-		public final static String RESTITUIDA = "restituida";
 		
 	//Atributos 
 		
 		/**
-		 * Estacion donde se encuentra ubicado el Vcub
-		 */
-		private Estacion estacion;
-		
-		/**
 		 * Estado del Vcub
 		 */
-		private String estado;
+		private Usuario estado;
 		
-		/**
-		 * Identificador del Vcub
-		 */
-		private String ID;
+		@ManyToOne
+		@JoinColumn(name="estacion_id")
+		private Estacion estacion;
+
 		
 	//Constructor 
 		
-		/**
-		 * 
-		 * @param estacion
-		 * @param ID
-		 */
-		public Vcub (Estacion estacion, String ID)
+
+		public Vcub (double ubicacionX, double ubicacionY, String estado)
 		{
-			super(Vehiculo.VCUB);
-			this.estacion = estacion;
-			this.estado = RESTITUIDA;
+			super(ubicacionX, ubicacionY, estado);
+			this.usuario = null;
+			this.estacion = null;
 		}
 		
 	// Metodos
 		
-		/**
-		 * 
-		 * @return
-		 */
-		public Estacion darEstacion()
-		{
+		public Usuario getUsuario(){
+			return usuario;
+		}
+
+		public void setUsuario(Usuario usuario){
+			this.usuario = usuario;
+		}
+
+		public Estacion getEstacion(){
 			return estacion;
 		}
-		
-		/**
-		 * 
-		 * @param nueva
-		 */
-		public void cambiarEstacion(Estacion nueva)
-		{
-			this.estacion = nueva;
+
+		public void setEstacion(Estacion estacion){
+			this.estacion = estacion;
 		}
 		
-		/**
-		 * Devuelve el estado del Vcub
-		 * @return estado. String
-		 */
-		public String darEstado()
-		{
-			return estado;
-		}
-		
-		/**
-		 * Cambia el estado del Vcub de presada a restituida y viceversa
-		 */
-		public void cambiarEstado()
-		{
-			if(estado.equals(PRESTADA))
-			{
-				estado = RESTITUIDA;
-			}
-			else if(estado.equals(RESTITUIDA))
-			{
-				estado = PRESTADA;
-			}
-		}
-		
-		/**
-		 * Devuelve el ID del Vcub
-		 * @return
-		 */
-		public String darID()
-		{
-			return ID;
-		}
-	
+		public static Vcub bind(JsonNode j) {
+        	double ubicacionX = j.findPath("ubicacionX").asDouble();
+        	double ubicacionY = j.findPath("ubicacionY").asDouble();
+        	String estado = j.findPath("estado").asText();
+        	Vcub vcub= new Vcub(ubicacionX, ubicacionY, estado);
+        	return vcub;
+    	}	
 }

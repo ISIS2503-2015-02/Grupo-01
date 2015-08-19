@@ -1,25 +1,30 @@
+package models;
+
+import com.avaje.ebean.Model;
+import com.fasterxml.jackson.databind.JsonNode;
+import models.Persona;
+import play.libs.Json;
+import play.mvc.*;
+import javax.management.modelmbean.ModelMBeanAttributeInfo;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
+@Entity
 public class Estacion 
 {
-	//Constante
+	
 	/**
 	 * Capacidad 
 	 */
 	private int capacidad;
-
-	//Atributos
 	
 	/**
 	 * Identificador de la estacion
 	 */
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private String id;
+	private Long id;
 	
 	/**
 	 * Ubicacion de la estacion
@@ -50,9 +55,9 @@ public class Estacion
 	 * @param ID
 	 * @param ubicacion
 	 */
-	public Estacion (String ID, String ubicacion)
+	public Estacion (int capacidad, String ubicacion)
 	{
-		this.id = id;
+		this.capacidad = capacidad;
 		this.ubicacion = ubicacion;
 		this.vcubs = new ArrayList<Vcub>();
 		this.llena = false;
@@ -65,9 +70,9 @@ public class Estacion
 	 * Devuelve el ID de la estacion
 	 * @return El ID. String
 	 */
-	public String darID() 
+	public Long darID() 
 	{
-		return ID;
+		return id;
 	}
 
 	/**
@@ -96,16 +101,7 @@ public class Estacion
 		return llena;
 	}
 
-	/**
-	 * Cambia el estado de la estacion
-	 * @param llena. Boolean
-	 */
-	public void cambiarEstado(boolean llena) 
-	{
-		this.llena = llena;
-	}
-
-	/**
+		/**
 	 * Devuelve el porcentage de ocupacion de la estacion
 	 * @return
 	 */
@@ -115,12 +111,34 @@ public class Estacion
 	}
 
 	/**
+	 * Cambia el estado de la estacion
+	 * @param llena. Boolean
+	 */
+	public void cambiarEstado(boolean llena) 
+	{
+		this.llena = llena;
+	}
+
+	public void cambiarCapacidad(int capacidad){
+		this.capacidad = capacidad;
+	}
+
+
+	/**
 	 * Asigna una nueva ocupacion a la estacion
 	 * @param ocupacion. Double
 	 */
 	public void asignarOcupacion(double ocupacion) 
 	{
 		this.ocupacion = ocupacion;
+	}
+
+	public void cambiarUbiacion(String ubicacion){
+		this.ubicacion = ubicacion;
+	}
+
+	public void cambiarVcubs(List<Vcub> vcubs){
+		this.vcubs = vcubs;
 	}
 	
 	/**
@@ -165,11 +183,10 @@ public class Estacion
 		asignarOcupacion(p);
 	}
 
-	
-
-	
-	
-	
-	
-	
+	public static Estacion bind(JsonNode j) {
+        int capacidad = j.findPath("capacidad").asInt();
+        String ubicacion = j.findPath("ubicacion").asString();
+        Estacion estacion= new Estacion(capacidad, ubicacion);
+        return estacion;
+    }	
 }

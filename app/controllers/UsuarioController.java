@@ -24,9 +24,9 @@ public class UsuarioController extends Controller {
         return ok(Json.toJson(usuario));
     }
 
-    public Result darUsuario() {
-        List<Usuario> usuario = new Model.Finder(String.class, Usuario.class).all();
-        return ok(Json.toJson(usuario));
+    public Result darUsuarios() {
+        List<Usuario> usuarios = new Model.Finder(String.class, Usuario.class).all();
+        return ok(Json.toJson(usuarios));
     }
 
     @BodyParser.Of(BodyParser.Json.class)

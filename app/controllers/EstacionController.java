@@ -10,7 +10,7 @@ import play.mvc.Result;
 
 import java.util.List;
 
-public class Estacion  extends Controller{
+public class EstacionController  extends Controller{
 	
 	@BodyParser.Of(BodyParser.Json.class)
     public Result crearEstacion() {
@@ -36,9 +36,9 @@ public class Estacion  extends Controller{
         return ok(Json.toJson(estaciones));
     }
 
-    public Result actualizzarOcupacion(Long id){
+    public Result actualizarOcupacion(Long id){
         Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
         estacion.actualizarOcupacion();
-        estacion.update;
+        estacion.update();
     }
 }

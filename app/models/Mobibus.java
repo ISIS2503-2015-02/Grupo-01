@@ -18,7 +18,6 @@ public class Mobibus extends Vehiculo{
     private String placa;
 
     @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="mobibus_id")
     private List<Revision> revisiones;
 
     //-----------------------------------------------------------
