@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import java.io.Serializable;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Vehiculo;
 import models.Tranvia;
@@ -15,7 +16,7 @@ import java.util.List;
 public class TranviaController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
-    public Result create() {
+    public Result crearTranvia() {
         JsonNode j = Controller.request().body().asJson();
         Tranvia tranvia = Tranvia.bind(j);
         tranvia.save();
@@ -23,14 +24,18 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(tranvia));
     }
 
-    public Result read() {
+    public Result darTranvias() {
         List<Tranvia> tranvias = new Model.Finder(String.class, Tranvia.class).all();
         return ok(Json.toJson(tranvias));
     }
 
+    public Result darTranvia(Long id){
+      Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
+      return ok(Json.toJson(tranvia));  
+    }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public Result createRevision(Long id) {
+    public Result crearRevision(Long id) {
         JsonNode j = Controller.request().body().asJson();
         Revision revision = Revision.bind(j);
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
@@ -39,7 +44,7 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(tranvia));
     }
 
-    public Result readRevisiones(Long id) {
+    public Result darRevisiones(Long id) {
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
         List<Revision> revisiones = tranvia.getRevisiones();
         return ok(Json.toJson(revisiones));

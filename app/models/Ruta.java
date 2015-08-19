@@ -29,13 +29,16 @@ public class Ruta extends Model {
 
     private Tranvia tranvia;
 
+    private Conductor conductor;
+
     //-----------------------------------------------------------
     // Constructores
     //-----------------------------------------------------------
 
     public Ruta(String ubicaiconOrigen, String ubicacionDestino,
             String tipo, double tiempoTrayecto, String terminado,
-            String tipoAccidente, Mobibus bus, Tranvia tranvia) {
+            String tipoAccidente, Mobibus bus, Tranvia tranvia, 
+            Conductor conductor) {
         super();
         this.ubicaiconOrigen = ubicaiconOrigen;
         this.ubicacionDestino = ubicacionDestino;
@@ -44,6 +47,8 @@ public class Ruta extends Model {
         this.terminado = terminado;
         this.tipoAccidente = tipoAccidente;
         this.bus = bus;
+        this.tranvia = tranvia;
+        this.conductor = conductor;
     }
 
     //-----------------------------------------------------------
@@ -113,6 +118,14 @@ public class Ruta extends Model {
     public void setTren(Tranvia tren) {
         this.tranvia = tren;
     }
+
+    public Conductor getConductor(){
+        return conductor;
+    }
+
+    public void setConductor(Conductor conductor){
+        this.conductor = conductor;
+    }
     
     //-----------------------------------------------------------
     // Métodos auxiliares
@@ -128,11 +141,11 @@ public class Ruta extends Model {
         Ruta rout;
         if(tipoo.equals("tranvia")){
            Tranvia carro = Tranvia.bind(j.findPath("tranvia"));
-            rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, terminado, tipoAccidente,null, carro);
+            rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, terminado, tipoAccidente,null, carro, null);
         }
         else{
             Mobibus carro = Mobibus.bind(j.findPath("mobibus"));
-            rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, terminado, tipoAccidente, carro, null);
+            rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, terminado, tipoAccidente, carro, null, null);
         }
         return rout;
     }
