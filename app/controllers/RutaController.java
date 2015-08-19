@@ -86,4 +86,5 @@ public class RutaController extends Controller {
         where().eq("terminado", "terminado").eq("tipo","tranvia").findList();
         return ok(Json.toJson(rutas));
     }
+}
 
