@@ -7,11 +7,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.ManyToOne;
+import javax.persistence.CascadeType;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 @Entity
-public class Revision {
+public class Revision extends Model {
 
 	//-----------------------------------
 	// Atributos
@@ -26,6 +32,10 @@ public class Revision {
 	private Date fecha;
 	
 	private double kilometraje;
+
+	@ManyToOne
+	@JoinColumn(name="tranvia_id")
+	private Tranvia tranv;
 	
 	//-----------------------------------
 	// Constructores
@@ -74,11 +84,27 @@ public class Revision {
 
 	// Crea un objeto a partir de un nodo JSon
     public static Revision bind(JsonNode j) {
-        Revision revision = null;
+    	String fechaAntStr = j.findPath("fechaAnt").asText();
+    	Date fechaAnt = stringToDate(fechaAntStr);
+    	String fechaStr = j.findPath("fecha").asText();
+    	Date fecha = stringToDate(fechaStr);
+    	double kilometraje = j.findPath("kilometraje").asDouble();
+        Revision revision = new Revision(fechaAnt, fecha, kilometraje);
         return revision;
     }
 
+    // Auxiliar
 
+    public static Date stringToDate(String dateStr){
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+		try{
+			Date parsedDate = formatter.parse(dateStr);
+			return parsedDate;
+		}
+		catch(Exception e){
+			return null;
+		}
+    }
 	
 	
 	
