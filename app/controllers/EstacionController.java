@@ -22,12 +22,23 @@ public class Estacion  extends Controller{
     }
 
     public Result darEstaciones() {
-        List<Tranvia> estaciones = new Model.Finder(String.class, Estacion.class).all();
+        List<Estacion> estaciones = new Model.Finder(String.class, Estacion.class).all();
         return ok(Json.toJson(tranvias));
     }
 
     public Result darEstacion(Long id){
       Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
       return ok(Json.toJson(estacion));  
+    }
+
+    public Result darEstacionesDesocupadas(){
+        List<Estacion> estaciones = new Model.Finder(Long.class, Estacion.class).where().lt("ocupacion", 0.10).findList();
+        return ok(Json.toJson(estaciones));
+    }
+
+    public Result actualizzarOcupacion(Long id){
+        Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
+        estacion.actualizarOcupacion();
+        estacion.update;
     }
 }

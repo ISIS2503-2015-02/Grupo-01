@@ -29,6 +29,16 @@ GET			/rutas/accidentesTranvias			controllers.RutaController.darRutasAccidenteTr
 
 # Servicios de estacion
 
+POST		/estaciones					controllers.EstacionController.crearEstacion()
+
+GET			/estaciones					controllers.EstacionController.darEstaciones()				
+
+GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
+
+GET			/estaciones/ocupacion		controllers.EstacionController.darEstacionesOcupadas()
+
+UPDATE		/estaciones/ocupacion/:id		controllers.actualizarOcupacion.(id: Long)
+
 # Servicios de mobibus
 
 # Servicios de vcub			
