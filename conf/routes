@@ -25,6 +25,16 @@ GET 		/rutas                 		controllers.RutaController.darRutas()
 
 GET			/rutas/accidentesTranvias	controllers.RutaController.darRutasAccidenteTranvia()
 
+PUT 		/rutas/:id/accidente/bus/:accidenteEn/:longitud/:latitud controllers.RutaController.alertMobibusAccident(id:Long, accidenteEn : String, longitud : double, latitud : double)	
+
+GET			/rutas/accidentesBuses				controllers.RutaController.darRutasAccdientesBus()
+
+GET			/rutas/terminadasTranvia			controllers.RutaController.darRutasTerminadasTranvia()
+
+GET			/rutas/terminadasBus				controllers.RutaController.darRutasTerminadasBus()
+
+PUT			/rutas/:id/accidente/bus/:accidenteEn/:longitud/:latitud controllers.RutaController.alertarAccidenteTranvia(id:Long, accidenteEn : String, longitud : double, latitud : double)
+
 # Servicios de conductor
 
 # Servicios de estacion
@@ -37,10 +47,18 @@ GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
 
 GET			/estaciones/ocupacion		controllers.EstacionController.darEstacionesOcupadas()
 
-UPDATE		/estaciones/ocupacion/:id	controllers.actualizarOcupacion.(id: Long)
+PUT			/estaciones/ocupacion/:id	controllers.EstacionController.actualizarOcupacion(id: Long)
+
 
 # Servicios de mobibus
 
+POST		/mobibus 					controllers.MobibusController.create()
+
+GET			/mobibus 					controllers.MobibusController.read()
+
+PUT			/mobibus/:id/revisiones     controllers.MobibusController.crearRevision(id:Long)
+
+GET			/mobibus/:id/revisiones 	controllers.MobibusController.darRevisiones(id:Long)
 
 # Servicios de vcub	
 
@@ -48,7 +66,23 @@ POST        /vcubs                 		controllers.VcubController.crearVcub()
 
 GET         /vcubs                 		controllers.VcubController.darVcubs()
 
-GET			/vcubs/:id 					controllers.VcubController.darVcub(id: Long)		
+GET			/vcubs/:id 					controllers.VcubController.darVcub(id: Long)	
+
+# Servicios de Reserva
+
+GET		/reservas/sinAsignar		controllers.ReservaController.darReservasSinRuta()
+
+GET		/reservas/vencen			controllers.ReservaController.darReservasVencen()
+
+GET		/reservas/:id/ruta 			controllers.ReservaController.asignarRuta(id: Long)
+
+# Servicios de usuario
+
+GET		/usuarios					controllers.UsuarioController.darUsuarios()
+
+POST	/usuarios 					controllers.UsuarioController.crearUsuario()
+
+PUT		/usuarios/:id/reserva 		controllers.UsuarioController.crearReserva(id: String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)

@@ -25,4 +25,25 @@ public class MobibusController extends Controller {
         List<Mobibus> buses = new Model.Finder(String.class, Mobibus.class).all();
         return ok(Json.toJson(buses));
     }
+
+    public Result darBus(Long id){
+      Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
+      return ok(Json.toJson(tranvia));  
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result crearRevision(Long id) {
+        JsonNode j = Controller.request().body().asJson();
+        Revision revision = Revision.bind(j);
+        Mobibus tranvia = (Mobibus) new Model.Finder(Long.class, Tranvia.class).byId(id);
+        tranvia.agregarRevision(revision);
+        tranvia.update();
+        return ok(Json.toJson(tranvia));
+    }
+
+    public Result darRevisiones(Long id) {
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
+        List<Revision> revisiones = tranvia.getRevisiones();
+        return ok(Json.toJson(revisiones));
+    }
 }

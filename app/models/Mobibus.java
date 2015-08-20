@@ -25,6 +25,8 @@ public class Mobibus extends Vehiculo{
     // Constructores
     //-----------------------------------------------------------
 
+
+
     public Mobibus(){
         
     }

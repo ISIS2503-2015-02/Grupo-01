@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.Persona;
 import play.libs.Json;
 import play.mvc.*;
-
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.persistence.*;
 
@@ -19,16 +18,20 @@ public class Conductor extends Persona{
     private String fechaVencimientoLicencia;
     private String estado;
 
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Conductor> conductores;
+
     //--------------------------------------------
     //Constructores
     //--------------------------------------------
     public Conductor(){super();}
     public Conductor(String identificacion, int edad, String nombre, String tipoId, String telefono,
-                     String nLicencia, String nFechaVen, String nEstado){
+                     String nLicencia, String nFechaVen, String nEstado, List<Conductor> conductores){
         super(identificacion, edad, nombre, tipoId, telefono);
         licenciaDeConduccion = nLicencia;
         fechaVencimientoLicencia = nFechaVen;
         estado = nEstado;
+        this.conductores = conductores;
     }
 
     //--------------------------------------------
@@ -58,6 +61,14 @@ public class Conductor extends Persona{
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public List<Conductor> getConductores(){
+        return conductores;
+    }
+
+    public void setConductores(List<Conductor> conductores){
+        this.conductores = conductores;
     }
 
 
