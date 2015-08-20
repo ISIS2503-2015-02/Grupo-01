@@ -16,7 +16,7 @@ public class ConductorController extends Controller{
 	@BodyParser.Of(BodyParser.Json.class)
     public Result crearConductor() {
         JsonNode j = Controller.request().body().asJson();
-        Conductor condcutor = Conductor.bind(j);
+        Conductor conductor = Conductor.bind(j);
         conductor.save();
 
         return ok(Json.toJson(conductor));
@@ -28,7 +28,7 @@ public class ConductorController extends Controller{
     }
 
     public Result darConductor(String cedula){
-      Condcutor condcutor = (Conductor) new Model.Finder(String.class, Conductor.class).byId(cedula);
+      Conductor conductor = (Conductor) new Model.Finder(String.class, Conductor.class).byId(cedula);
       return ok(Json.toJson(conductor));  
     }
 }

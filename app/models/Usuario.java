@@ -7,6 +7,9 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import javax.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class Usuario  extends Persona{
 
@@ -56,12 +59,12 @@ public class Usuario  extends Persona{
 
     public static Usuario bind(JsonNode j) {
         String identificacion = j.findPath("identificacion").asText();
-        double edad = j.findPath("edad").asDouble();
-        double nombre = j.findPath("nombre").asDouble();
+        int edad = j.findPath("edad").asInt();
+        String nombre = j.findPath("nombre").asText();
         String tipoId = j.findPath("tipoId").asText();
-        int telefono = j.findPath("telefono").asInt();
+        String telefono = j.findPath("telefono").asText();
         String condicion = j.findPath("condicion").asText();
-        Usuario usuario = new Usuario(identificacion, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>);
-        return conductor;
+        Usuario usuario = new Usuario(identificacion, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>());
+        return usuario;
     }
 }

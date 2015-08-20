@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import models.Persona;
 import play.libs.Json;
 import play.mvc.*;
+import javax.persistence.*;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 
 
@@ -17,7 +18,7 @@ public class Vcub extends Vehiculo
 		/**
 		 * Estado del Vcub
 		 */
-		private Usuario estado;
+		private Usuario usuario;
 		
 		@ManyToOne
 		@JoinColumn(name="estacion_id")

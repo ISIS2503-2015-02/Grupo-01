@@ -23,7 +23,7 @@ public class EstacionController  extends Controller{
 
     public Result darEstaciones() {
         List<Estacion> estaciones = new Model.Finder(String.class, Estacion.class).all();
-        return ok(Json.toJson(tranvias));
+        return ok(Json.toJson(estaciones));
     }
 
     public Result darEstacion(Long id){
@@ -40,5 +40,6 @@ public class EstacionController  extends Controller{
         Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
         estacion.actualizarOcupacion();
         estacion.update();
+        return ok(Json.toJson(estacion));
     }
 }

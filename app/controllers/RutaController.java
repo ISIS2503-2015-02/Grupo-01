@@ -3,15 +3,14 @@ package controllers;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Ruta;
-import models.Tranvia;
-import models.Mobibus;
+import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class RutaController extends Controller {
 
@@ -37,12 +36,12 @@ public class RutaController extends Controller {
 
 
     public Result darRuta(Long id){
-        Ruta ruta = new Model.Finder(Long.class, Ruta.class).byId(id);
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
         return ok(Json.toJson(ruta));
     }
 
     public Result alertMobibusAccident(Long id, String accidente, double longitud, double latitud) {
-        Ruta ruta = new Model.Finder(Long.class, Ruta.class).byId(id);
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
         ruta.setTerminado("accidentado");   
         ruta.setTipoAccidente(accidente);
         Mobibus bus = ruta.getBus();
@@ -53,10 +52,10 @@ public class RutaController extends Controller {
     }
 
     public Result alertarAccidenteTranvia(Long id, String accidente, double longitud, double latitud){
-        Ruta ruta = new Model.Finder(Long.class, Ruta.class).byId(id);
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
         ruta.setTerminado("accidentado");   
         ruta.setTipoAccidente(accidente);
-        Tranvia tranvi = ruta.getTranvia();
+        Tranvia tranvia = ruta.getTranvia();
         tranvia.setUbicacionX(longitud);
         tranvia.setUbicacionY(latitud);
         tranvia.setEstado("accidentado");
@@ -64,7 +63,7 @@ public class RutaController extends Controller {
 
         Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, 
             tranvia.getTemperatura(), false, new ArrayList<Revision>());
-        ruta.setUbicacionOrigen(longitud+","+latitud);
+        ruta.setUbicaiconOrigen(longitud+","+latitud);
         ruta.setTranvia(nuevoTranvia);
         ruta.update();
         return ok(Json.toJson(ruta));    }

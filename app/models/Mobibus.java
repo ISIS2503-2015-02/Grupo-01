@@ -66,6 +66,10 @@ public class Mobibus extends Vehiculo{
         this.revisiones = revisiones;
     }
 
+    public void agregarRevision(Revision rev){
+        this.revisiones.add(rev);
+    }
+
     //-----------------------------------------------------------
     // Métodos auxiliares
     //-----------------------------------------------------------

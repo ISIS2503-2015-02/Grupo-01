@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Estacion 
+public class Estacion extends Model 
 {
 	
 	/**
@@ -70,7 +70,7 @@ public class Estacion
 	 * Devuelve el ID de la estacion
 	 * @return El ID. String
 	 */
-	public Long darID() 
+	public Long darId() 
 	{
 		return id;
 	}
@@ -128,7 +128,7 @@ public class Estacion
 	 * Asigna una nueva ocupacion a la estacion
 	 * @param ocupacion. Double
 	 */
-	public void asignarOcupacion(double ocupacion) 
+	public void cambiarOcupacion(double ocupacion) 
 	{
 		this.ocupacion = ocupacion;
 	}
@@ -141,6 +141,9 @@ public class Estacion
 		this.vcubs = vcubs;
 	}
 	
+	public void actualizarOcupacion(){
+		this.ocupacion = this.vcubs.size()/this.capacidad;
+	}
 	/**
 	 * 
 	 */
@@ -152,9 +155,8 @@ public class Estacion
 			{
 				vcubs.add(bicicleta);			
 			}
-			double p = (vcubs.size()/CAPACIDAD); 
-			asignarOcupacion(p);
-			if(vcubs.size() == CAPACIDAD)
+			actualizarOcupacion();
+			if(vcubs.size() == capacidad)
 			{
 				cambiarEstado(true);
 			}
@@ -169,23 +171,22 @@ public class Estacion
 	/**
 	 * Elimina un Vcub de la estacion dado su ID
 	 */
-	public void retirarVcub(String ID)
-	{
-		for (int i = 0; i < vcubs.size(); i++) 
-		{
-			Vcub actual = vcubs.get(i);
-			if(actual.darID().equals(ID))
-			{
-				vcubs.remove(actual);				
-			}
-		}
-		double p = (vcubs.size()/CAPACIDAD); 
-		asignarOcupacion(p);
-	}
+	//public void retirarVcub(Long ID)
+	//{
+	//	for (int i = 0; i < vcubs.size(); i++) 
+	//	{
+	//		Vcub actual = vcubs.get(i);
+	//		if(actual.getId().equals(ID))
+	//		{
+	//			vcubs.remove(actual);				
+	//		}
+	//	}
+	//	actualizarOcupacion();
+	//}
 
 	public static Estacion bind(JsonNode j) {
         int capacidad = j.findPath("capacidad").asInt();
-        String ubicacion = j.findPath("ubicacion").asString();
+        String ubicacion = j.findPath("ubicacion").asText();
         Estacion estacion= new Estacion(capacidad, ubicacion);
         return estacion;
     }	

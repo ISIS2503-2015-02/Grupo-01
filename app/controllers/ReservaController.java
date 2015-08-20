@@ -2,9 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Vehiculo;
-import models.Tranvia;
-import models.Revision;
+import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -33,7 +31,7 @@ public class ReservaController extends Controller{
 		JsonNode j = Controller.request().body().asJson();
 		Ruta ruta = Ruta.bind(j);
 
-		Reserva reserva = new Model.Finder(Long.class, Reserva.class).byId(id);
+		Reserva reserva = (Reserva) new Model.Finder(Long.class, Reserva.class).byId(id);
 		reserva.setRuta(ruta);
 
 		reserva.update();
@@ -48,7 +46,7 @@ public class ReservaController extends Controller{
 	}
 
 	public Result darReservasVencen(){
-		List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).where().isNulls("ruta").eq("fecha", Reserva.maniana()).findList();
+		List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).where().isNull("ruta").eq("fecha", Reserva.maniana()).findList();
 		return ok(Json.toJson(reservas));
 	}
 }

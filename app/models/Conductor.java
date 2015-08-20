@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 public class Conductor extends Persona{
 
@@ -66,7 +67,7 @@ public class Conductor extends Persona{
     }
 
     public List<Ruta> getRutas(){
-        return conductores;
+        return rutas;
     }
 
     public void setRutas(List<Ruta> rutas){
@@ -76,13 +77,13 @@ public class Conductor extends Persona{
 
     public static Conductor bind(JsonNode j) {
         String identificacion = j.findPath("identificacion").asText();
-        double edad = j.findPath("edad").asDouble();
-        double nombre = j.findPath("nombre").asDouble();
+        int edad = j.findPath("edad").asInt();
+        String nombre = j.findPath("nombre").asText();
         String tipoId = j.findPath("tipoId").asText();
-        int telefono = j.findPath("telefono").asInt();
-        double licenciaConducccion = j.findPath("licenciaConducccion").asDouble();
+        String telefono = j.findPath("telefono").asText();
+        String licenciaConducccion = j.findPath("licenciaConducccion").asText();
         String fechaVenLicencia = j.findPath("fechaVenLicencia").asText();
-        int estado = j.findPath("estado").asInt();
+        String estado = j.findPath("estado").asText();
         Conductor conductor = new Conductor(identificacion, edad, nombre, tipoId, telefono, licenciaConducccion,
          fechaVenLicencia, estado, new ArrayList<Ruta>());
         return conductor;

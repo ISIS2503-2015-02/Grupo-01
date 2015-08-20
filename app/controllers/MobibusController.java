@@ -2,7 +2,9 @@ package controllers;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Tranvia;
+import models.Vehiculo;
+import models.Mobibus;
+import models.Revision;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -26,23 +28,23 @@ public class MobibusController extends Controller {
     }
 
     public Result darBus(Long id){
-      Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
-      return ok(Json.toJson(tranvia));  
+      Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
+      return ok(Json.toJson(mobibus));  
     }
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result crearRevision(Long id) {
         JsonNode j = Controller.request().body().asJson();
         Revision revision = Revision.bind(j);
-        Mobibus tranvia = (Mobibus) new Model.Finder(Long.class, Tranvia.class).byId(id);
-        tranvia.agregarRevision(revision);
-        tranvia.update();
-        return ok(Json.toJson(tranvia));
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
+        mobibus.agregarRevision(revision);
+        mobibus.update();
+        return ok(Json.toJson(mobibus));
     }
 
     public Result darRevisiones(Long id) {
-        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
-        List<Revision> revisiones = tranvia.getRevisiones();
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
+        List<Revision> revisiones = mobibus.getRevisiones();
         return ok(Json.toJson(revisiones));
     }
 }

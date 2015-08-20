@@ -33,6 +33,8 @@ public class Ruta extends Model {
 
     private Tranvia tranvia;
 
+    @ManyToOne
+    @JoinColumn(name="conductor_id")
     private Conductor conductor;
 
     //-----------------------------------------------------------
@@ -115,11 +117,11 @@ public class Ruta extends Model {
         this.bus = bus;
     }
 
-    public Tranvia getTren() {
+    public Tranvia getTranvia() {
         return tranvia;
     }
 
-    public void setTren(Tranvia tren) {
+    public void setTranvia(Tranvia tren) {
         this.tranvia = tren;
     }
 

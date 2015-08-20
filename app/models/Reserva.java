@@ -6,6 +6,13 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import java.util.Date;
+import java.util.Calendar;
+
 @Entity
 public class Reserva extends Model {
 
@@ -35,7 +42,7 @@ public class Reserva extends Model {
         
     }
 
-    public Reserva (String nEstado, String nFecha, double nCosto, int nTurno, Ruta nRuta){
+    public Reserva (String nEstado, Date nFecha, double nCosto, int nTurno, Ruta nRuta){
         estado = nEstado;
         fecha = nFecha;
         costo = nCosto;
@@ -63,6 +70,10 @@ public class Reserva extends Model {
         return turno;
     }
 
+    public Ruta getRuta(){
+        return ruta;
+    }
+
     public void setEstado(String nEstado){
         estado = nEstado;
     }
@@ -77,6 +88,10 @@ public class Reserva extends Model {
 
     public void setTurno(int nTurno){
         turno = nTurno;
+    }
+
+    public void setRuta(Ruta ruta){
+        this.ruta = ruta;
     }
 
     //-----------------------------------------------------------

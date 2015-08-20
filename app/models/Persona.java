@@ -12,7 +12,8 @@ import javax.persistence.Id;
 
 
 @MappedSuperclass
-public class Persona { //extends  Model{
+public class Persona extends Model
+{ 
 
 
     //--------------------------------------------
