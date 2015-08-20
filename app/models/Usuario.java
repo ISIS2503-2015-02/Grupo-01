@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Entity
 public class Usuario  extends Persona{
 
@@ -26,9 +27,10 @@ public class Usuario  extends Persona{
     //Constructores
     //--------------------------------------------
     public Usuario(){ super();}
-    public Usuario(String numeroIdentificacion, int edad, String nombre,
-                    String tipoId, String telefono, String condicion, List<Reserva> nReservas){
-        super(numeroIdentificacion, edad, nombre, tipoId, telefono);
+
+    public Usuario(String identificacion, int edad, String nombre, String tipoId, String telefono,
+                   String condicion, List<Reserva> nReservas){
+        super(identificacion, edad, nombre, tipoId, telefono);
         this.condicion = condicion;
         reservas = nReservas;
     }
@@ -55,7 +57,6 @@ public class Usuario  extends Persona{
     public void addReserva(Reserva nReserva){
         reservas.add(nReserva);
     }
-
 
     public static Usuario bind(JsonNode j) {
         String identificacion = j.findPath("identificacion").asText();

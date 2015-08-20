@@ -1,4 +1,8 @@
+
 package models;
+
+import models.Vehiculo;
+import models.Estacion;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;

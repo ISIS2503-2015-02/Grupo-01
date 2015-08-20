@@ -9,12 +9,13 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 
 @MappedSuperclass
 public class Persona extends Model
-{ 
 
+{
 
     //--------------------------------------------
     //Atributos
@@ -83,6 +84,16 @@ public class Persona extends Model
         this.telefono = telefono;
     }
 
+
+    public static Persona bind(JsonNode j) {
+        String numIdent = j.findPath("numeroIdentificacion").asText();
+        int edad = j.findPath("edad").asInt();
+        String nombre = j.findPath("nombre").asText();
+        String tipoId = j.findPath("tipoId").asText();
+        String telefono = j.findPath("telefono").asText();
+        Persona persona = new Persona(numIdent,edad,nombre,tipoId,telefono);
+        return persona;
+    }
 
 
 }

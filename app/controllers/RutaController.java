@@ -86,3 +86,4 @@ public class RutaController extends Controller {
         return ok(Json.toJson(rutas));
     }
 }
+

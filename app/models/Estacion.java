@@ -1,3 +1,4 @@
+
 package models;
 
 import com.avaje.ebean.Model;
@@ -7,6 +8,7 @@ import play.libs.Json;
 import play.mvc.*;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

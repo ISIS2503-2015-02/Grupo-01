@@ -15,7 +15,7 @@ import java.util.List;
 public class MobibusController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
-    public Result create() {
+    public static Result create() {
         JsonNode j = Controller.request().body().asJson();
         Mobibus bus = Mobibus.bind(j);
         bus.save();
