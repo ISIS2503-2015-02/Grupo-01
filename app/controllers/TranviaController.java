@@ -49,4 +49,12 @@ public class TranviaController extends Controller {
         List<Revision> revisiones = tranvia.getRevisiones();
         return ok(Json.toJson(revisiones));
     }
+
+    public Result actualizarUbicacion(Long id, Double posX, Double posY){
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
+        tranvia.setUbicacionY(posY);
+        tranvia.setUbicacionX(posX);
+        tranvia.update();
+        return ok(Json.toJson(tranvia));
+    }
 }

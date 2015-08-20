@@ -15,7 +15,7 @@ import java.util.List;
 public class MobibusController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
-    public static Result create() {
+    public Result create() {
         JsonNode j = Controller.request().body().asJson();
         Mobibus bus = Mobibus.bind(j);
         bus.save();
@@ -46,5 +46,13 @@ public class MobibusController extends Controller {
         Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
         List<Revision> revisiones = mobibus.getRevisiones();
         return ok(Json.toJson(revisiones));
+    }
+
+    public Result actualizarUbicacion(Long id, Double posX, Double posY){
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
+        mobibus.setUbicacionY(posY);
+        mobibus.setUbicacionX(posX);
+        mobibus.update();
+        return ok(Json.toJson(mobibus));
     }
 }

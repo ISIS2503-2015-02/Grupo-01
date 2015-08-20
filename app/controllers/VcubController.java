@@ -30,4 +30,12 @@ public class VcubController extends Controller{
       Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
       return ok(Json.toJson(vcub));  
     }
+
+    public Result actualizarUbicacion(Long id, Double posX, Double posY){
+        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
+        vcub.setUbicacionY(posY);
+        vcub.setUbicacionX(posX);
+        vcub.update();
+        return ok(Json.toJson(vcub));
+    }
 }
