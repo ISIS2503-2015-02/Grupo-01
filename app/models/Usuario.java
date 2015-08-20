@@ -1,6 +1,9 @@
 package models;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 //@Entity
 public class Usuario  extends Persona{
 
@@ -15,8 +18,9 @@ public class Usuario  extends Persona{
     //Constructores
     //--------------------------------------------
     public Usuario(){ super();}
-    public Usuario(String condicion, List<Reserva> nReservas){
-        super();
+    public Usuario(String identificacion, int edad, String nombre, String tipoId, String telefono,
+                   String condicion, List<Reserva> nReservas){
+        super(identificacion, edad, nombre, tipoId, telefono);
         this.condicion = condicion;
         reservas = nReservas;
     }
@@ -42,6 +46,17 @@ public class Usuario  extends Persona{
 
     public void addReserva(Reserva nReserva){
         reservas.add(nReserva);
+    }
+
+    public static Usuario bind(JsonNode j) {
+        String identificacion = j.findPath("identificacion").asText();
+        int edad = j.findPath("edad").asDouble();
+        String nombre = j.findPath("nombre").asText();
+        String tipoId = j.findPath("tipoId").asText();
+        String telefono = j.findPath("telefono").asText();
+        String condicion = j.findPath("condicion").asText();
+        Usuario usuario = new Usuario(identificacion, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>());
+        return usuario;
     }
 
 }
