@@ -1,0 +1,13 @@
+New log file opened at Wed Aug 19 20:14:10 COT 2015 by 14588@SantigoLaptop
+Taking next connection to: 59424
+New client attempting to connect on port: 59425-59424
+  Address = /157.253.122.232:59424
+This client on port 59425 has uuid cf0ae24e-8c0b-4885-9d2c-26023a3a2b1a configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-cf0ae24e-8c0b-4885-9d2c-26023a3a2b1a
+Taking next connection to: 59424
+Checking to see if clients are empty...
+No non-daemon clients connected after 3 min. Shutting down.
+Server socket thread exiting.
+0 clients open, will close them...
+All client sockets have been closed.
+Closing the 14588@SantigoLaptop logs at Wed Aug 19 20:17:14 COT 2015, goodbye.
