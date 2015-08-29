@@ -1,5 +1,5 @@
 package moviBusApp.mundo;
 
-public class MoviBusApp {
+public class MoviBus {
 
 }
