@@ -36,10 +36,4 @@ public class EstacionController  extends Controller{
         return ok(Json.toJson(estaciones));
     }
 
-    public Result actualizarOcupacion(Long id){
-        Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
-        estacion.actualizarOcupacion();
-        estacion.update();
-        return ok(Json.toJson(estacion));
-    }
 }

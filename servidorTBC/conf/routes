@@ -37,6 +37,8 @@ GET			/rutas/terminadasBus				controllers.RutaController.darRutasTerminadasBus()
 
 PUT			/rutas/:id/accidente/bus/:accidenteEn/:longitud/:latitud controllers.RutaController.alertarAccidenteTranvia(id:Long, accidenteEn : String, longitud : Double, latitud : Double)
 
+# PUT /rutas/:id
+
 # Servicios de conductor
 
 # Servicios de estacion
