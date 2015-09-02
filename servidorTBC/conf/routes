@@ -35,7 +35,7 @@ GET			/rutas/terminadasTranvia			controllers.RutaController.darRutasTerminadasTr
 
 GET			/rutas/terminadasBus				controllers.RutaController.darRutasTerminadasBus()
 
-PUT			/rutas/:id/accidente/bus/:accidenteEn/:longitud/:latitud controllers.RutaController.alertarAccidenteTranvia(id:Long, accidenteEn : String, longitud : Double, latitud : Double)
+PUT			/rutas/:id/accidente/tranvia/:accidenteEn/:longitud/:latitud controllers.RutaController.alertarAccidenteTranvia(id:Long, accidenteEn : String, longitud : Double, latitud : Double)
 
 # PUT /rutas/:id
 
@@ -51,7 +51,7 @@ GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
 
 GET			/estaciones/ocupacion		controllers.EstacionController.darEstacionesDesocupadas()
 
-PUT			/estaciones/ocupacion/:id	controllers.EstacionController.actualizarOcupacion(id: Long)
+#PUT			/estaciones/ocupacion/:id	controllers.EstacionController.actualizarOcupacion(id: Long)
 
 
 # Servicios de mobibus

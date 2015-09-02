@@ -18,6 +18,16 @@ public class RutaController extends Controller {
     public Result crearRuta() {
         JsonNode j = Controller.request().body().asJson();
         Ruta ruta = Ruta.bind(j);
+        Long idVehic = new Long(j.findPath("idVehiculo").asInt());
+        if(ruta.getTipo().equals("tranvia")){
+            Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(idVehic);
+            ruta.setTranvia(tranvia);
+        }
+        else{
+            Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(idVehic);
+            ruta.setBus(mobibus);
+        }
+
         ruta.save();
 
         return ok(Json.toJson(ruta));
