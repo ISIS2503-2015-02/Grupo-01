@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@DiscriminatorValue("Mobibus")
 public class Mobibus extends Vehiculo{
 
     //-----------------------------------------------------------
@@ -30,9 +31,8 @@ public class Mobibus extends Vehiculo{
         
     }
 
-    public Mobibus(double ubicacionX, double ubicacionY,
-            String estado, int capacida, String placa, ArrayList<Revision> revisiones) {
-        super(ubicacionX, ubicacionY, estado);
+    public Mobibus(String estado, int capacida, String placa, ArrayList<Revision> revisiones) {
+        super(estado);
         this.capacidad = capacidad;
         this.placa = placa;
         this.revisiones = revisiones;
@@ -76,11 +76,9 @@ public class Mobibus extends Vehiculo{
 
     public static Mobibus bind(JsonNode j) {
         String laPlaca = j.findPath("placa").asText();
-        double x = j.findPath("ubicacionX").asDouble();
-        double y = j.findPath("ubicacionY").asDouble();
         String estadoA = j.findPath("estado").asText();
         int caps = j.findPath("capacidad").asInt();
-        Mobibus mobibus = new Mobibus(x,y,estadoA, caps, laPlaca, new ArrayList<Revision>());
+        Mobibus mobibus = new Mobibus(estadoA, caps, laPlaca, new ArrayList<Revision>());
         return mobibus;
     }
 }

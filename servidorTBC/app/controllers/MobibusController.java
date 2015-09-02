@@ -2,9 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Vehiculo;
-import models.Mobibus;
-import models.Revision;
+import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -48,11 +46,14 @@ public class MobibusController extends Controller {
         return ok(Json.toJson(revisiones));
     }
 
-    public Result actualizarUbicacion(Long id, Double posX, Double posY){
-        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
-        mobibus.setUbicacionY(posY);
-        mobibus.setUbicacionX(posX);
-        mobibus.update();
-        return ok(Json.toJson(mobibus));
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result actualizarUbicacion(){
+        JsonNode j = Controller.request().body().asJson();
+        Posicion posicion = Posicion.bind(j);
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(posicion.getVehiculoId());
+        posicion.setVehiculo(mobibus);
+        posicion.save();
+
+        return ok(Json.toJson(posicion));
     }
 }

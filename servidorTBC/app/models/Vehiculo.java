@@ -1,14 +1,16 @@
 package models;
 
 import com.avaje.ebean.Model;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+    name="tipo_vehiculo",
+    discriminatorType=DiscriminatorType.STRING
+)
 public class Vehiculo extends Model{
 	//--------------------------------------------
 	//Atributos
@@ -18,11 +20,10 @@ public class Vehiculo extends Model{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
-	private double ubicacionX;
-	
-	private double ubicacionY;
-	
 	private String estado;
+
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Posicion> posiciones;
 	
 	//--------------------------------------------
 	//Constructores
@@ -30,10 +31,9 @@ public class Vehiculo extends Model{
 	
 	public Vehiculo(){}
 
-	public Vehiculo(double ubicacionX, double ubicacionY, String estado) {
-		this.ubicacionX = ubicacionX;
-		this.ubicacionY = ubicacionY;
+	public Vehiculo(String estado) {
 		this.estado = estado;
+		this.posiciones = new ArrayList<Posicion>();
 	}
 
 	//Getters & Setters
@@ -45,22 +45,6 @@ public class Vehiculo extends Model{
 		this.id = id;
 	}
 
-	public double getUbicacionX() {
-		return ubicacionX;
-	}
-
-	public void setUbicacionX(double ubicacionX) {
-		this.ubicacionX = ubicacionX;
-	}
-
-	public double getUbicacionY() {
-		return ubicacionY;
-	}
-
-	public void setUbicacionY(double ubicacionY) {
-		this.ubicacionY = ubicacionY;
-	}
-
 	public String getEstado() {
 		return estado;
 	}
@@ -69,5 +53,12 @@ public class Vehiculo extends Model{
 		this.estado = estado;
 	}
 	
+	public List<Posicion> getPosiciones() {
+		return posiciones;
+	}
+
+	public void setPosiciones(List<Posicion> posiciones) {
+		this.posiciones = posiciones;
+	}
 	
 }

@@ -17,7 +17,7 @@ GET			/tranvias/:id/revisiones		controllers.TranviaController.darRevisiones(id: 
 
 POST		/tranvias/:id/revisiones		controllers.TranviaController.crearRevision(id: Long)
 
-PUT			/tranvias/:id/:posX/:posY		controllers.TranviaController.actualizarUbicacion(id: Long, posX: Double, posY: Double)
+POST		/tranvias/posicion				controllers.TranviaController.actualizarUbicacion()
 
 # Servicios de ruta
 
@@ -51,8 +51,6 @@ GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
 
 GET			/estaciones/ocupacion		controllers.EstacionController.darEstacionesDesocupadas()
 
-PUT			/estaciones/ocupacion/:id	controllers.EstacionController.actualizarOcupacion(id: Long)
-
 
 # Servicios de mobibus
 
@@ -64,7 +62,7 @@ PUT			/mobibus/:id/revisiones     controllers.MobibusController.crearRevision(id
 
 GET			/mobibus/:id/revisiones 	controllers.MobibusController.darRevisiones(id:Long)
 
-PUT			/mobibus/:id/:posX/:posY	controllers.MobibusController.actualizarUbicacion(id: Long, posX: Double, posY: Double)
+POST		/mobibus/posicion			controllers.MobibusController.actualizarUbicacion()
 
 # Servicios de vcub	
 
@@ -74,7 +72,7 @@ GET         /vcubs                 		controllers.VcubController.darVcubs()
 
 GET			/vcubs/:id 					controllers.VcubController.darVcub(id: Long)	
 
-PUT			/vcubs/:id/:posX/:posY		controllers.VcubController.actualizarUbicacion(id: Long, posX: Double, posY: Double)
+POST		/vcubs/posicion				controllers.VcubController.actualizarUbicacion()
 
 # Servicios de Reserva
 

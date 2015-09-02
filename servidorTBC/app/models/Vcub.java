@@ -10,10 +10,12 @@ import models.Persona;
 import play.libs.Json;
 import play.mvc.*;
 import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
 import javax.management.modelmbean.ModelMBeanAttributeInfo;
 
 
 @Entity
+@DiscriminatorValue("Vcub")
 public class Vcub extends Vehiculo
 {
 		
@@ -32,9 +34,9 @@ public class Vcub extends Vehiculo
 	//Constructor 
 		
 
-		public Vcub (double ubicacionX, double ubicacionY, String estado)
+		public Vcub (String estado)
 		{
-			super(ubicacionX, ubicacionY, estado);
+			super(estado);
 			this.usuario = null;
 			this.estacion = null;
 		}
@@ -58,10 +60,8 @@ public class Vcub extends Vehiculo
 		}
 		
 		public static Vcub bind(JsonNode j) {
-        	double ubicacionX = j.findPath("ubicacionX").asDouble();
-        	double ubicacionY = j.findPath("ubicacionY").asDouble();
         	String estado = j.findPath("estado").asText();
-        	Vcub vcub= new Vcub(ubicacionX, ubicacionY, estado);
+        	Vcub vcub= new Vcub(estado);
         	return vcub;
     	}	
 }

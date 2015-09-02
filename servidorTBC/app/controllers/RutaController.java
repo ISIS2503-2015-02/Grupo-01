@@ -45,8 +45,8 @@ public class RutaController extends Controller {
         ruta.setTerminado("accidentado");   
         ruta.setTipoAccidente(accidente);
         Mobibus bus = ruta.getBus();
-        bus.setUbicacionX(longitud);
-        bus.setUbicacionY(latitud);
+        //bus.setUbicacionX(longitud);
+        //bus.setUbicacionY(latitud);
         bus.setEstado("accidentado");
         return ok(Json.toJson(ruta));
     }
@@ -56,15 +56,14 @@ public class RutaController extends Controller {
         ruta.setTerminado("accidentado");   
         ruta.setTipoAccidente(accidente);
         Tranvia tranvia = ruta.getTranvia();
-        tranvia.setUbicacionX(longitud);
-        tranvia.setUbicacionY(latitud);
+        //tranvia.setUbicacionX(longitud);
+        //tranvia.setUbicacionY(latitud);
         tranvia.setEstado("accidentado");
         tranvia.update();
 
-        Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, 
-            tranvia.getTemperatura(), false, new ArrayList<Revision>());
+        //Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, tranvia.getTemperatura(), false, new ArrayList<Revision>());
         ruta.setUbicaiconOrigen(longitud+","+latitud);
-        ruta.setTranvia(nuevoTranvia);
+        //ruta.setTranvia(nuevoTranvia);
         ruta.update();
         return ok(Json.toJson(ruta));    }
 
