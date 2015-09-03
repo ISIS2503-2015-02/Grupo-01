@@ -73,8 +73,8 @@ public class RutaController extends Controller {
 
         double[][] coord = darCoordenadas(latitud, longitud);
 
-        Tranvia nuevoTren = new Model.finder(Long.class, Tranvia.class).
-        where().between("latitud", coord[1][0], coord[0][0]).between("longitud",coord[3][1],coord[2][1]);
+        Tranvia nuevoTren = (Tranvia) new *Model.finder(Long.class, Tranvia.class).
+        where().between("latitud", coord[1][0], coord[0][0]).between("longitud",coord[3][1],coord[2][1]).findUnique();
 
         Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, 
             tranvia.getTemperatura(), false, new ArrayList<Revision>());
