@@ -71,6 +71,11 @@ public class RutaController extends Controller {
         tranvia.setEstado("accidentado");
         tranvia.update();
 
+        double[][] coord = darCoordenadas(latitud, longitud);
+
+        Tranvia nuevoTren = (Tranvia) new *Model.finder(Long.class, Tranvia.class).
+        where().between("latitud", coord[1][0], coord[0][0]).between("longitud",coord[3][1],coord[2][1]).findUnique();
+
         Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, 
             tranvia.getTemperatura(), false, new ArrayList<Revision>());
         ruta.setUbicaiconOrigen(longitud+","+latitud);
@@ -94,6 +99,22 @@ public class RutaController extends Controller {
         List<Ruta> rutas = new Model.Finder(Long.class, Tranvia.class).
         where().eq("terminado", "terminado").eq("tipo","tranvia").findList();
         return ok(Json.toJson(rutas));
+    }
+
+    private double[][] darCoordenadas(double latitud, double longitud){
+        double[][] coord = new double[4][2];
+        double radLat = Math.toRadians(latitud);
+        double radLon = Math.toRadians(longitud);
+        double distanciaRadial = 1/6371;
+        int[] angulos = {0,180,90,270};
+        for (int j = 0; j < angulos.length; j++) {  
+            double angulo = Math.toRadians(angulos[j]);
+            double latitudRadial = Math.asin(Math.sin(radLat)*Math.cos(distanciaRadial) 
+                    + Math.cos(radLat)*Math.sin(distanciaRadial)*Math.cos(angulo));
+            double longitudRadial = radLon + Math.atan2(Math.sin(angulo)*Math.sin(distanciaRadial)*Math.cos(latitudRadial), Math.cos(distanciaRadial) - Math.sin(radLat)*Math.sin(latitudRadial));
+            coord[j][0] = latitudRadial;
+            coord[j][1] = longitudRadial;
+        }
     }
 }
 
