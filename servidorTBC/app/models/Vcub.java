@@ -1,22 +1,15 @@
 
 package models;
 
-import models.Vehiculo;
-import models.Estacion;
-
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Persona;
-import play.libs.Json;
-import play.mvc.*;
 import javax.persistence.*;
-import javax.persistence.DiscriminatorValue;
-import javax.management.modelmbean.ModelMBeanAttributeInfo;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
-@DiscriminatorValue("Vcub")
-public class Vcub extends Vehiculo
+public class Vcub extends Model
 {
 		
 	//Atributos 
@@ -24,6 +17,15 @@ public class Vcub extends Vehiculo
 		/**
 		 * Estado del Vcub
 		 */
+		@Id
+   		@GeneratedValue(strategy=GenerationType.IDENTITY)
+		private long id;
+	
+		private String estado;
+
+		@OneToMany(cascade=CascadeType.ALL)
+		private List<Posicion> posiciones;
+
 		private Usuario usuario;
 		
 		@ManyToOne
@@ -34,34 +36,59 @@ public class Vcub extends Vehiculo
 	//Constructor 
 		
 
-		public Vcub (String estado)
-		{
-			super(estado);
-			this.usuario = null;
-			this.estacion = null;
-		}
+	public Vcub (String estado)
+	{
+		this.estado = estado;
+		this.posiciones = new ArrayList<Posicion>();
+		this.usuario = null;
+		this.estacion = null;
+	}
 		
 	// Metodos
 		
-		public Usuario getUsuario(){
-			return usuario;
-		}
+	public long getId() {
+		return id;
+	}
 
-		public void setUsuario(Usuario usuario){
-			this.usuario = usuario;
-		}
+	public void setId(long id) {
+		this.id = id;
+	}
 
-		public Estacion getEstacion(){
-			return estacion;
-		}
+	public String getEstado() {
+		return estado;
+	}
 
-		public void setEstacion(Estacion estacion){
-			this.estacion = estacion;
-		}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
+	public List<Posicion> getPosiciones() {
+		return posiciones;
+	}
+
+	public void setPosiciones(List<Posicion> posiciones) {
+		this.posiciones = posiciones;
+	}
+
+	public Usuario getUsuario(){
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario){
+		this.usuario = usuario;
+	}
+
+	public Estacion getEstacion(){
+		return estacion;
+	}
+
+	public void setEstacion(Estacion estacion){
+		this.estacion = estacion;
+	}
 		
-		public static Vcub bind(JsonNode j) {
-        	String estado = j.findPath("estado").asText();
-        	Vcub vcub= new Vcub(estado);
-        	return vcub;
-    	}	
+	public static Vcub bind(JsonNode j) {
+       	String estado = j.findPath("estado").asText();
+       	Vcub vcub= new Vcub(estado);
+       	return vcub;
+   	}	
 }

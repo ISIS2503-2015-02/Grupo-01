@@ -28,11 +28,17 @@ public class Posicion extends Model {
 
 	private Date fecha;
 
-	private Long vehiculoIdent;
+	@ManyToOne
+	@JoinColumn(name="tranvia_id")
+	private Tranvia tranvia;
 
 	@ManyToOne
-	@JoinColumn(name="vehiculo_id")
-	private Vehiculo vehiculo;
+	@JoinColumn(name="vcub_id")
+	private Vcub vcub;
+
+	@ManyToOne
+	@JoinColumn(name="mobibus_id")
+	private Mobibus mobibus;
 	
 	
 	//-----------------------------------
@@ -41,11 +47,10 @@ public class Posicion extends Model {
 	
 	public Posicion(){}
 
-	public Posicion(double latitud, double longitud, Date fecha, Long vehiculoIdent) {
+	public Posicion(double latitud, double longitud, Date fecha) {
 		this.latitud = latitud;
 		this.longitud = longitud;
 		this.fecha = fecha;
-		this.vehiculoIdent = vehiculoIdent;
 	}
 	
 	// Getters & Setters
@@ -81,20 +86,28 @@ public class Posicion extends Model {
 		this.longitud = longitud;
 	}
 
-	public Vehiculo getVehiculo() {
-		return vehiculo;
+	public Tranvia getTranvia() {
+		return tranvia;
 	}
 
-	public void setVehiculo(Vehiculo vehiculo) {
-		this.vehiculo = vehiculo;
+	public void setTranvia(Tranvia tranvia) {
+		this.tranvia = tranvia;
 	}
 
-	public Long getVehiculoId() {
-		return vehiculoIdent;
+	public Mobibus getVcub() {
+		return vcub;
 	}
 
-	public void setvehiculoId(Long vehiculoIdent) {
-		this.vehiculoIdent = vehiculoIdent;
+	public void setVcub(Vcub vcub) {
+		this.vcub = vcub;
+	}
+
+	public Vcub getMobibus() {
+		return mobibus;
+	}
+
+	public void setMobibus(Mobibus mobibus) {
+		this.mobibus = mobibus;
 	}
 
 	// Crea un objeto a partir de un nodo JSon
@@ -103,8 +116,7 @@ public class Posicion extends Model {
     	Date fecha = stringToDate(fechaStr);
     	double latitud = j.findPath("latitud").asDouble();
     	double longitud = j.findPath("longitud").asDouble();
-    	int vehiculoIdent = j.findPath("vehiculoIdent").asInt();
-        Posicion posicion = new Posicion(latitud, longitud, fecha, new Long(vehiculoIdent));
+        Posicion posicion = new Posicion(latitud, longitud, fecha);
         return posicion;
     }
 

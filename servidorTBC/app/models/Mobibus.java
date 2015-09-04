@@ -7,13 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("Mobibus")
-public class Mobibus extends Vehiculo{
+public class Mobibus extends Model{
 
     //-----------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------
     
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long id;
+    
+    private String estado;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Posicion> posiciones;
+
     private int capacidad;
 
     private String placa;
@@ -32,7 +40,8 @@ public class Mobibus extends Vehiculo{
     }
 
     public Mobibus(String estado, int capacida, String placa, ArrayList<Revision> revisiones) {
-        super(estado);
+        this.estado = estado;
+        this.posiciones = new ArrayList<Posicion>();
         this.capacidad = capacidad;
         this.placa = placa;
         this.revisiones = revisiones;
@@ -41,6 +50,30 @@ public class Mobibus extends Vehiculo{
     //-----------------------------------------------------------
     // Getters & Setters
     //-----------------------------------------------------------
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    public List<Posicion> getPosiciones() {
+        return posiciones;
+    }
+
+    public void setPosiciones(List<Posicion> posiciones) {
+        this.posiciones = posiciones;
+    }
 
     public String getPlaca() {
         return placa;

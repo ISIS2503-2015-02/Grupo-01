@@ -10,12 +10,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
-@DiscriminatorValue("Tranvia")
-public class Tranvia extends Vehiculo{
+public class Tranvia extends Model{
 
 	//-----------------------------------
 	// Atributos
 	//-----------------------------------
+
+	@Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
+	
+	private String estado;
+
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Posicion> posiciones;
 
 	private double presionChoque;
 
@@ -35,7 +43,8 @@ public class Tranvia extends Vehiculo{
 
 	public Tranvia(String estado, double presionChoque, double temperatura,
 			boolean panico, List<Revision> revisiones) {
-		super(estado);
+		this.estado = estado;
+		this.posiciones = new ArrayList<Posicion>();
 		this.presionChoque = presionChoque;
 		this.temperatura = temperatura;
 		this.panico = panico;
@@ -43,6 +52,31 @@ public class Tranvia extends Vehiculo{
 	}
 
 	// Getters & Setters
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
+	public List<Posicion> getPosiciones() {
+		return posiciones;
+	}
+
+	public void setPosiciones(List<Posicion> posiciones) {
+		this.posiciones = posiciones;
+	}
+
 	public double getPresionChoque() {
 		return presionChoque;
 	}
