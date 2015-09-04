@@ -18,6 +18,16 @@ public class RutaController extends Controller {
     public Result crearRuta() {
         JsonNode j = Controller.request().body().asJson();
         Ruta ruta = Ruta.bind(j);
+        Long idVehic = new Long(j.findPath("idVehiculo").asInt());
+        if(ruta.getTipo().equals("tranvia")){
+            Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(idVehic);
+            ruta.setTranvia(tranvia);
+        }
+        else{
+            Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(idVehic);
+            ruta.setBus(mobibus);
+        }
+
         ruta.save();
 
         return ok(Json.toJson(ruta));
@@ -61,7 +71,9 @@ public class RutaController extends Controller {
         tranvia.setEstado("accidentado");
         tranvia.update();
 
-        //Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, tranvia.getTemperatura(), false, new ArrayList<Revision>());
+        Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, 
+            tranvia.getTemperatura(), false, new ArrayList<Revision>());
+
         ruta.setUbicaiconOrigen(longitud+","+latitud);
         //ruta.setTranvia(nuevoTranvia);
         ruta.update();
@@ -83,6 +95,22 @@ public class RutaController extends Controller {
         List<Ruta> rutas = new Model.Finder(Long.class, Tranvia.class).
         where().eq("terminado", "terminado").eq("tipo","tranvia").findList();
         return ok(Json.toJson(rutas));
+    }
+
+    private double[][] darCoordenadas(double latitud, double longitud){
+        double[][] coord = new double[4][2];
+        double radLat = Math.toRadians(latitud);
+        double radLon = Math.toRadians(longitud);
+        double distanciaRadial = 1/6371;
+        int[] angulos = {0,180,90,270};
+        for (int j = 0; j < angulos.length; j++) {  
+            double angulo = Math.toRadians(angulos[j]);
+            double latitudRadial = Math.asin(Math.sin(radLat)*Math.cos(distanciaRadial) 
+                    + Math.cos(radLat)*Math.sin(distanciaRadial)*Math.cos(angulo));
+            double longitudRadial = radLon + Math.atan2(Math.sin(angulo)*Math.sin(distanciaRadial)*Math.cos(latitudRadial), Math.cos(distanciaRadial) - Math.sin(radLat)*Math.sin(latitudRadial));
+            coord[j][0] = latitudRadial;
+            coord[j][1] = longitudRadial;
+        }
     }
 }
 
