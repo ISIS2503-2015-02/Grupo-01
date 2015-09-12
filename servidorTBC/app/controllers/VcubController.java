@@ -2,7 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Vcub;
+import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -31,11 +31,14 @@ public class VcubController extends Controller{
       return ok(Json.toJson(vcub));  
     }
 
-    public Result actualizarUbicacion(Long id, Double posX, Double posY){
-        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
-        vcub.setUbicacionY(posY);
-        vcub.setUbicacionX(posX);
-        vcub.update();
-        return ok(Json.toJson(vcub));
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result actualizarUbicacion(){
+        JsonNode j = Controller.request().body().asJson();
+        Posicion posicion = Posicion.bind(j);
+        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(posicion.getVehiculoId());
+        posicion.setVehiculo(vcub);
+        posicion.save();
+
+        return ok(Json.toJson(posicion));
     }
 }

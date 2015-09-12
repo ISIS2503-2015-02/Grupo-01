@@ -7,12 +7,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Mobibus extends Vehiculo{
+public class Mobibus extends Model{
 
     //-----------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------
     
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private long id;
+    
+    private String estado;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private List<Posicion> posiciones;
+
     private int capacidad;
 
     private String placa;
@@ -30,9 +39,9 @@ public class Mobibus extends Vehiculo{
         
     }
 
-    public Mobibus(double ubicacionX, double ubicacionY,
-            String estado, int capacida, String placa, ArrayList<Revision> revisiones) {
-        super(ubicacionX, ubicacionY, estado);
+    public Mobibus(String estado, int capacida, String placa, ArrayList<Revision> revisiones) {
+        this.estado = estado;
+        this.posiciones = new ArrayList<Posicion>();
         this.capacidad = capacidad;
         this.placa = placa;
         this.revisiones = revisiones;
@@ -41,6 +50,30 @@ public class Mobibus extends Vehiculo{
     //-----------------------------------------------------------
     // Getters & Setters
     //-----------------------------------------------------------
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+    
+    public List<Posicion> getPosiciones() {
+        return posiciones;
+    }
+
+    public void setPosiciones(List<Posicion> posiciones) {
+        this.posiciones = posiciones;
+    }
 
     public String getPlaca() {
         return placa;
@@ -76,11 +109,9 @@ public class Mobibus extends Vehiculo{
 
     public static Mobibus bind(JsonNode j) {
         String laPlaca = j.findPath("placa").asText();
-        double x = j.findPath("ubicacionX").asDouble();
-        double y = j.findPath("ubicacionY").asDouble();
         String estadoA = j.findPath("estado").asText();
         int caps = j.findPath("capacidad").asInt();
-        Mobibus mobibus = new Mobibus(x,y,estadoA, caps, laPlaca, new ArrayList<Revision>());
+        Mobibus mobibus = new Mobibus(estadoA, caps, laPlaca, new ArrayList<Revision>());
         return mobibus;
     }
 }

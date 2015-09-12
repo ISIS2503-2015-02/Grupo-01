@@ -24,14 +24,14 @@ create table estacion (
   constraint pk_estacion primary key (id))
 ;
 
-create table mobibus (
+create table posicion (
   id                        bigint auto_increment not null,
-  ubicacion_x               double,
-  ubicacion_y               double,
-  estado                    varchar(255),
-  capacidad                 integer,
-  placa                     varchar(255),
-  constraint pk_mobibus primary key (id))
+  latitud                   double,
+  longitud                  double,
+  fecha                     timestamp,
+  vehiculo_ident            bigint,
+  vehiculo_id               bigint,
+  constraint pk_posicion primary key (id))
 ;
 
 create table reserva (
@@ -66,17 +66,6 @@ create table ruta (
   constraint pk_ruta primary key (id))
 ;
 
-create table tranvia (
-  id                        bigint auto_increment not null,
-  ubicacion_x               double,
-  ubicacion_y               double,
-  estado                    varchar(255),
-  presion_choque            double,
-  temperatura               double,
-  panico                    boolean,
-  constraint pk_tranvia primary key (id))
-;
-
 create table usuario (
   numero_identificacion     varchar(255) not null,
   edad                      integer,
@@ -87,29 +76,35 @@ create table usuario (
   constraint pk_usuario primary key (numero_identificacion))
 ;
 
-create table vcub (
+create table vehiculo (
+  tipo_vehiculo             varchar(31) not null,
   id                        bigint auto_increment not null,
-  ubicacion_x               double,
-  ubicacion_y               double,
   estado                    varchar(255),
   estacion_id               bigint,
-  constraint pk_vcub primary key (id))
+  presion_choque            double,
+  temperatura               double,
+  panico                    boolean,
+  capacidad                 integer,
+  placa                     varchar(255),
+  constraint pk_vehiculo primary key (id))
 ;
 
 create sequence conductor_seq;
 
 create sequence usuario_seq;
 
-alter table reserva add constraint fk_reserva_usuario_1 foreign key (usuario_numero_identificacion) references usuario (numero_identificacion) on delete restrict on update restrict;
-create index ix_reserva_usuario_1 on reserva (usuario_numero_identificacion);
-alter table revision add constraint fk_revision_tranv_2 foreign key (tranvia_id) references tranvia (id) on delete restrict on update restrict;
-create index ix_revision_tranv_2 on revision (tranvia_id);
-alter table revision add constraint fk_revision_mobi_3 foreign key (mobibus_id) references mobibus (id) on delete restrict on update restrict;
-create index ix_revision_mobi_3 on revision (mobibus_id);
-alter table ruta add constraint fk_ruta_conductor_4 foreign key (conductor_id) references conductor (numero_identificacion) on delete restrict on update restrict;
-create index ix_ruta_conductor_4 on ruta (conductor_id);
-alter table vcub add constraint fk_vcub_estacion_5 foreign key (estacion_id) references estacion (id) on delete restrict on update restrict;
-create index ix_vcub_estacion_5 on vcub (estacion_id);
+alter table posicion add constraint fk_posicion_vehiculo_1 foreign key (vehiculo_id) references vehiculo (id) on delete restrict on update restrict;
+create index ix_posicion_vehiculo_1 on posicion (vehiculo_id);
+alter table reserva add constraint fk_reserva_usuario_2 foreign key (usuario_numero_identificacion) references usuario (numero_identificacion) on delete restrict on update restrict;
+create index ix_reserva_usuario_2 on reserva (usuario_numero_identificacion);
+alter table revision add constraint fk_revision_tranv_3 foreign key (tranvia_id) references vehiculo (id) on delete restrict on update restrict;
+create index ix_revision_tranv_3 on revision (tranvia_id);
+alter table revision add constraint fk_revision_mobi_4 foreign key (mobibus_id) references vehiculo (id) on delete restrict on update restrict;
+create index ix_revision_mobi_4 on revision (mobibus_id);
+alter table ruta add constraint fk_ruta_conductor_5 foreign key (conductor_id) references conductor (numero_identificacion) on delete restrict on update restrict;
+create index ix_ruta_conductor_5 on ruta (conductor_id);
+alter table vehiculo add constraint fk_vehiculo_estacion_6 foreign key (estacion_id) references estacion (id) on delete restrict on update restrict;
+create index ix_vehiculo_estacion_6 on vehiculo (estacion_id);
 
 
 
@@ -121,7 +116,7 @@ drop table if exists conductor;
 
 drop table if exists estacion;
 
-drop table if exists mobibus;
+drop table if exists posicion;
 
 drop table if exists reserva;
 
@@ -129,11 +124,9 @@ drop table if exists revision;
 
 drop table if exists ruta;
 
-drop table if exists tranvia;
-
 drop table if exists usuario;
 
-drop table if exists vcub;
+drop table if exists vehiculo;
 
 SET REFERENTIAL_INTEGRITY TRUE;
 
