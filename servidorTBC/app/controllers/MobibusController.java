@@ -31,10 +31,10 @@ public class MobibusController extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public Result crearRevision(Long id) {
+    public Result crearRevision() {
         JsonNode j = Controller.request().body().asJson();
         Revision revision = Revision.bind(j);
-        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(new Long(j.findPath("mobibusId").asInt()));
         mobibus.agregarRevision(revision);
         mobibus.update();
         return ok(Json.toJson(mobibus));
@@ -50,10 +50,10 @@ public class MobibusController extends Controller {
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
         Posicion posicion = Posicion.bind(j);
-        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(posicion.getVehiculoId());
-        posicion.setVehiculo(mobibus);
-        posicion.save();
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(j.findPath("mobibusId").asText());
+        mobibus.agregarPosicion(posicion);
+        mobibus.update();
 
-        return ok(Json.toJson(posicion));
+        return ok(Json.toJson(mobibus));
     }
 }

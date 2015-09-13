@@ -71,8 +71,8 @@ public class RutaController extends Controller {
         tranvia.setEstado("accidentado");
         tranvia.update();
 
-        Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, 
-            tranvia.getTemperatura(), false, new ArrayList<Revision>());
+        //Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, 
+        //    tranvia.getTemperatura(), false, new ArrayList<Revision>());
 
         ruta.setUbicaiconOrigen(longitud+","+latitud);
         //ruta.setTranvia(nuevoTranvia);
@@ -111,6 +111,7 @@ public class RutaController extends Controller {
             coord[j][0] = latitudRadial;
             coord[j][1] = longitudRadial;
         }
+        return coord;
     }
 }
 

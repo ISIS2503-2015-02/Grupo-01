@@ -17,8 +17,11 @@ public class Conductor extends Persona{
     //--------------------------------------------
     //Atributos
     //--------------------------------------------
+    
     private String licenciaDeConduccion;
+    
     private String fechaVencimientoLicencia;
+    
     private String estado;
 
     @OneToMany(cascade=CascadeType.ALL)
@@ -81,7 +84,7 @@ public class Conductor extends Persona{
         String nombre = j.findPath("nombre").asText();
         String tipoId = j.findPath("tipoId").asText();
         String telefono = j.findPath("telefono").asText();
-        String licenciaConducccion = j.findPath("licenciaConducccion").asText();
+        String licenciaConducccion = j.findPath("licenciaConduccion").asText();
         String fechaVenLicencia = j.findPath("fechaVenLicencia").asText();
         String estado = j.findPath("estado").asText();
         Conductor conductor = new Conductor(identificacion, edad, nombre, tipoId, telefono, licenciaConducccion,

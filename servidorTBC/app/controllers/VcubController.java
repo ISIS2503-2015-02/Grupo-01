@@ -35,10 +35,36 @@ public class VcubController extends Controller{
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
         Posicion posicion = Posicion.bind(j);
-        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(posicion.getVehiculoId());
-        posicion.setVehiculo(vcub);
+        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
+        posicion.setVcub(vcub);
         posicion.save();
 
         return ok(Json.toJson(posicion));
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result adquirir(){
+        JsonNode j = Controller.request().body().asJson();
+        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
+        Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).byId(j.findPath("usuarioId").asText());
+        vcub.setEstacion(null);
+        vcub.setEstado("Prestada");
+        vcub.setUsuario(usuario);
+        vcub.update();
+
+        return ok(Json.toJson(vcub));
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result restituir(){
+        JsonNode j = Controller.request().body().asJson();
+        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
+        Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(j.findPath("estacionId").asText());
+        vcub.setEstacion(estacion);
+        vcub.setEstado("Disponible");
+        vcub.setUsuario(null);
+        vcub.update();
+
+        return ok(Json.toJson(vcub));
     }
 }

@@ -23,7 +23,7 @@ public class Ruta extends Model {
 
     private String tipo;
 
-    private  double tiempoTrayecto;
+    private double tiempoTrayecto;
 
     private String terminado;
 
@@ -34,7 +34,7 @@ public class Ruta extends Model {
     private Tranvia tranvia;
 
     @ManyToOne
-    @JoinColumn(name="conductor_id")
+    @JoinColumn(name="conductor_numero_identificacion")
     private Conductor conductor;
 
     //-----------------------------------------------------------

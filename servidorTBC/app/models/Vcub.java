@@ -3,6 +3,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +27,13 @@ public class Vcub extends Model
 		@OneToMany(cascade=CascadeType.ALL)
 		private List<Posicion> posiciones;
 
+		@OneToOne
+		@JoinColumn(name="usuario_numero_identificacion")
 		private Usuario usuario;
 		
 		@ManyToOne
 		@JoinColumn(name="estacion_id")
+		@JsonBackReference
 		private Estacion estacion;
 
 		

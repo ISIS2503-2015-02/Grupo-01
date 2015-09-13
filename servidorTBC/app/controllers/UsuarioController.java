@@ -28,13 +28,13 @@ public class UsuarioController extends Controller {
     }
 
     @BodyParser.Of(BodyParser.Json.class)
-    public Result crearReserva(String id){
+    public Result crearReserva(){
     	JsonNode j = Controller.request().body().asJson();
     	Reserva reserva = Reserva.bind(j);
-    	Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).byId(id);
+    	Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).byId(j.findPath("usuarioId").asText());
     	usuario.addReserva(reserva);
+        reserva.save();
     	usuario.update();
-    	reserva.save();
     	return ok(Json.toJson(usuario));
    	}
 
