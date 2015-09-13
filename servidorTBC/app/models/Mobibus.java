@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Mobibus extends Model{
     private String estado;
 
     @OneToMany(cascade=CascadeType.ALL)
+    @JsonManagedReference
     private List<Posicion> posiciones;
 
     private int capacidad;
@@ -39,7 +41,7 @@ public class Mobibus extends Model{
         
     }
 
-    public Mobibus(String estado, int capacida, String placa, ArrayList<Revision> revisiones) {
+    public Mobibus(String estado, int capacidad, String placa, ArrayList<Revision> revisiones) {
         this.estado = estado;
         this.posiciones = new ArrayList<Posicion>();
         this.capacidad = capacidad;
@@ -73,6 +75,10 @@ public class Mobibus extends Model{
 
     public void setPosiciones(List<Posicion> posiciones) {
         this.posiciones = posiciones;
+    }
+
+    public void agregarPosicion(Posicion pos){
+        posiciones.add(pos);
     }
 
     public String getPlaca() {

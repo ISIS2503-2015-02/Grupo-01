@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import com.fasterxml.jackson.annotation.*;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,7 +32,14 @@ public class Reserva extends Model {
 
     private int turno;
 
+    @OneToOne
+    @JoinColumn(name="usuario_numero_identificacion")
     private Ruta ruta;
+
+    @ManyToOne
+    @JoinColumn(name="usuario_numero_identificacion")
+    @JsonBackReference
+    private Usuario usuario;
 
     //-----------------------------------------------------------
     // Constructores
@@ -53,6 +60,14 @@ public class Reserva extends Model {
     //-----------------------------------------------------------
     // Getters & Setters
     //-----------------------------------------------------------
+
+    public Long getId(){
+        return id;
+    }
+
+    public void setId(Long id){
+        this.id = id;
+    }
 
     public String getEstado(){
         return estado;
@@ -92,6 +107,14 @@ public class Reserva extends Model {
 
     public void setRuta(Ruta ruta){
         this.ruta = ruta;
+    }
+
+    public void setUsuario(Usuario usuario){
+        this.usuario = usuario;
+    }
+
+    public Usuario getUsuario(){
+        return usuario;
     }
 
     //-----------------------------------------------------------

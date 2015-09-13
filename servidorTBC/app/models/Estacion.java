@@ -3,6 +3,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.*;
 import models.Persona;
 import play.libs.Json;
 import play.mvc.*;
@@ -37,6 +38,7 @@ public class Estacion extends Model
 	 * Vector que contiene los Vcubs de la estacion
 	 */
 	@OneToMany(cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private List<Vcub> vcubs;
 	
 	/**
@@ -94,6 +96,10 @@ public class Estacion extends Model
 		return vcubs;
 	}
 
+	public int getCapacidad(){
+		return capacidad;
+	}
+
 	/**
 	 * Indica si la estacion esta ocupada
 	 * @return True si esta ocupada, false de lo contrario
@@ -149,23 +155,16 @@ public class Estacion extends Model
 	/**
 	 * 
 	 */
-	public void agregarVcub(Vcub bicicleta) throws Exception
+	public void agregarVcub(Vcub bicicleta)
 	{
-		if(!estaLlena())
-		{
-			if(bicicleta != null)
-			{
-				vcubs.add(bicicleta);			
-			}
-			actualizarOcupacion();
-			if(vcubs.size() == capacidad)
-			{
-				cambiarEstado(true);
-			}
-		}
-		else
-		{
-			throw new Exception("No hay capacidad en la estacion");
+		vcubs.add(bicicleta);
+		actualizarOcupacion();			
+	}
+
+	public void actualizarOcupacion(){
+		ocupacion = (double) vcubs.size()/capacidad;
+		if(ocupacion==1){
+			llena=true;
 		}
 	}
 		

@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.*;
 import com.avaje.ebean.Model;
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -30,14 +31,17 @@ public class Posicion extends Model {
 
 	@ManyToOne
 	@JoinColumn(name="tranvia_id")
+	@JsonBackReference
 	private Tranvia tranvia;
 
 	@ManyToOne
 	@JoinColumn(name="vcub_id")
+	@JsonBackReference
 	private Vcub vcub;
 
 	@ManyToOne
 	@JoinColumn(name="mobibus_id")
+	@JsonBackReference
 	private Mobibus mobibus;
 	
 	
@@ -94,7 +98,7 @@ public class Posicion extends Model {
 		this.tranvia = tranvia;
 	}
 
-	public Mobibus getVcub() {
+	public Vcub getVcub() {
 		return vcub;
 	}
 
@@ -102,7 +106,7 @@ public class Posicion extends Model {
 		this.vcub = vcub;
 	}
 
-	public Vcub getMobibus() {
+	public Mobibus getMobibus() {
 		return mobibus;
 	}
 

@@ -53,8 +53,8 @@ public class TranviaController extends Controller {
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
         Posicion posicion = Posicion.bind(j);
-        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(posicion.getVehiculoId());
-        posicion.setVehiculo(tranvia);
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(j.findPath("tranviaId").asText());
+        posicion.setTranvia(tranvia);
         posicion.save();
 
         return ok(Json.toJson(tranvia));

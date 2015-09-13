@@ -20,11 +20,16 @@ public class Persona extends Model
     //--------------------------------------------
     //Atributos
     //--------------------------------------------
+    
     @Id
     private String numeroIdentificacion;
+
     private int edad;
+
     private String nombre;
+
     private String tipoId;
+
     private String telefono;
 
     //--------------------------------------------
