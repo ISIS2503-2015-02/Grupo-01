@@ -61,7 +61,7 @@ public class VcubController extends Controller{
         Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
         Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(j.findPath("estacionId").asText());
         Usuario usuario = (Usuario) new Model.Finder(Long.class,  Usuario.class).byId(new Long(j.findPath("usuarioID").asInt()));
-        if(vcub.getUsuario().getId() == usuario){
+        if(vcub.getUsuario().getId() == usuario.getId()){
             vcub.setEstacion(estacion);
             vcub.setEstado("Disponible");
             vcub.setUsuario(null);
