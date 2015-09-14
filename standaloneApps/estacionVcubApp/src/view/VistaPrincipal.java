@@ -64,13 +64,12 @@ public class VistaPrincipal extends JFrame{
 		app.setVisible(true);
 	}
 
-	public void devolver(String text, String text2) {
-		// TODO Auto-generated method stub
-		
+	public void devolver(String usuario, String vcub) {
+		control.devolverVCub(usuario, vcub);
 	}
 
-	public void llevar(String text, String text2) {
-		// TODO Auto-generated method stub
+	public void llevar(String usuario, String vcub) {
+		control.llevar(usuario, vcub);
 		
 	}
 
