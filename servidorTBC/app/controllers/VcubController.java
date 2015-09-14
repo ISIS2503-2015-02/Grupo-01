@@ -60,7 +60,7 @@ public class VcubController extends Controller{
         JsonNode j = Controller.request().body().asJson();
         Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
         Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(j.findPath("estacionId").asText());
-        Long usuario = new Model.Finder(Long.class, Long.class).byId(j.findPath("usuarioID").asLong());
+        Long usuario = new Model.Finder(Long.class, Long.class).byId(() j.findPath("usuarioID").asInteger());
         if(vcub.getUsuario().getId() == usuario){
             vcub.setEstacion(estacion);
             vcub.setEstado("Disponible");
