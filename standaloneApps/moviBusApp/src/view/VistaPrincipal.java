@@ -134,7 +134,7 @@ public class VistaPrincipal extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		ControlPrincipal control = new ControlPrincipal();
+		ControlPrincipal control = new ControlPrincipal("172.24.100.37");
 		VistaPrincipal vista = new VistaPrincipal(control);
 		vista.setVisible(true);
 	}
@@ -149,7 +149,7 @@ public class VistaPrincipal extends JFrame implements ActionListener{
 			control.actualizarTemperatura(txtRuta.getText(), txtTranvia.getText(), txtTemperatura.getText());
 		}
 		else if(comando.equals(ACCIDENTE)){
-			control.reportarAccidente(txtRuta.getText(), txtTranvia.getText(), txtAccidente.getText());
+			control.reportarAccidente(txtRuta.getText(), txtTranvia.getText(), txtAccidente.getText(), txtLatitud.getText(), txtLongitud.getText());
 		}
 	}
 }
