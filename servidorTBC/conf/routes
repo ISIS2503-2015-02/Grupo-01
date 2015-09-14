@@ -17,7 +17,7 @@ GET			/tranvias/:id/revisiones		controllers.TranviaController.darRevisiones(id: 
 
 POST		/tranvias/:id/revisiones		controllers.TranviaController.crearRevision(id: Long)
 
-PUT			/tranvias/:id/:posX/:posY		controllers.TranviaController.actualizarUbicacion(id: Long, posX: Double, posY: Double)
+POST		/tranvias/posicion				controllers.TranviaController.actualizarUbicacion()
 
 # Servicios de ruta
 
@@ -41,30 +41,35 @@ PUT			/rutas/:id/accidente/tranvia/:accidenteEn/:longitud/:latitud controllers.R
 
 # Servicios de conductor
 
+POST		/conductores				controllers.ConductorController.crearConductor()
+
+GET			/conductores				controllers.ConductorController.darConductores()				
+
+GET			/conductores/:id 			controllers.ConductorController.darConductor(id: String)
+
 # Servicios de estacion
 
 POST		/estaciones					controllers.EstacionController.crearEstacion()
 
 GET			/estaciones					controllers.EstacionController.darEstaciones()				
 
-GET			/estacion/:id 			controllers.EstacionController.darEstacion(id: Long)
+GET			/estaciones/ocupacion		controllers.EstacionController.darEstacionesDesocupadas()				
 
-GET			/estaciones/ocupacion		controllers.EstacionController.darEstacionesDesocupadas()
+GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
 
-#PUT			/estaciones/ocupacion/:id	controllers.EstacionController.actualizarOcupacion(id: Long)
-
+PUT			/estaciones/llenar			controllers.EstacionController.llenarEstacion()
 
 # Servicios de mobibus
 
-POST		/mobibus 					controllers.MobibusController.create()
+POST		/mobibuses 					controllers.MobibusController.create()
 
-GET			/mobibus 					controllers.MobibusController.read()
+GET			/mobibuses 					controllers.MobibusController.read()
 
-PUT			/mobibus/:id/revisiones     controllers.MobibusController.crearRevision(id:Long)
+PUT			/mobibuses/revisiones   	controllers.MobibusController.crearRevision()
 
-GET			/mobibus/:id/revisiones 	controllers.MobibusController.darRevisiones(id:Long)
+GET			/mobibuses/:id/revisiones 	controllers.MobibusController.darRevisiones(id:Long)
 
-PUT			/mobibus/:id/:posX/:posY	controllers.MobibusController.actualizarUbicacion(id: Long, posX: Double, posY: Double)
+PUT			/mobibuses/posicion			controllers.MobibusController.actualizarUbicacion()
 
 # Servicios de vcub	
 
@@ -72,17 +77,23 @@ POST        /vcubs                 		controllers.VcubController.crearVcub()
 
 GET         /vcubs                 		controllers.VcubController.darVcubs()
 
+PUT			/vcubs/posicion				controllers.VcubController.actualizarUbicacion()
+
 GET			/vcubs/:id 					controllers.VcubController.darVcub(id: Long)	
 
-PUT			/vcubs/:id/:posX/:posY		controllers.VcubController.actualizarUbicacion(id: Long, posX: Double, posY: Double)
+PUT			/vcubs/adquirir				controllers.VcubController.adquirir()
+
+PUT			/vcubs/restituir			controllers.VcubController.restituir()
 
 # Servicios de Reserva
 
-GET		/reservas/sinAsignar		controllers.ReservaController.darReservasSinRuta()
+GET 	/reservas  					controllers.ReservaController.darReservas()
+
+GET		/reservas/sinAsignar		controllers.ReservaController.darReservasSinAsignar()
 
 GET		/reservas/vencen			controllers.ReservaController.darReservasVencen()
 
-GET		/reservas/:id/ruta 			controllers.ReservaController.asignarRuta(id: Long)
+PUT 	/reservas/asignarConductor   controllers.ReservaController.asignarConductor()
 
 # Servicios de usuario
 
@@ -90,7 +101,7 @@ GET		/usuarios					controllers.UsuarioController.darUsuarios()
 
 POST	/usuarios 					controllers.UsuarioController.crearUsuario()
 
-PUT		/usuarios/reserva 		controllers.UsuarioController.crearReserva()
+PUT		/usuarios/reserva 			controllers.UsuarioController.crearReserva()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)

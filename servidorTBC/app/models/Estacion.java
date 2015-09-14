@@ -3,6 +3,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.*;
 import models.Persona;
 import play.libs.Json;
 import play.mvc.*;
@@ -37,6 +38,7 @@ public class Estacion extends Model
 	 * Vector que contiene los Vcubs de la estacion
 	 */
 	@OneToMany(cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private List<Vcub> vcubs;
 	
 	/**
@@ -72,7 +74,7 @@ public class Estacion extends Model
 	 * Devuelve el ID de la estacion
 	 * @return El ID. String
 	 */
-	public Long darId() 
+	public Long getId() 
 	{
 		return id;
 	}
@@ -81,7 +83,7 @@ public class Estacion extends Model
 	 * Devuelve la ubicacion de la ciudad en donde esta la estacion 
 	 * @return La ubicacion. String
 	 */
-	public String darUbicacion() {
+	public String getUbicacion() {
 		return ubicacion;
 	}
 	
@@ -89,16 +91,20 @@ public class Estacion extends Model
 	 * Devuelve en vector con los Vcub de la estacion
 	 * @return Los Vcub. ArrayList
 	 */
-	public List<Vcub> darVcubs()
+	public List<Vcub> getVcubs()
 	{
 		return vcubs;
+	}
+
+	public int getCapacidad(){
+		return capacidad;
 	}
 
 	/**
 	 * Indica si la estacion esta ocupada
 	 * @return True si esta ocupada, false de lo contrario
 	 */
-	public boolean estaLlena() 
+	public boolean isLlena() 
 	{
 		return llena;
 	}
@@ -107,7 +113,7 @@ public class Estacion extends Model
 	 * Devuelve el porcentage de ocupacion de la estacion
 	 * @return
 	 */
-	public double darOcupacion() 
+	public double getOcupacion() 
 	{
 		return ocupacion;
 	}
@@ -116,12 +122,12 @@ public class Estacion extends Model
 	 * Cambia el estado de la estacion
 	 * @param llena. Boolean
 	 */
-	public void cambiarEstado(boolean llena) 
+	public void setEstado(boolean llena) 
 	{
 		this.llena = llena;
 	}
 
-	public void cambiarCapacidad(int capacidad){
+	public void setCapacidad(int capacidad){
 		this.capacidad = capacidad;
 	}
 
@@ -130,42 +136,35 @@ public class Estacion extends Model
 	 * Asigna una nueva ocupacion a la estacion
 	 * @param ocupacion. Double
 	 */
-	public void cambiarOcupacion(double ocupacion) 
+	public void setOcupacion(double ocupacion) 
 	{
 		this.ocupacion = ocupacion;
 	}
 
-	public void cambiarUbiacion(String ubicacion){
+	public void setUbiacion(String ubicacion){
 		this.ubicacion = ubicacion;
 	}
 
-	public void cambiarVcubs(List<Vcub> vcubs){
+	public void setVcubs(List<Vcub> vcubs){
 		this.vcubs = vcubs;
 	}
 	
-	public void actualizarOcupacion(){
+	public void setOcupacion(){
 		this.ocupacion = this.vcubs.size()/this.capacidad;
 	}
 	/**
 	 * 
 	 */
-	public void agregarVcub(Vcub bicicleta) throws Exception
+	public void agregarVcub(Vcub bicicleta)
 	{
-		if(!estaLlena())
-		{
-			if(bicicleta != null)
-			{
-				vcubs.add(bicicleta);			
-			}
-			actualizarOcupacion();
-			if(vcubs.size() == capacidad)
-			{
-				cambiarEstado(true);
-			}
-		}
-		else
-		{
-			throw new Exception("No hay capacidad en la estacion");
+		vcubs.add(bicicleta);
+		actualizarOcupacion();			
+	}
+
+	public void actualizarOcupacion(){
+		ocupacion = (double) vcubs.size()/capacidad;
+		if(ocupacion==1){
+			llena=true;
 		}
 	}
 		

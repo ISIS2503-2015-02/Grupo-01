@@ -2,7 +2,7 @@ package controllers;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Estacion;
+import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -34,6 +34,19 @@ public class EstacionController  extends Controller{
     public Result darEstacionesDesocupadas(){
         List<Estacion> estaciones = new Model.Finder(Long.class, Estacion.class).where().lt("ocupacion", 0.10).findList();
         return ok(Json.toJson(estaciones));
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result llenarEstacion(){
+        JsonNode j = Controller.request().body().asJson();
+        Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(new Long(j.findPath("estacionId").asInt()));
+        int cap = estacion.getCapacidad();
+        while(estacion.getVcubs().size() < cap){
+            Vcub vcub= new Vcub(Cons.V_DISPONIBLE);
+            estacion.agregarVcub(vcub);
+        }
+        estacion.update();
+        return ok(Json.toJson(estacion));  
     }
 
 }

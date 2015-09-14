@@ -6,6 +6,7 @@ import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
 import javax.persistence.*;
+import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Usuario  extends Persona{
     private String condicion;
 
     @OneToMany(cascade=CascadeType.ALL)
+    @JsonManagedReference
     private List<Reserva> reservas;
 
 

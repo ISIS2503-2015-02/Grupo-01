@@ -3,13 +3,12 @@ package controllers;
 import com.avaje.ebean.Model;
 import java.io.Serializable;
 import com.fasterxml.jackson.databind.JsonNode;
-import models.Vehiculo;
-import models.Tranvia;
-import models.Revision;
+import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+
 
 import java.util.List;
 
@@ -50,11 +49,14 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(revisiones));
     }
 
-    public Result actualizarUbicacion(Long id, Double posX, Double posY){
-        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
-        tranvia.setUbicacionY(posY);
-        tranvia.setUbicacionX(posX);
-        tranvia.update();
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result actualizarUbicacion(){
+        JsonNode j = Controller.request().body().asJson();
+        Posicion posicion = Posicion.bind(j);
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(j.findPath("tranviaId").asText());
+        posicion.setTranvia(tranvia);
+        posicion.save();
+
         return ok(Json.toJson(tranvia));
     }
 }

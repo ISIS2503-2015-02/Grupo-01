@@ -33,8 +33,8 @@ public class UsuarioController extends Controller {
     	Reserva reserva = Reserva.bind(j);
     	Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).byId(j.findPath("idUsuario").asText());
     	usuario.addReserva(reserva);
+        reserva.save();
     	usuario.update();
-    	reserva.save();
     	return ok(Json.toJson(usuario));
    	}
 
