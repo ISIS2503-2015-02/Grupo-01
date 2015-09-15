@@ -34,7 +34,7 @@ public class RutaController extends Controller {
     }
 
     public Result darRutas() {
-        List<Ruta> rutas = new Model.Finder(String.class, Ruta.class).all();
+        List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).all();
         return ok(Json.toJson(rutas));
     }
 

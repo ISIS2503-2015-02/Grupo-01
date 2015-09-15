@@ -22,7 +22,6 @@ public class Persona extends Model
     //--------------------------------------------
     
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long numeroIdentificacion;
 
     private int edad;
@@ -37,7 +36,7 @@ public class Persona extends Model
     //Constructores
     //--------------------------------------------
     public Persona(){};
-    public Persona (int edad, String nombre,
+    public Persona (Long numeroIdentificacion, int edad, String nombre,
                     String tipoId, String telefono){
         this.numeroIdentificacion = numeroIdentificacion;
         this.edad = edad;
@@ -89,16 +88,4 @@ public class Persona extends Model
     public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
-
-
-    public static Persona bind(JsonNode j) {
-        int edad = j.findPath("edad").asInt();
-        String nombre = j.findPath("nombre").asText();
-        String tipoId = j.findPath("tipoId").asText();
-        String telefono = j.findPath("telefono").asText();
-        Persona persona = new Persona(edad,nombre,tipoId,telefono);
-        return persona;
-    }
-
-
 }

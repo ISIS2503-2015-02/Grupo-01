@@ -22,7 +22,7 @@ public class EstacionController  extends Controller{
     }
 
     public Result darEstaciones() {
-        List<Estacion> estaciones = new Model.Finder(String.class, Estacion.class).all();
+        List<Estacion> estaciones = new Model.Finder(Long.class, Estacion.class).all();
         return ok(Json.toJson(estaciones));
     }
 
