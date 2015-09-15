@@ -31,7 +31,7 @@ public class ReservaController extends Controller{
     @BodyParser.Of(BodyParser.Json.class)
 	public Result asignarConductor(){
         JsonNode j = Controller.request().body().asJson();
-        Conductor conductor = (Conductor) new Model.Finder(String.class, Conductor.class).byId(j.findPath("conductorId").asText());
+        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(j.findPath("conductorId").asInt());
         Reserva reserva = (Reserva) new Model.Finder(Long.class, Reserva.class).byId(new Long(j.findPath("reservaId").asInt()));
         reserva.getRuta().setConductor(conductor);
         reserva.setEstado(Cons.R_ASIGNADA);

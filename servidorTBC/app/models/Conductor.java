@@ -31,9 +31,9 @@ public class Conductor extends Persona{
     //Constructores
     //--------------------------------------------
     public Conductor(){super();}
-    public Conductor(String identificacion, int edad, String nombre, String tipoId, String telefono,
+    public Conductor(int edad, String nombre, String tipoId, String telefono,
                      String nLicencia, String nFechaVen, String nEstado, List<Ruta> conductores){
-        super(identificacion, edad, nombre, tipoId, telefono);
+        super(edad, nombre, tipoId, telefono);
         licenciaDeConduccion = nLicencia;
         fechaVencimientoLicencia = nFechaVen;
         estado = nEstado;
@@ -79,7 +79,6 @@ public class Conductor extends Persona{
 
 
     public static Conductor bind(JsonNode j) {
-        String identificacion = j.findPath("identificacion").asText();
         int edad = j.findPath("edad").asInt();
         String nombre = j.findPath("nombre").asText();
         String tipoId = j.findPath("tipoId").asText();
@@ -87,7 +86,7 @@ public class Conductor extends Persona{
         String licenciaConducccion = j.findPath("licenciaConduccion").asText();
         String fechaVenLicencia = j.findPath("fechaVenLicencia").asText();
         String estado = j.findPath("estado").asText();
-        Conductor conductor = new Conductor(identificacion, edad, nombre, tipoId, telefono, licenciaConducccion,
+        Conductor conductor = new Conductor(edad, nombre, tipoId, telefono, licenciaConducccion,
          fechaVenLicencia, estado, new ArrayList<Ruta>());
         return conductor;
     }

@@ -33,7 +33,7 @@ public class Reserva extends Model {
     private int turno;
 
     @OneToOne
-    @JoinColumn(name="usuario_numero_identificacion")
+    @JoinColumn(name="ruta_id")
     private Ruta ruta;
 
     @ManyToOne

@@ -22,7 +22,7 @@ public class VcubController extends Controller{
     }
 
     public Result darVcubs() {
-        List<Vcub> vcubs = new Model.Finder(String.class, Vcub.class).all();
+        List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).all();
         return ok(Json.toJson(vcubs));
     }
 
@@ -46,7 +46,7 @@ public class VcubController extends Controller{
     public Result adquirir(){
         JsonNode j = Controller.request().body().asJson();
         Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
-        Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).byId(j.findPath("usuarioId").asText());
+        Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(j.findPath("usuarioId").asInt());
         vcub.setEstacion(null);
         vcub.setEstado("Prestada");
         vcub.setUsuario(usuario);
@@ -59,7 +59,7 @@ public class VcubController extends Controller{
     public Result restituir(){
         JsonNode j = Controller.request().body().asJson();
         Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
-        Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(j.findPath("estacionId").asText());
+        Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(j.findPath("estacionId").asInt());
         vcub.setEstacion(estacion);
         vcub.setEstado("Disponible");
         vcub.setUsuario(null);

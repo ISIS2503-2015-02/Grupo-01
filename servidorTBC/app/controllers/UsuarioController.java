@@ -23,7 +23,7 @@ public class UsuarioController extends Controller {
     }
 
     public Result darUsuarios() {
-        List<Usuario> usuarios = new Model.Finder(String.class, Usuario.class).all();
+        List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
         return ok(Json.toJson(usuarios));
     }
 
@@ -31,7 +31,7 @@ public class UsuarioController extends Controller {
     public Result crearReserva(){
     	JsonNode j = Controller.request().body().asJson();
     	Reserva reserva = Reserva.bind(j);
-    	Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).byId(j.findPath("idUsuario").asText());
+    	Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(j.findPath("idUsuario").asLong());
     	usuario.addReserva(reserva);
         reserva.save();
     	usuario.update();

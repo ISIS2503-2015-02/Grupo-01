@@ -24,7 +24,7 @@ public class TranviaController extends Controller {
     }
 
     public Result darTranvias() {
-        List<Tranvia> tranvias = new Model.Finder(String.class, Tranvia.class).all();
+        List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).all();
         return ok(Json.toJson(tranvias));
     }
 
@@ -53,7 +53,7 @@ public class TranviaController extends Controller {
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
         Posicion posicion = Posicion.bind(j);
-        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(j.findPath("tranviaId").asText());
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(j.findPath("tranviaId").asInt());
         posicion.setTranvia(tranvia);
         posicion.save();
 

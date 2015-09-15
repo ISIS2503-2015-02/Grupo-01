@@ -21,7 +21,7 @@ public class MobibusController extends Controller {
     }
 
     public Result read() {
-        List<Mobibus> buses = new Model.Finder(String.class, Mobibus.class).all();
+        List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).all();
         return ok(Json.toJson(buses));
     }
 
@@ -50,7 +50,7 @@ public class MobibusController extends Controller {
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
         Posicion posicion = Posicion.bind(j);
-        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(j.findPath("mobibusId").asText());
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(j.findPath("mobibusId").asInt());
         mobibus.agregarPosicion(posicion);
         mobibus.update();
 

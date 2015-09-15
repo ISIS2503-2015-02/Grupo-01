@@ -23,12 +23,12 @@ public class ConductorController extends Controller{
     }
 
     public Result darConductores() {
-        List<Conductor> conductores = new Model.Finder(String.class, Conductor.class).all();
+        List<Conductor> conductores = new Model.Finder(Long.class, Conductor.class).all();
         return ok(Json.toJson(conductores));
     }
 
-    public Result darConductor(String cedula){
-      Conductor conductor = (Conductor) new Model.Finder(String.class, Conductor.class).byId(cedula);
+    public Result darConductor(Long cedula){
+      Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(cedula);
       return ok(Json.toJson(conductor));  
     }
 }

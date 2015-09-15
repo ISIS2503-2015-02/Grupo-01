@@ -45,7 +45,7 @@ POST		/conductores				controllers.ConductorController.crearConductor()
 
 GET			/conductores				controllers.ConductorController.darConductores()				
 
-GET			/conductores/:id 			controllers.ConductorController.darConductor(id: String)
+GET			/conductores/:id 			controllers.ConductorController.darConductor(id: Long)
 
 # Servicios de estacion
 
