@@ -9,7 +9,7 @@ and open the template in the editor.
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>title</title>
+        <title>@title</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" type="image/png" href="@routes.Assets.versioned("images/apple-touch-icon.png")">
@@ -49,7 +49,7 @@ and open the template in the editor.
 
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="tranvia.html">Monitoreo <span class="sr-only"></span></a></li>
+                        <li><a href="@routes.Application.tranvia()">Monitoreo <span class="sr-only"></span></a></li>
                         <li><a href="emergencias.html">Emergencias <span class="sr-only"></span></a></li>
                         <li><a href="reportes.html">Reportes <span class="sr-only"></span></a></li>
                     </ul>
