@@ -59,7 +59,7 @@ public class VistaPrincipal extends JFrame{
 	//Main
 	
 	public static void main(String[] args) {
-		ControlPrincipal control = new ControlPrincipal();
+		ControlPrincipal control = new ControlPrincipal("172.24.100.36");
 		VistaPrincipal app = new VistaPrincipal(control);
 		app.setVisible(true);
 	}
