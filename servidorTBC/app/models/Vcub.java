@@ -74,6 +74,10 @@ public class Vcub extends Model
 		this.posiciones = posiciones;
 	}
 
+	public void agregarPosicion(Posicion pos){
+        posiciones.add(pos);
+    }
+
 	public Usuario getUsuario(){
 		return usuario;
 	}

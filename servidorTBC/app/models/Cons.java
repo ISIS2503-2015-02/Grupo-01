@@ -5,6 +5,7 @@ public final class Cons  {
 	//Estado vehiculos
 	public final static String V_DISPONIBLE = "Disponible";
 	public final static String V_OCUPADO = "Ocupado";
+	public final static String V_ACCIDENTADO = "Accidentado";
 
 	//Estado reservas
 	public final static String R_ESPERA = "En espera";

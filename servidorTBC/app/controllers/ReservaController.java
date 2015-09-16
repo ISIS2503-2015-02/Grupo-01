@@ -31,9 +31,11 @@ public class ReservaController extends Controller{
     @BodyParser.Of(BodyParser.Json.class)
 	public Result asignarConductor(){
         JsonNode j = Controller.request().body().asJson();
-        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(j.findPath("conductorId").asInt());
+        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(new Long(j.findPath("conductorId").asInt()));
         Reserva reserva = (Reserva) new Model.Finder(Long.class, Reserva.class).byId(new Long(j.findPath("reservaId").asInt()));
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(new Long(j.findPath("mobibusId").asInt()));
         reserva.getRuta().setConductor(conductor);
+        reserva.getRuta().setBus(mobibus);
         reserva.setEstado(Cons.R_ASIGNADA);
         reserva.update();
         return ok(Json.toJson(reserva));

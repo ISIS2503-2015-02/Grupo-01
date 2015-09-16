@@ -16,6 +16,8 @@ public class VcubController extends Controller{
     public Result crearVcub() {
         JsonNode j = Controller.request().body().asJson();
         Vcub vcub = Vcub.bind(j);
+        Posicion pos = Posicion.bind(j);
+        vcub.agregarPosicion(pos);
         vcub.save();
 
         return ok(Json.toJson(vcub));
@@ -35,7 +37,7 @@ public class VcubController extends Controller{
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
         Posicion posicion = Posicion.bind(j);
-        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
+        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(new Long(j.findPath("vcubId").asInt()));
         posicion.setVcub(vcub);
         posicion.save();
 
@@ -45,8 +47,8 @@ public class VcubController extends Controller{
     @BodyParser.Of(BodyParser.Json.class)
     public Result adquirir(){
         JsonNode j = Controller.request().body().asJson();
-        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
-        Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(j.findPath("usuarioId").asInt());
+        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(new Long(j.findPath("vcubId").asInt()));
+        Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(new Long(j.findPath("usuarioId").asInt()));
         vcub.setEstacion(null);
         vcub.setEstado("Prestada");
         vcub.setUsuario(usuario);
@@ -58,12 +60,12 @@ public class VcubController extends Controller{
     @BodyParser.Of(BodyParser.Json.class)
     public Result restituir(){
         JsonNode j = Controller.request().body().asJson();
-        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(j.findPath("vcubId").asText());
-        Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(j.findPath("estacionId").asText());
-        Usuario usuario = (Usuario) new Model.Finder(Long.class,  Usuario.class).byId(j.findPath("usuarioID").asText());
+        Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(new Long(j.findPath("vcubId").asInt()));
+        Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(new Long(j.findPath("estacionId").asInt()));
+        Usuario usuario = (Usuario) new Model.Finder(Long.class,  Usuario.class).byId(new Long(j.findPath("usuarioId").asInt()));
         if(vcub.getUsuario().getNumeroIdentificacion().equals(usuario.getNumeroIdentificacion())){
             vcub.setEstacion(estacion);
-            vcub.setEstado("Disponible");
+            vcub.setEstado(Cons.V_DISPONIBLE);
             vcub.setUsuario(null);
             vcub.update();
             return ok(Json.toJson(vcub));

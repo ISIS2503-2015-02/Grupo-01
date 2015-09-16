@@ -31,8 +31,12 @@ public class UsuarioController extends Controller {
     public Result crearReserva(){
     	JsonNode j = Controller.request().body().asJson();
     	Reserva reserva = Reserva.bind(j);
-    	Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(j.findPath("idUsuario").asLong());
+    	Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(j.findPath("usuarioId").asLong());
+        JsonNode rutaJson = j.get("ruta");
+        Ruta rout = Ruta.bind(rutaJson);
+        reserva.setRuta(rout);
     	usuario.addReserva(reserva);
+        rout.save();
         reserva.save();
     	usuario.update();
     	return ok(Json.toJson(usuario));

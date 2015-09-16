@@ -21,21 +21,20 @@ POST		/tranvias/posicion				controllers.TranviaController.actualizarUbicacion()
 
 # Servicios de ruta
 
-POST        /rutas                 		controllers.RutaController.crearRuta()
+POST        /rutas                 			controllers.RutaController.crearRuta()
 
-GET 		/rutas                 		controllers.RutaController.darRutas()
+GET 		/rutas                 			controllers.RutaController.darRutas()
 
-GET			/rutas/accidentesTranvias	controllers.RutaController.darRutasAccidenteTranvia()
+GET			/rutas/accidentesTranvias		controllers.RutaController.darRutasAccidenteTranvia()
 
-PUT 		/rutas/:id/accidente/bus/:accidenteEn/:longitud/:latitud controllers.RutaController.alertMobibusAccident(id:Long, accidenteEn : String, longitud : Double, latitud : Double)	
+PUT 		/rutas/alertaAccidenteMobibus 	controllers.RutaController.alertMobibusAccident()	
 
-GET			/rutas/accidentesBuses				controllers.RutaController.darRutasAccidentesBus()
+PUT			/rutas/alertaAccidenteTranvia 	controllers.RutaController.alertarAccidenteTranvia()
 
-GET			/rutas/terminadasTranvia			controllers.RutaController.darRutasTerminadasTranvia()
+GET			/rutas/accidentes				controllers.RutaController.darRutasAccidentes()
 
-GET			/rutas/terminadasBus				controllers.RutaController.darRutasTerminadasBus()
+GET			/rutas/terminadas				controllers.RutaController.darRutasTerminadas()
 
-PUT			/rutas/:id/accidente/tranvia/:accidenteEn/:longitud/:latitud controllers.RutaController.alertarAccidenteTranvia(id:Long, accidenteEn : String, longitud : Double, latitud : Double)
 
 # PUT /rutas/:id
 

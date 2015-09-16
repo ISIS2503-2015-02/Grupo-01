@@ -18,6 +18,8 @@ public class TranviaController extends Controller {
     public Result crearTranvia() {
         JsonNode j = Controller.request().body().asJson();
         Tranvia tranvia = Tranvia.bind(j);
+        Posicion pos = Posicion.bind(j);
+        tranvia.agregarPosicion(pos);
         tranvia.save();
 
         return ok(Json.toJson(tranvia));
@@ -53,7 +55,7 @@ public class TranviaController extends Controller {
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
         Posicion posicion = Posicion.bind(j);
-        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(j.findPath("tranviaId").asInt());
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(new Long(j.findPath("tranviaId").asInt()));
         posicion.setTranvia(tranvia);
         posicion.save();
 

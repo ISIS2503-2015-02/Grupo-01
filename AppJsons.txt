@@ -1,0 +1,146 @@
+//Conductor
+	/Crear
+	{  "identificacion" : "102837546",
+		"edad" : 25,
+		"nombre" : "Jose",
+		"tipoId" : "C.C",
+		"telefono" : "4535678",
+		"licenciaConduccion" : "435636782",
+		"fechaVenLicencia":"23/06/2016",
+		"estado":"Disponible"
+	}
+
+//Estacion
+	/Crear
+	{  "capacidad" : 78,
+		"ubicacion" : "Bulevar niza" 
+	}
+
+	/Llenar
+	{
+		"estacionId": 1
+	}
+
+//Mobibus
+	/Crear
+	{
+		"placa": "VEN029",
+		"estado": "Disponible",
+		"capacidad": 20,
+		"posicion":{
+			"fecha": "11/4/2014",
+			"latitud": 45.3,
+			"longitud": 24.9
+		}
+
+	}
+
+	/Crear Revision
+	{
+		"mobibusId" : "1",
+		"fechaAnt": "15/10/2014",
+		"fecha": "15/10/2015",
+		"kilometraje": 2657.65
+	}
+
+	/Actualizar ubicacion
+	{
+		"mobibusId" : "1",
+		"fecha": "11/4/2014",
+		"latitud": 45.3,
+		"longitud": 24.9
+	}
+
+//Usuario
+	/Crear
+		{  "identificacion" : "102837546",
+		"edad" : 25,
+		"nombre" : "Paul",
+		"tipoId" : "C.C",
+		"telefono" : "4535678",
+		"condicion": "Paralitico"
+	}
+	
+	/Crear reserva
+	{
+    "usuarioId": "102837546",
+    "estado" : "En espera",
+    "fecha": "11/4/2014",
+    "costo": 1445.3,
+    "turno": 1,
+    "ruta":{
+        "ubicacionOrigen": "Cr57A98",
+        "ubicacionDestino": "Unicentro",
+        "tiempoTrayecto": 0.0,
+        "tipo": "Ruta movibus",
+        "terminado": "En curso",
+        "accidente": "Normal"
+		}
+	}
+	
+//Vcub
+	/Crear
+	{
+    "estado": "Disponible",
+	"posicion":{
+			"fecha": "11/4/2014",
+			"latitud": 45.3,
+			"longitud": 24.9
+		}
+	}
+	
+	/Adquirir Vcub
+	{  "vcubId" : 1,
+		"usuarioId" : 102837546
+	}
+	
+	/Restituir vcub
+	{  "vcubId" : 1,
+		"estacionId" : 1,
+	"usuarioId" : 102837546
+
+	}
+
+//Ruta
+	/Crear
+{
+        "ubicacionOrigen": "Estacion tranvia Central",
+        "ubicacionDestino": "Estacion tranvia Oriental",
+        "tiempoTrayecto": 0.0,
+        "tipo": "Ruta tranvia",
+        "terminado": "En curso",
+        "accidente": "Normal",
+
+		}
+	/Alertar accidente mobibus o tranvia
+{
+        "rutaId": 1,
+	"accidente": "Choque"
+}
+
+//Tranvia
+	/Crear
+
+{
+        "estado": "Disponible",
+        "presionChoque": 0.0,
+        "temperatura": 0.0,
+        "panico": false,
+	"posicion":{
+			"fecha": "11/4/2014",
+			"latitud": 45.3,
+			"longitud": 24.9
+		}
+		}
+	
+//Reserva
+	/Asignar conductor
+	{
+        "conductorId": 1,
+        "reservaId": 1,
+        "mobibusId": 1
+}
+
+
+	
+

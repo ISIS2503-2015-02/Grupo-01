@@ -117,6 +117,7 @@ public class Mobibus extends Model{
         String laPlaca = j.findPath("placa").asText();
         String estadoA = j.findPath("estado").asText();
         int caps = j.findPath("capacidad").asInt();
+        Posicion pos = Posicion.bind(j);
         Mobibus mobibus = new Mobibus(estadoA, caps, laPlaca, new ArrayList<Revision>());
         return mobibus;
     }

@@ -77,6 +77,10 @@ public class Tranvia extends Model{
 		this.posiciones = posiciones;
 	}
 
+	public void agregarPosicion(Posicion pos){
+        posiciones.add(pos);
+    }
+	
 	public double getPresionChoque() {
 		return presionChoque;
 	}

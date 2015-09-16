@@ -127,9 +127,7 @@ public class Reserva extends Model {
         Date fechaDate = stringToDate(fechaa);
         double elCosto = j.findPath("costo").asDouble();
         int turnoEnFila = j.findPath("turno").asInt();
-        JsonNode rutaJson = j.get("ruta");
-        Ruta rout = Ruta.bind(rutaJson);
-        Reserva reserva = new Reserva(esta, fechaDate, elCosto, turnoEnFila, rout);
+        Reserva reserva = new Reserva(esta, fechaDate, elCosto, turnoEnFila, null);
         return reserva;
     }
 

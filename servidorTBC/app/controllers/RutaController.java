@@ -18,18 +18,9 @@ public class RutaController extends Controller {
     public Result crearRuta() {
         JsonNode j = Controller.request().body().asJson();
         Ruta ruta = Ruta.bind(j);
-        Long idVehic = new Long(j.findPath("idVehiculo").asInt());
-        if(ruta.getTipo().equals("tranvia")){
-            Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(idVehic);
-            ruta.setTranvia(tranvia);
-        }
-        else{
-            Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(idVehic);
-            ruta.setBus(mobibus);
-        }
-
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("estado", Cons.V_DISPONIBLE).findUnique();
+        ruta.setTranvia(tranvia);
         ruta.save();
-
         return ok(Json.toJson(ruta));
     }
 
@@ -50,50 +41,39 @@ public class RutaController extends Controller {
         return ok(Json.toJson(ruta));
     }
 
-    public Result alertMobibusAccident(Long id, String accidente, double longitud, double latitud) {
-        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
-        ruta.setTerminado("accidentado");   
-        ruta.setTipoAccidente(accidente);
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result alertMobibusAccident() {
+        JsonNode j = Controller.request().body().asJson();
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
+        ruta.setTerminado(Cons.ET_ANORMAL);   
+        ruta.setTipoAccidente(j.findPath("accidente").asText());
         Mobibus bus = ruta.getBus();
-        //bus.setUbicacionX(longitud);
-        //bus.setUbicacionY(latitud);
-        bus.setEstado("accidentado");
+        bus.setEstado(Cons.V_ACCIDENTADO);
+        ruta.update();
         return ok(Json.toJson(ruta));
     }
 
-    public Result alertarAccidenteTranvia(Long id, String accidente, double longitud, double latitud){
-        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
-        ruta.setTerminado("accidentado");   
-        ruta.setTipoAccidente(accidente);
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result alertarAccidenteTranvia(){
+        JsonNode j = Controller.request().body().asJson();
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
+        ruta.setTerminado(Cons.ET_ANORMAL);   
+        ruta.setTipoAccidente(j.findPath("accidente").asText());
         Tranvia tranvia = ruta.getTranvia();
-        //tranvia.setUbicacionX(longitud);
-        //tranvia.setUbicacionY(latitud);
-        tranvia.setEstado("accidentado");
-        tranvia.update();
-
-        //Tranvia nuevoTranvia = new Tranvia(longitud, latitud, "activo", 0, 
-        //    tranvia.getTemperatura(), false, new ArrayList<Revision>());
-
-        ruta.setUbicaiconOrigen(longitud+","+latitud);
-        //ruta.setTranvia(nuevoTranvia);
+        tranvia.setEstado(Cons.V_ACCIDENTADO);
         ruta.update();
-        return ok(Json.toJson(ruta));    }
+        return ok(Json.toJson(ruta));
+    }
 
-    public Result darRutasAccidentesBus(){
+    public Result darRutasAccidentes(){
         List<Ruta> rutas = new Model.Finder(Long.class, Mobibus.class).
-        where().eq("accidente", "choque").eq("tipo","mobibus").findList();
+        where().eq("terminado", Cons.ET_ANORMAL).findList();
         return ok(Json.toJson(rutas));
     }
 
-    public Result darRutasTerminadasBus(){
+    public Result darRutasTerminadas(){
         List<Ruta> rutas = new Model.Finder(Long.class, Mobibus.class).
-        where().eq("terminado", "terminado").eq("tipo","mobibus").findList();
-        return ok(Json.toJson(rutas));
-    }
-
-    public Result darRutasTerminadasTranvia(){
-        List<Ruta> rutas = new Model.Finder(Long.class, Tranvia.class).
-        where().eq("terminado", "terminado").eq("tipo","tranvia").findList();
+        where().eq("terminado", Cons.ET_TERMINADO).findList();
         return ok(Json.toJson(rutas));
     }
 
