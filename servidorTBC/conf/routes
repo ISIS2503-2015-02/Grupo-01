@@ -4,9 +4,14 @@
 
 # Home page
 GET         /                       		controllers.Application.index()
+GET         /index.html                     controllers.Application.index()
 
-# Pagina de tranvias
+# Pagina cuasiestaticas
 GET			/tranvia.html					controllers.Application.tranvia()
+GET			/mobibus.html					controllers.Application.mobibus()
+GET			/vcub.html						controllers.Application.vcub()
+GET			/emergencias.html				controllers.Application.emergencias()
+GET			/reportes.html					controllers.Application.reportes()
 
 # Servicios de tranvia
 

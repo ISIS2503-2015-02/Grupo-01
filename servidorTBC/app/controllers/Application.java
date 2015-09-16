@@ -17,4 +17,19 @@ public class Application extends Controller {
     	return ok(tranvia.render());
     }
 
+    public Result emergencias(){
+    	return ok(emergencias.render());
+    }
+
+    public Result reportes(){
+    	return ok(reportes.render());
+    }
+
+    public Result mobibus(){
+    	return ok(mobibus.render());
+    }
+
+    public Result vcub(){
+    	return ok(vcub.render());
+    }
 }
