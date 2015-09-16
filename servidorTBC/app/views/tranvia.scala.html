@@ -1,3 +1,5 @@
+@(tranvias : List[Tranvia])
+
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -86,24 +88,28 @@
                     <thead>
                         <tr>
                             <th>Tipo</th>
-                            <th>Conductor</th>
-                            <th>Kilometraje</th>
                             <th>Estado</th>
                             <th>Latitud</th> 
                             <th>Longitud</th>
-                            <th>Velocidad</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @for(tranvia <- tranvias) {
                         <tr>
-                            <td>Tranvia</td>
-                            <td>Nombre Apellido</td> 
-                            <td>94</td>
-                            <td>Normal</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
+                            <td>
+                                @tranvia.getId()
+                            </td>
+                            <td>
+                                @tranvia.getEstado()
+                            </td>
+                            <td>
+                                1
+                            </td>
+                            <td>
+                                2
+                            </td>
                         </tr>
+                        }
                         <tr class="warning">
                             <td>Tranvia</td>
                             <td>Nombre Apellido</td> 

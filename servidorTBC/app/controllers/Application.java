@@ -5,6 +5,9 @@ import play.*;
 import play.libs.Json;
 import play.mvc.*;
 
+import java.util.ArrayList;
+import models.Tranvia;
+
 import views.html.*;
 
 public class Application extends Controller {
@@ -14,7 +17,13 @@ public class Application extends Controller {
     }
 
     public Result tranvia(){
-    	return ok(tranvia.render());
+    	ArrayList<Tranvia> tranvias = new ArrayList<Tranvia>();
+    	Tranvia test = new Tranvia();
+    	test.setEstado("normal");
+    	tranvias.add(test);
+    	TranviaController tCtrl = new TranviaController();
+    	Result sonTranvias = tCtrl.darTranvias();
+    	return ok(tranvia.render(tranvias));
     }
 
     public Result emergencias(){
@@ -31,5 +40,21 @@ public class Application extends Controller {
 
     public Result vcub(){
     	return ok(vcub.render());
+    }
+
+    public Result login(){
+    	return ok(logAdmin.render());
+    }
+
+    public Result user(){
+    	return ok(user.render("test"));
+    }
+
+    public Result admin(){
+    	return ok(admin.render());
+    }
+
+    public Result form(){
+    	return ok(form.render());
     }
 }
