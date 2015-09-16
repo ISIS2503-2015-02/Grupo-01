@@ -5,6 +5,9 @@
 # Home page
 GET         /                       		controllers.Application.index()
 
+# Pagina de tranvias
+GET			/tranvia.html					controllers.Application.tranvia()
+
 # Servicios de tranvia
 
 POST        /tranvias                 		controllers.TranviaController.crearTranvia()
@@ -104,3 +107,4 @@ PUT		/usuarios/reserva 			controllers.UsuarioController.crearReserva()
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
+
