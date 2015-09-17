@@ -5,8 +5,10 @@ import play.*;
 import play.libs.Json;
 import play.mvc.*;
 
+import play.data.Form;
+
 import java.util.ArrayList;
-import models.Tranvia;
+import models.*;
 
 import views.html.*;
 
@@ -23,6 +25,7 @@ public class Application extends Controller {
     	tranvias.add(test);
     	TranviaController tCtrl = new TranviaController();
     	Result sonTranvias = tCtrl.darTranvias();
+    	System.out.println(sonTranvias);
     	return ok(tranvia.render(tranvias));
     }
 
@@ -55,6 +58,11 @@ public class Application extends Controller {
     }
 
     public Result form(){
-    	return ok(form.render());
+    	Form<Usuario> formu = Form.form(Usuario.class);
+    	return ok(form.render(formu));
+    }
+
+    public Result registro(){
+    	return ok();
     }
 }

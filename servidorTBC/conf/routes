@@ -16,6 +16,7 @@ GET			/form.html						controllers.Application.form()
 GET			/admin.html						controllers.Application.admin()
 GET			/user.html						controllers.Application.user()
 GET			/logAdmin.html					controllers.Application.login()
+GET			/user.html						controllers.Application.registro()
 
 # Servicios de tranvia
 

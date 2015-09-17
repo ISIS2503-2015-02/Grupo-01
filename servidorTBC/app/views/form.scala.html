@@ -1,3 +1,4 @@
+@(formu : Form[Usuario])
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -11,7 +12,9 @@ and open the template in the editor.
         <title>TBC - Registro</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+        <script src="@routes.Assets.versioned("javascripts/jquery-1.11.3.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/jquery-ui.min.js")" type="text/javascript"></script>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/jquery-ui.min.css")">
 
         <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
         <style>
@@ -24,8 +27,10 @@ and open the template in the editor.
         <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/main.css")">
 
         <script src="@routes.Assets.versioned("javascripts/vendor/modernizr-2.8.3-respond-1.4.2.min.js")"></script>
+        
     </head>
     <body>
+        <script src="@routes.Assets.versioned("javascripts/registro.js")"></script>
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -38,15 +43,15 @@ and open the template in the editor.
                               
             </div>
         <div class="container">
-            
-            <form role="form" action="usuarios" method="POST">
+
+            <form role="form">
                 <h4>Cuenta</h4><br>
                 <div class="row form-group">
                     <div class="col-md-2">
                         Usuario
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" placeholder="Escoge un usuario" id="nombre">
+                        <input type="text" class="form-control" placeholder="Escoge un usuario" id="user">
                     </div>
                 </div>
                 <div class="row form-group">
@@ -54,7 +59,7 @@ and open the template in the editor.
                         Contraseña
                     </div>
                     <div class="col-md-7">
-                        <input type="password" class="form-control" placeholder="Ingresa una contraseña" id="nombre">
+                        <input type="password" class="form-control" placeholder="Ingresa una contraseña" id="pass">
                     </div>
                 </div>
                 <div class="row form-group">
@@ -62,7 +67,7 @@ and open the template in the editor.
                         
                     </div>
                     <div class="col-md-7">
-                        <input type="password" class="form-control" placeholder="Ingresa de nuevo la contraseña" id="nombre">
+                        <input type="password" class="form-control" placeholder="Ingresa de nuevo la contraseña" id="pass2">
                     </div>
                 </div>
                 <br>
@@ -72,16 +77,7 @@ and open the template in the editor.
                         Nombre
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" placeholder="Ingresa tu nombre" id="nombre">
-                    </div>
-                </div>
-
-                <div class="row form-group">
-                    <div class="col-md-2">
-                        Apellidos
-                    </div>
-                    <div class="col-md-7">
-                        <input type="text" class="form-control" placeholder="Ingresa tus apellidos" id="apellido">
+                        <input type="text" class="form-control" placeholder="Ingresa tu nombre" id="nombre" required>
                     </div>
                 </div>
 
@@ -90,7 +86,7 @@ and open the template in the editor.
                         C&eacute;dula
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" placeholder="Ingresa tu numero de cedula" id="cedula">
+                        <input type="text" class="form-control" placeholder="Ingresa tu numero de cedula" id="cedula" required>
                     </div>
                 </div>
 
@@ -99,18 +95,40 @@ and open the template in the editor.
                         Telefono
                     </div>
                     <div class="col-md-7">
-                        <input type="text" class="form-control" placeholder="Ingresa tu numero de telefono" id="telefono">
+                        <input type="text" class="form-control" placeholder="Ingresa tu numero de telefono" id="telefono" required>
                     </div>
-                </div> 
+                </div>
+
+                 <div class="row form-group">
+                    <div class="col-md-2">
+                        Tipo de documento
+                    </div>
+                    <div class="col-md-7">
+                        <select class="form-control" id="tiposid" required>
+                            <option value="Cedula">Cedula</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                          </select>
+                    </div>
+                </div>
                 
                 <div class="row form-group">
                     <div class="col-md-2">
-                        Fecha de nacimiento
+                        Edad
                     </div>
                     <div class="col-md-7">
-                        <input type="date" class="form-control" id="fecha">
+                        <input type="text" class="form-control" id="edad" required>
                     </div>
                 </div>
+
+                <div class="row form-group">
+                    <div class="col-md-2">
+                        Condici&oacute;n
+                    </div>
+                    <div class="col-md-7">
+                        <input type="text" class="form-control" id="condicion">
+                    </div>
+                </div>
+
                 <br>
                 <h4>Datos de Pago</h4><br>
                 <div class="row form-group">
@@ -152,11 +170,8 @@ and open the template in the editor.
                     </div>
                 </div>
                 <br>
-                <input type="submit" value="Registrarse" name="registro" class="btn btn-info btn-lg">
-            </form>
-            
-            
-            
+                <input type="submit" value="Registrarse" name="registro" class="btn btn-info btn-lg" id="registro">
+            </form>           
         </div>
     </body>
 </html>

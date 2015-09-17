@@ -10,7 +10,9 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" type="image/png" href="@routes.Assets.versioned("images/apple-touch-icon.png")">
-
+<script src="@routes.Assets.versioned("javascripts/jquery-1.11.3.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.versioned("javascripts/jquery-ui.min.js")" type="text/javascript"></script>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/jquery-ui.min.css")">
         <link rel="stylesheet" href="@routes.Assets.versioned("stylesheets/bootstrap.min.css")">
         <style>
             body {
@@ -95,42 +97,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Mobibus</td>
-                            <td>Nombre Apellido</td> 
-                            <td>94</td>
-                            <td>Normal</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr class="danger">
-                            <td>Mobibus</td>
-                            <td>Nombre Apellido</td> 
-                            <td>94</td>
-                            <td>Accidentado</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr class="danger">
-                            <td>Mobibus</td>
-                            <td>Nombre Apellido</td> 
-                            <td>94</td>
-                            <td>Accidentado</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
-                        <tr>
-                            <td>Mobibus</td>
-                            <td>Nombre Apellido</td> 
-                            <td>94</td>
-                            <td>Normal</td>
-                            <td>#</td>
-                            <td>#</td>
-                            <td>#</td>
-                        </tr>
+                        <script>
+                            function initialize() {
+                            var path = '/mobibuses';
+        var request;
+        request = $.ajax({
+            type: 'GET',
+            url: path,
+            data: '',
+            success: function(data) {
+                for (var i = 0; i < data.length; i++){
+                    var tr = document.createElement("tr");
+                    var id = document.createElement("td");
+                    var estado = document.createElement("td");
+                    var longitud = document.createElement("td");
+                    var latitud = document.createElement("td");
+                    id.innerHtml = data[i].id;
+                    estado.innerHtml = data[i].estado;
+                    longitud.innerHtml = data[i].posiciones[0].longitud;
+                    latitud.innerHtml = daata[i].posiciones[0].latitud;
+                    var tabla = document.getElementById("sensualtablabody");
+                    tr.appendChild(id);
+                    tr.appendChild(estado);
+                    tr.appendChild(longitud);
+                    tr.appendChild(latitud);
+                    tabla.appendChild(tr);
+            }
+             },
+            contentType: "application/json",
+            dataType: 'json'
+        });
+                        </script>
                     </tbody>
                     
                 </table>
