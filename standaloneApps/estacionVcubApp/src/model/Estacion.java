@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Observable;
 
 
-public class Estacion extends Observable{
+public class Estacion{
 	
 	/**
 	 * Capacidad 
@@ -91,6 +91,18 @@ public class Estacion extends Observable{
 		this.vcubs = vcubs;
 	}
 
+	
+	public void addVcub(Vcub v){
+		vcubs.add(v);
+	}
+	
+	public void removeVcub(Long id){
+		for (int i = 0; i < vcubs.size(); i++) {
+			Vcub vc = (Vcub) vcubs.get(i);
+			if(vc.getId()==id)
+				vcubs.remove(i);
+		}
+	}
 	/**
 	 * @return the cantidad
 	 */

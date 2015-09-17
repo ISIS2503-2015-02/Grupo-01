@@ -24,7 +24,7 @@ public class ControlPrincipal {
 
 		URL url;
 		try {
-			url = new URL("http://"+path+":9000/rutas/"+ruta+"/accidente/tranvia/"+accidente+"/"+longitud+"/"+latitud+"/");
+			url = new URL(path+"/rutas/"+ruta+"/accidente/tranvia/"+accidente+"/"+longitud+"/"+latitud+"/");
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
@@ -52,7 +52,7 @@ public class ControlPrincipal {
 	public void actualizarTemperatura(String ruta, String tranvia, String temperatura) {
 		URL url;
 		try {
-			url = new URL("http://"+path+":9000/mobibuses/posicion");
+			url = new URL(path+"/mobibuses/posicion");
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
@@ -86,7 +86,7 @@ public class ControlPrincipal {
 	public void actualizarUbicacion(String ruta, String mobibus, String latitud, String longitud) {
 		URL url;
 		try {
-			url = new URL("http://"+path+":9000/mobibuses/posicion");
+			url = new URL(path+"/mobibuses/posicion");
 
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);

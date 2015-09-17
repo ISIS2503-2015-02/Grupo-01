@@ -73,5 +73,8 @@ public class Vcub {
 		this.estacion = estacion;
 	}
 	
-	
+	public String toString(){
+		return "Vcub -" + id;
+	}
+
 }

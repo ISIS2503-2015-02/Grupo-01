@@ -28,7 +28,7 @@ public class ControlPrincipal {
 		this.path = path;
 		URL url;
 		try {
-			url = new URL("http://"+path+":9000/estaciones/1");
+			url = new URL(path+"/estaciones/1");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
@@ -82,7 +82,7 @@ public class ControlPrincipal {
 	public void devolverVCub(String usuario, String vcub) {
 		URL url;
 		try {
-			url = new URL("http://"+path+":9000/vcubs/restituir");
+			url = new URL(path+"/vcubs/restituir");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
@@ -94,15 +94,16 @@ public class ControlPrincipal {
 			JsonObject jsonObj = new JsonObject();
 			
 			jsonObj.addProperty("vcubId", vcub);
-			jsonObj.addProperty("estacionId", 1);
+			jsonObj.addProperty("estacionId", actual.getId());
 			jsonObj.addProperty("usuarioId", usuario);
 			
 			OutputStream os = con.getOutputStream();
 			os.write(jsonObj.toString().getBytes());
+			System.out.println(jsonObj.toString().getBytes());
 			os.flush();
 
 			if(con.getResponseCode()!=200){
-
+				System.out.println("Opps");
 			}
 			BufferedReader buff = new BufferedReader(new InputStreamReader(con.getInputStream()));
 			String output;
@@ -115,6 +116,10 @@ public class ControlPrincipal {
 			String json = sb.toString();
 			JsonParser parser = new JsonParser();
 			JsonObject job = parser.parse(json).getAsJsonObject();
+			
+			Vcub vcubv = new Vcub();
+			vcubv.setId(job.get("id").getAsLong());
+			actual.addVcub(vcubv);
 			
 			//{"id":1,"estado":"Prestada","posiciones":[],
 			//"usuario":
@@ -130,7 +135,7 @@ public class ControlPrincipal {
 	public void llevar(String usuario, String vcub) {
 		URL url;
 		try {
-			url = new URL("http://"+path+":9000/vcubs/adquirir");
+			url = new URL(path+"/vcubs/adquirir");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);
@@ -163,10 +168,67 @@ public class ControlPrincipal {
 			JsonParser parser = new JsonParser();
 			JsonObject job = parser.parse(json).getAsJsonObject();
 			
+			actual.removeVcub(job.get("id").getAsLong());
+			
+			con.disconnect(); 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void llenarEstacion(String idEstacion){
+		URL url;
+		try {
+			url = new URL(path+"/estaciones/llenar");
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			con.setDoOutput(true);
+			con.setDoInput(true);
+			con.setRequestProperty("Content-Type", "application/json");
+			con.setRequestProperty("Accept", "application/json");
+			con.setRequestMethod("PUT");
+			
+			//{  "vcubId" : 1, "estacionId" : 1,  "usuarioId" : "102837546"}
+			JsonObject jsonObj = new JsonObject();
+			
+			jsonObj.addProperty("estacionId", idEstacion);
+			
+			OutputStream os = con.getOutputStream();
+			os.write(jsonObj.toString().getBytes());
+			os.flush();
+
+			if(con.getResponseCode()!=200){
+				throw new RuntimeException("Failed : HTTP error code : " + con.getResponseCode());
+			}
+			BufferedReader buff = new BufferedReader(new InputStreamReader(con.getInputStream()));
+			String output;
+			StringBuffer sb = new StringBuffer();
+			System.out.println("Output from server .... \n");
+			while((output = buff.readLine())!=null){
+				System.out.println(output);
+				sb.append(output);
+			}
+			String json = sb.toString();
+			JsonParser parser = new JsonParser();
+			JsonObject job = parser.parse(json).getAsJsonObject();
+			JsonElement vcubs = job.get("vcubs");
+			JsonArray arrayVcubs = vcubs.getAsJsonArray();
+			
+			for (int i = 0; i < arrayVcubs.size(); i++) {
+				JsonObject vcub = arrayVcubs.get(i).getAsJsonObject();
+				Vcub actual = new Vcub();
+				//{"id":1,"estado":"Disponible","posiciones":[],"usuario":null}
+				actual.setId(vcub.get("id").getAsLong());
+				actual.setEstado(vcub.get("estado").getAsString());
+				this.actual.getVcubs().add(actual);
+			}
 			
 			con.disconnect();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Estacion darEstacion(){
+		return actual;
 	}
 }

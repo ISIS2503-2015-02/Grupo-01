@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
 
 import model.Estacion;
 
-public class PanelPedir extends JPanel implements ActionListener, Observer{
+public class PanelPedir extends JPanel implements ActionListener{
 
 	// Costantes
 	
@@ -43,6 +43,7 @@ public class PanelPedir extends JPanel implements ActionListener, Observer{
 	
 	public PanelPedir(VistaPrincipal vistaPrincipal) {
 		setLayout(new GridLayout(4, 1));
+		vista = vistaPrincipal;
 		TitledBorder title;
 		title = BorderFactory.createTitledBorder("Estacion ");
 		this.setBorder(title);
@@ -70,23 +71,4 @@ public class PanelPedir extends JPanel implements ActionListener, Observer{
 		}
 	}
 
-	@Override
-	public void update(Observable o, Object arg1) {
-		estacion = (Estacion) o;
-		int cantidad = estacion.getCantidad();
-		int capacidad = estacion.getCapacidad();
-		
-		labCantidad.setText("hay "+cantidad+" vcubs");
-		labCapacidad.setText("de "+capacidad+" vcubs");
-		
-		if(cantidad > capacidad*0.10){
-			labMensaje.setText("No es necesario pedir mas Vcubs");
-			btnPedir.setEnabled(false);
-		}
-		else{
-			labMensaje.setText("Debe pedir vcubs");
-			btnPedir.setEnabled(true);
-		}
-		
-	}
 }

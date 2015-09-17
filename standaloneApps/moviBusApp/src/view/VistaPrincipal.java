@@ -69,7 +69,7 @@ public class VistaPrincipal extends JFrame implements ActionListener{
 		this.setPreferredSize(new Dimension(600,600));
 		this.setLayout(new BorderLayout());
 		
-		this.setTitle("Tranvia");
+		this.setTitle("Mobibus");
 
 		panelDatos = new JPanel();
 		panelTranvia = new JPanel();
@@ -86,7 +86,7 @@ public class VistaPrincipal extends JFrame implements ActionListener{
 		panelTranvia.add(labRuta);
 		panelTranvia.add(txtRuta);
 		
-		labTranvia = new JLabel("Tranvia:");
+		labTranvia = new JLabel("Mobibus:");
 		txtTranvia = new JTextField();
 	
 		panelTranvia.add(labTranvia);
@@ -134,7 +134,7 @@ public class VistaPrincipal extends JFrame implements ActionListener{
 	}
 	
 	public static void main(String[] args) {
-		ControlPrincipal control = new ControlPrincipal("172.24.100.37");
+		ControlPrincipal control = new ControlPrincipal("https://fast-taiga-5201.herokuapp.com");
 		VistaPrincipal vista = new VistaPrincipal(control);
 		vista.setVisible(true);
 	}
