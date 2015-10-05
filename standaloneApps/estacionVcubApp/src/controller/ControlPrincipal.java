@@ -28,7 +28,7 @@ public class ControlPrincipal {
 		this.path = path;
 		URL url;
 		try {
-			url = new URL(path+"/estaciones/1");
+			url = new URL(path+"/estaciones/2");
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setDoOutput(true);
 			con.setDoInput(true);

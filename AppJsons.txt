@@ -109,7 +109,7 @@
         "tiempoTrayecto": 0.0,
         "tipo": "Ruta tranvia",
         "terminado": "En curso",
-        "accidente": "Normal",
+        "accidente": "Normal"
 
 		}
 	/Alertar accidente mobibus o tranvia

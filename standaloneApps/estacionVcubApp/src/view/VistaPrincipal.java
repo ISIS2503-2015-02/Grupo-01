@@ -75,7 +75,7 @@ public class VistaPrincipal extends JFrame{
 	//Main
 	
 	public static void main(String[] args) {
-		ControlPrincipal control = new ControlPrincipal("http://localhost:9000");
+		ControlPrincipal control = new ControlPrincipal("http://fast-taiga-5201.herokuapp.com");
 		VistaPrincipal app = new VistaPrincipal(control);
 		app.setVisible(true);
 	}
