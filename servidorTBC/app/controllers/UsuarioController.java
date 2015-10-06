@@ -42,4 +42,13 @@ public class UsuarioController extends Controller {
     	return ok(Json.toJson(usuario));
    	}
 
+    public Result eliminarUsuarios(){
+        List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
+        for(int i = 0; i<usuarios.size();i++){
+            usuarios.get(i).delete();
+        }
+
+        return ok(Json.toJson(""));
+    }
+
 }

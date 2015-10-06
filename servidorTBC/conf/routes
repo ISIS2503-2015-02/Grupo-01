@@ -24,6 +24,10 @@ POST        /tranvias                 		controllers.TranviaController.crearTranv
 
 GET         /tranvias                 		controllers.TranviaController.darTranvias()
 
+GET         /tranviasOcupados               controllers.TranviaController.darTranviasOcupados()
+
+GET         /tranviasDisponibles            controllers.TranviaController.darTranviasDisponibles()
+
 GET			/tranvias/:id 					controllers.TranviaController.darTranvia(id: Long)
 
 GET			/tranvias/:id/revisiones		controllers.TranviaController.darRevisiones(id: Long)
@@ -31,6 +35,8 @@ GET			/tranvias/:id/revisiones		controllers.TranviaController.darRevisiones(id: 
 POST		/tranvias/:id/revisiones		controllers.TranviaController.crearRevision(id: Long)
 
 POST		/tranvias/posicion				controllers.TranviaController.actualizarUbicacion()
+
+DELETE		/tranvias 						controllers.TranviaController.eliminarTranvias()
 
 # Servicios de ruta
 
@@ -48,8 +54,11 @@ GET			/rutas/accidentes				controllers.RutaController.darRutasAccidentes()
 
 GET			/rutas/terminadas				controllers.RutaController.darRutasTerminadas()
 
+PUT			/rutas/asignacionTranvia		controllers.RutaController.asignarTranvia()
 
-# PUT /rutas/:id
+PUT			/rutas/asignacionMobibus		controllers.RutaController.asignarMobibus()
+
+DELETE		/rutas 							controllers.RutaController.eliminarRutas()
 
 # Servicios de conductor
 
@@ -58,6 +67,8 @@ POST		/conductores				controllers.ConductorController.crearConductor()
 GET			/conductores				controllers.ConductorController.darConductores()				
 
 GET			/conductores/:id 			controllers.ConductorController.darConductor(id: Long)
+
+DELETE		/conductores  				controllers.ConductorController.eliminarConductores()
 
 # Servicios de estacion
 
@@ -71,11 +82,18 @@ GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
 
 PUT			/estaciones/llenar			controllers.EstacionController.llenarEstacion()
 
+DELETE		/estaciones  				controllers.EstacionController.eliminarEstaciones()
+
+
 # Servicios de mobibus
 
 POST		/mobibuses 					controllers.MobibusController.create()
 
 GET			/mobibuses 					controllers.MobibusController.read()
+
+GET         /mobibusesOcupados          controllers.MobibusController.darMobibusesOcupados()
+
+GET         /mobibusesDisponibles       controllers.MobibusController.darMobibusesDisponibles()
 
 PUT			/mobibuses/revisiones   	controllers.MobibusController.crearRevision()
 
@@ -83,11 +101,17 @@ GET			/mobibuses/:id/revisiones 	controllers.MobibusController.darRevisiones(id:
 
 PUT			/mobibuses/posicion			controllers.MobibusController.actualizarUbicacion()
 
+DELETE		/mobibuses  				controllers.MobibusController.eliminarMobibuses()
+
 # Servicios de vcub	
 
 POST        /vcubs                 		controllers.VcubController.crearVcub()
 
 GET         /vcubs                 		controllers.VcubController.darVcubs()
+
+GET         /vcubsOcupados              controllers.VcubController.darVcubsOcupados()
+
+GET         /vcubsDisponibles           controllers.VcubController.darVcubsDisponibles()
 
 PUT			/vcubs/posicion				controllers.VcubController.actualizarUbicacion()
 
@@ -97,6 +121,8 @@ PUT			/vcubs/adquirir				controllers.VcubController.adquirir()
 
 PUT			/vcubs/restituir			controllers.VcubController.restituir()
 
+DELETE		/vcubs 						controllers.VcubController.eliminarVcubs()	
+
 # Servicios de Reserva
 
 GET 	/reservas  					controllers.ReservaController.darReservas()
@@ -105,15 +131,20 @@ GET		/reservas/sinAsignar		controllers.ReservaController.darReservasSinAsignar()
 
 GET		/reservas/vencen			controllers.ReservaController.darReservasVencen()
 
-PUT 	/reservas/asignarConductor   controllers.ReservaController.asignarConductor()
+PUT		/reservas/asignacion		controllers.ReservaController.asignarReserva()
 
+DELETE  /reservas 					controllers.ReservaController.eliminarReservas()
+ 
 # Servicios de usuario
+
 
 GET		/usuarios					controllers.UsuarioController.darUsuarios()
 
 POST	/usuarios 					controllers.UsuarioController.crearUsuario()
 
 PUT		/usuarios/reserva 			controllers.UsuarioController.crearReserva()
+
+DELETE	/usuarios 					controllers.UsuarioController.eliminarUsuarios()			
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)

@@ -31,6 +31,15 @@ public class ConductorController extends Controller{
       Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(cedula);
       return ok(Json.toJson(conductor));  
     }
+
+    public Result eliminarConductores(){
+        List<Conductor> conductores = new Model.Finder(Long.class, Conductor.class).all();
+        for(int i = 0; i<conductores.size();i++){
+            conductores.get(i).delete();
+        }
+
+        return ok(Json.toJson(""));
+    }
 }
 
 

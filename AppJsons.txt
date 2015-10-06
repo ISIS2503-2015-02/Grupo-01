@@ -121,13 +121,15 @@
 /Asignar mobibus
 {
 	"mobibusId":1,
-	"rutaId":1
+	"rutaId":1,
+	"conductorId":"102837546"
 }
 
 /Asignar tranvia
 {
 	"tranviaId":1,
-	"rutaId":1
+	"rutaId":1,
+	"conductorId":"102837546"
 }
 
 
@@ -147,11 +149,9 @@
 		}
 	
 //Reserva
-	/Asignar conductor
+	/Asignar 
 	{
-        "conductorId": 1,
-        "reservaId": 1,
-        "mobibusId": 1
+        "reservaId": 1
 }
 
 

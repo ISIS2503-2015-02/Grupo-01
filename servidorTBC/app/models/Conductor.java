@@ -9,6 +9,7 @@ import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.*; 
 
 
 @Entity
@@ -69,6 +70,7 @@ public class Conductor extends Persona{
         this.estado = estado;
     }
 
+    @JsonIgnore
     public List<Ruta> getRutas(){
         return rutas;
     }

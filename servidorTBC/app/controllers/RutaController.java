@@ -29,7 +29,9 @@ public class RutaController extends Controller {
         JsonNode j = Controller.request().body().asJson();
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(new Long(j.findPath("tranviaId").asInt()));
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
+        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(new Long(j.findPath("conductorId").asInt()));
         ruta.setTranvia(tranvia);
+        ruta.setConductor(conductor);
         ruta.update();
         return ok(Json.toJson(ruta));
 
@@ -40,7 +42,9 @@ public class RutaController extends Controller {
         JsonNode j = Controller.request().body().asJson();
         Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(new Long(j.findPath("mobibusId").asInt()));
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
+        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(new Long(j.findPath("conductorId").asInt()));
         ruta.setBus(mobibus);
+        ruta.setConductor(conductor);
         ruta.update();
         return ok(Json.toJson(ruta));
 
@@ -71,6 +75,7 @@ public class RutaController extends Controller {
         ruta.setTipoAccidente(j.findPath("accidente").asText());
         Mobibus bus = ruta.getBus();
         bus.setEstado(Cons.V_ACCIDENTADO);
+        bus.update();
         ruta.update();
         return ok(Json.toJson(ruta));
     }
@@ -83,7 +88,30 @@ public class RutaController extends Controller {
         ruta.setTipoAccidente(j.findPath("accidente").asText());
         Tranvia tranvia = ruta.getTranvia();
         tranvia.setEstado(Cons.V_ACCIDENTADO);
+        tranvia.update();
         ruta.update();
+        return ok(Json.toJson(ruta));
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result darBusesCercanosAccidente(){
+        JsonNode j = Controller.request().body().asJson();
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
+        ruta.setTerminado(Cons.ET_ANORMAL);   
+        Mobibus bus = ruta.getBus();
+        Tranvia tranvia = ruta.getTranvia();
+        Posicion pos;
+
+        if(bus!=null)
+            pos=bus.getPosiciones().get(bus.getPosiciones().size() - 1);
+        else
+            pos=tranvia.getPosiciones().get(bus.getPosiciones().size() - 1);
+
+        double posX = pos.getLongitud();
+        double posY = pos.getLatitud();
+
+        
+        
         return ok(Json.toJson(ruta));
     }
 
@@ -114,6 +142,15 @@ public class RutaController extends Controller {
             coord[j][1] = longitudRadial;
         }
         return coord;
+    }
+
+    public Result eliminarRutas(){
+        List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).all();
+        for(int i = 0; i<rutas.size();i++){
+            rutas.get(i).delete();
+        }
+
+        return ok(Json.toJson(""));
     }
 }
 

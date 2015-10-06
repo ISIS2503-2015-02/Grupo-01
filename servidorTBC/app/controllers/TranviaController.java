@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.LikeType;
 import java.io.Serializable;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
@@ -27,6 +28,18 @@ public class TranviaController extends Controller {
 
     public Result darTranvias() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).all();
+        return ok(Json.toJson(tranvias));
+    }
+
+    public Result darTranviasDisponibles() {
+        List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
+        where().eq("estado", Cons.V_DISPONIBLE).findList();;
+        return ok(Json.toJson(tranvias));
+    }
+
+    public Result darTranviasOcupados() {
+        List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
+        where().eq("estado", Cons.V_OCUPADO).findList();;
         return ok(Json.toJson(tranvias));
     }
 
@@ -60,5 +73,14 @@ public class TranviaController extends Controller {
         posicion.save();
 
         return ok(Json.toJson(tranvia));
+    }
+
+    public Result eliminarTranvias(){
+        List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).all();
+        for(int i = 0; i<tranvias.size();i++){
+            tranvias.get(i).delete();
+        }
+
+        return ok(Json.toJson(""));
     }
 }

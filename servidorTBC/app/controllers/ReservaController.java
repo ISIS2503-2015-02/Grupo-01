@@ -28,16 +28,22 @@ public class ReservaController extends Controller{
 		return ok(Json.toJson(reservas));
 	}
 
-    @BodyParser.Of(BodyParser.Json.class)
-	public Result asignarConductor(){
+
+	@BodyParser.Of(BodyParser.Json.class)
+    public Result asignarReserva() {
         JsonNode j = Controller.request().body().asJson();
-        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(new Long(j.findPath("conductorId").asInt()));
         Reserva reserva = (Reserva) new Model.Finder(Long.class, Reserva.class).byId(new Long(j.findPath("reservaId").asInt()));
-        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(new Long(j.findPath("mobibusId").asInt()));
-        reserva.getRuta().setConductor(conductor);
-        reserva.getRuta().setBus(mobibus);
-        reserva.setEstado(Cons.R_ASIGNADA);
+        reserva.setEstado(Cons.R_ASIGNADA);   
         reserva.update();
         return ok(Json.toJson(reserva));
+    }
+
+    public Result eliminarReservas(){
+        List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).all();
+        for(int i = 0; i<reservas.size();i++){
+            reservas.get(i).delete();
+        }
+
+        return ok(Json.toJson(""));
     }
 }

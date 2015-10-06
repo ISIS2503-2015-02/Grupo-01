@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import play.libs.Json;
@@ -24,6 +25,18 @@ public class MobibusController extends Controller {
 
     public Result read() {
         List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).all();
+        return ok(Json.toJson(buses));
+    }
+
+    public Result darMobibusesDisponibles() {
+        List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).
+        where().eq("estado", Cons.V_DISPONIBLE).findList();;
+        return ok(Json.toJson(buses));
+    }
+
+    public Result darMobibusesOcupados() {
+        List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).
+        where().eq("estado", Cons.V_OCUPADO).findList();;
         return ok(Json.toJson(buses));
     }
 
@@ -57,5 +70,14 @@ public class MobibusController extends Controller {
         posicion.save();
 
         return ok(Json.toJson(mobibus));
+    }
+
+    public Result eliminarMobibuses(){
+        List<Mobibus> mobibuses = new Model.Finder(Long.class, Mobibus.class).all();
+        for(int i = 0; i<mobibuses.size();i++){
+            mobibuses.get(i).delete();
+        }
+
+        return ok(Json.toJson(""));
     }
 }

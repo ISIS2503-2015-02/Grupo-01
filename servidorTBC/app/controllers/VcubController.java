@@ -1,6 +1,7 @@
 package controllers;
 
 import com.avaje.ebean.Model;
+import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import play.libs.Json;
@@ -26,6 +27,18 @@ public class VcubController extends Controller{
     public Result darVcubs() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).all();
         return ok(Json.toJson(vcubs));
+    }
+
+    public Result darVcubsDisponibles() {
+        List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).
+        where().eq("estado", Cons.V_DISPONIBLE).findList();;
+        return ok(Json.toJson(vcubs));
+    }
+
+    public Result darVcubsOcupados() {
+        List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
+        where().eq("estado", Cons.V_OCUPADO).findList();;
+        return ok(Json.toJson(tranvias));
     }
 
     public Result darVcub(Long id){
@@ -73,5 +86,14 @@ public class VcubController extends Controller{
         else{
             return ok(Json.toJson(j));
         }
+    }
+
+    public Result eliminarVcubs(){
+        List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).all();
+        for(int i = 0; i<vcubs.size();i++){
+            vcubs.get(i).delete();
+        }
+
+        return ok(Json.toJson(""));
     }
 }

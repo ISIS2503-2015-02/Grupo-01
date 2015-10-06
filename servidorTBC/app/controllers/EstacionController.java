@@ -49,4 +49,13 @@ public class EstacionController  extends Controller{
         return ok(Json.toJson(estacion));  
     }
 
+    public Result eliminarEstaciones(){
+        List<Estacion> estaciones = new Model.Finder(Long.class, Estacion.class).all();
+        for(int i = 0; i<estaciones.size();i++){
+            estaciones.get(i).delete();
+        }
+
+        return ok(Json.toJson(""));
+    }
+
 }
