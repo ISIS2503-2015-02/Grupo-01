@@ -24,6 +24,28 @@ public class RutaController extends Controller {
         return ok(Json.toJson(ruta));
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result asignarTranvia(){
+        JsonNode j = Controller.request().body().asJson();
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(new Long(j.findPath("tranviaId").asInt()));
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
+        ruta.setTranvia(tranvia);
+        ruta.update();
+        return ok(Json.toJson(ruta));
+
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result asignarMobibus(){
+        JsonNode j = Controller.request().body().asJson();
+        Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(new Long(j.findPath("mobibusId").asInt()));
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
+        ruta.setBus(mobibus);
+        ruta.update();
+        return ok(Json.toJson(ruta));
+
+    }
+
     public Result darRutas() {
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).all();
         return ok(Json.toJson(rutas));

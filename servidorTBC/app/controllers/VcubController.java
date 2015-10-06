@@ -50,7 +50,7 @@ public class VcubController extends Controller{
         Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(new Long(j.findPath("vcubId").asInt()));
         Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(new Long(j.findPath("usuarioId").asInt()));
         vcub.setEstacion(null);
-        vcub.setEstado("Prestada");
+        vcub.setEstado(Cons.V_OCUPADO);
         vcub.setUsuario(usuario);
         vcub.update();
 
