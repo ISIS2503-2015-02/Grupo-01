@@ -118,6 +118,19 @@
 	"accidente": "Choque"
 }
 
+/Asignar mobibus
+{
+	"mobibusId":1,
+	"rutaId":1
+}
+
+/Asignar tranvia
+{
+	"tranviaId":1,
+	"rutaId":1
+}
+
+
 //Tranvia
 	/Crear
 
