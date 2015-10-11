@@ -13,7 +13,7 @@ import models.*;
 import views.html.*;
 
 public class Application extends Controller {
-
+/**
     public Result index() {
         return ok(index.render("Your new application is ready now."));
     }
@@ -64,5 +64,5 @@ public class Application extends Controller {
 
     public Result registro(){
     	return ok();
-    }
+    }*/
 }
