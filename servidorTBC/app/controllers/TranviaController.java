@@ -28,6 +28,7 @@ public class TranviaController extends Controller {
 
     public Result darTranvias() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).all();
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvias));
     }
 
