@@ -9,7 +9,7 @@
     TBC.directive('tablaTranvia', function(){
         return{
             restrict:'E',
-            templateUrl:'partials/TranviaTable.html',
+            templateUrl:'partials/tabla-tranvia.html',
             controller: 'getTranvia'
         };
     });

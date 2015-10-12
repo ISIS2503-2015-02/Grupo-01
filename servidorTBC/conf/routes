@@ -3,7 +3,7 @@
 # ~~~~
 
 # Home page
-#GET         /                       		controllers.Application.index()
+#GET         /dada                       		controllers.Application.index()
 #GET         /index.html                     controllers.Application.index()
 
 # Pagina cuasiestaticas
