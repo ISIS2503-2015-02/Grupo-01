@@ -3,20 +3,20 @@
 # ~~~~
 
 # Home page
-GET         /                       		controllers.Application.index()
-GET         /index.html                     controllers.Application.index()
+#GET         /dada                       		controllers.Application.index()
+#GET         /index.html                     controllers.Application.index()
 
 # Pagina cuasiestaticas
-GET			/tranvia.html					controllers.Application.tranvia()
-GET			/mobibus.html					controllers.Application.mobibus()
-GET			/vcub.html						controllers.Application.vcub()
-GET			/emergencias.html				controllers.Application.emergencias()
-GET			/reportes.html					controllers.Application.reportes()
-GET			/form.html						controllers.Application.form()
-GET			/admin.html						controllers.Application.admin()
-GET			/user.html						controllers.Application.user()
-GET			/logAdmin.html					controllers.Application.login()
-GET			/user.html						controllers.Application.registro()
+#GET			/tranvia.html					controllers.Application.tranvia()
+#GET			/mobibus.html					controllers.Application.mobibus()
+#GET			/vcub.html						controllers.Application.vcub()
+#GET			/emergencias.html				controllers.Application.emergencias()
+#GET			/reportes.html					controllers.Application.reportes()
+#GET			/form.html						controllers.Application.form()
+#GET			/admin.html						controllers.Application.admin()
+#GET			/user.html						controllers.Application.user()
+#GET			/logAdmin.html					controllers.Application.login()
+#GET			/user.html						controllers.Application.registro()
 
 # Servicios de tranvia
 

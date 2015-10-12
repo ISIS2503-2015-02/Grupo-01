@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Estado</th>
+            <th>Latitud</th> 
+            <th>Longitud</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">
+        <tr ng-repeat="tranvia in tranvias | orderBy: 'id'">
+            <td>{{tranvia.id}}</td>
+            <td>{{tranvia.estado}}</td>
+            <td>{{tranvia.presionChoque}}</td>
+            <td>{{tranvia.panico}}</td>
+            <td>{{tranvia.revision}}</td>
+        </tr>            
+    </tbody>                
+</table>
