@@ -19,11 +19,14 @@ public class UsuarioController extends Controller {
         Usuario usuario = Usuario.bind(j);
         usuario.save();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(usuario));
     }
 
     public Result darUsuarios() {
         List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(usuarios));
     }
 
@@ -39,8 +42,10 @@ public class UsuarioController extends Controller {
         rout.save();
         reserva.save();
     	usuario.update();
-    	return ok(Json.toJson(usuario));
-   	}
+    	
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        return ok(Json.toJson(usuario));
+   	}   
 
     public Result eliminarUsuarios(){
         List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
@@ -48,6 +53,7 @@ public class UsuarioController extends Controller {
             usuarios.get(i).delete();
         }
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
 

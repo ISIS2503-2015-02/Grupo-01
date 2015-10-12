@@ -18,21 +18,28 @@ public class EstacionController  extends Controller{
         Estacion estacion = Estacion.bind(j);
         estacion.save();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(estacion));
     }
 
     public Result darEstaciones() {
         List<Estacion> estaciones = new Model.Finder(Long.class, Estacion.class).all();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(estaciones));
     }
 
     public Result darEstacion(Long id){
       Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
+      
+      response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(estacion));  
     }
 
     public Result darEstacionesDesocupadas(){
         List<Estacion> estaciones = new Model.Finder(Long.class, Estacion.class).where().lt("ocupacion", 0.10).findList();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(estaciones));
     }
 
@@ -46,6 +53,8 @@ public class EstacionController  extends Controller{
             estacion.agregarVcub(vcub);
         }
         estacion.update();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(estacion));  
     }
 
@@ -55,7 +64,8 @@ public class EstacionController  extends Controller{
             estaciones.get(i).delete();
         }
 
-        return ok(Json.toJson(""));
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        return ok(Json.toJson("")); 
     }
 
 }

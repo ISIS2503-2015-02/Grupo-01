@@ -20,28 +20,38 @@ public class MobibusController extends Controller {
         Posicion pos = Posicion.bind(j);
         bus.agregarPosicion(pos);
         bus.save();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(bus));
     }
 
     public Result read() {
         List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).all();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(buses));
     }
 
     public Result darMobibusesDisponibles() {
         List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).
         where().eq("estado", Cons.V_DISPONIBLE).findList();;
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(buses));
     }
 
     public Result darMobibusesOcupados() {
         List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).
         where().eq("estado", Cons.V_OCUPADO).findList();;
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(buses));
     }
 
     public Result darBus(Long id){
       Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
+      
+      response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(mobibus));  
     }
 
@@ -52,12 +62,16 @@ public class MobibusController extends Controller {
         Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(new Long(j.findPath("mobibusId").asInt()));
         mobibus.agregarRevision(revision);
         mobibus.update();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(mobibus));
     }
 
     public Result darRevisiones(Long id) {
         Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
         List<Revision> revisiones = mobibus.getRevisiones();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(revisiones));
     }
 
@@ -69,6 +83,7 @@ public class MobibusController extends Controller {
         posicion.setMobibus(mobibus);
         posicion.save();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(mobibus));
     }
 
@@ -78,6 +93,7 @@ public class MobibusController extends Controller {
             mobibuses.get(i).delete();
         }
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
 }

@@ -21,6 +21,8 @@ public class RutaController extends Controller {
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("estado", Cons.V_DISPONIBLE).findUnique();
         ruta.setTranvia(tranvia);
         ruta.save();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(ruta));
     }
 
@@ -33,6 +35,8 @@ public class RutaController extends Controller {
         ruta.setTranvia(tranvia);
         ruta.setConductor(conductor);
         ruta.update();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(ruta));
 
     }
@@ -46,24 +50,32 @@ public class RutaController extends Controller {
         ruta.setBus(mobibus);
         ruta.setConductor(conductor);
         ruta.update();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(ruta));
 
     }
 
     public Result darRutas() {
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).all();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(rutas));
     }
 
     public Result darRutasAccidenteTranvia(){
       List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
       where().eq("tipo_accidente", "choque").eq("tipo", "tranvia").findList();
+
+      response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(rutas));  
     }
 
 
     public Result darRuta(Long id){
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(ruta));
     }
 
@@ -77,6 +89,8 @@ public class RutaController extends Controller {
         bus.setEstado(Cons.V_ACCIDENTADO);
         bus.update();
         ruta.update();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(ruta));
     }
 
@@ -90,6 +104,8 @@ public class RutaController extends Controller {
         tranvia.setEstado(Cons.V_ACCIDENTADO);
         tranvia.update();
         ruta.update();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(ruta));
     }
 
@@ -110,20 +126,23 @@ public class RutaController extends Controller {
         double posX = pos.getLongitud();
         double posY = pos.getLatitud();
 
-        
-        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(ruta));
     }
 
     public Result darRutasAccidentes(){
         List<Ruta> rutas = new Model.Finder(Long.class, Mobibus.class).
         where().eq("terminado", Cons.ET_ANORMAL).findList();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(rutas));
     }
 
     public Result darRutasTerminadas(){
         List<Ruta> rutas = new Model.Finder(Long.class, Mobibus.class).
         where().eq("terminado", Cons.ET_TERMINADO).findList();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(rutas));
     }
 
@@ -141,6 +160,8 @@ public class RutaController extends Controller {
             coord[j][0] = latitudRadial;
             coord[j][1] = longitudRadial;
         }
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return coord;
     }
 
@@ -150,6 +171,7 @@ public class RutaController extends Controller {
             rutas.get(i).delete();
         }
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
 }

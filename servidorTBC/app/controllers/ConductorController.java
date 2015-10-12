@@ -19,16 +19,21 @@ public class ConductorController extends Controller{
         Conductor conductor = Conductor.bind(j);
         conductor.save();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(conductor));
     }
 
     public Result darConductores() {
         List<Conductor> conductores = new Model.Finder(Long.class, Conductor.class).all();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(conductores));
     }
 
     public Result darConductor(Long cedula){
       Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(cedula);
+      
+      response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(conductor));  
     }
 
@@ -38,6 +43,7 @@ public class ConductorController extends Controller{
             conductores.get(i).delete();
         }
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
 }

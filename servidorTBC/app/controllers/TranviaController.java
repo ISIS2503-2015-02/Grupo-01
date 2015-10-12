@@ -23,6 +23,7 @@ public class TranviaController extends Controller {
         tranvia.agregarPosicion(pos);
         tranvia.save();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvia));
     }
 
@@ -35,17 +36,23 @@ public class TranviaController extends Controller {
     public Result darTranviasDisponibles() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
         where().eq("estado", Cons.V_DISPONIBLE).findList();;
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvias));
     }
 
     public Result darTranviasOcupados() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
         where().eq("estado", Cons.V_OCUPADO).findList();;
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvias));
     }
 
     public Result darTranvia(Long id){
       Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
+
+      response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(tranvia));  
     }
 
@@ -56,12 +63,16 @@ public class TranviaController extends Controller {
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
         tranvia.agregarRevision(revision);
         tranvia.update();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvia));
     }
 
     public Result darRevisiones(Long id) {
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
         List<Revision> revisiones = tranvia.getRevisiones();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(revisiones));
     }
 
@@ -73,6 +84,7 @@ public class TranviaController extends Controller {
         posicion.setTranvia(tranvia);
         posicion.save();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvia));
     }
 
@@ -82,6 +94,7 @@ public class TranviaController extends Controller {
             tranvias.get(i).delete();
         }
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
 }

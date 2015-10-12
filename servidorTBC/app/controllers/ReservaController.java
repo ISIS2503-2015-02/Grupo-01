@@ -14,17 +14,23 @@ public class ReservaController extends Controller{
 
 	public Result darReservas(){
 		List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).all();
+		
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		return ok(Json.toJson(reservas));
 	}
 
 	public Result darReservasSinAsignar(){
 		List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).
 		where().eq("estado",  Cons.R_ESPERA).findList();
+		
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		return ok(Json.toJson(reservas));
 	}
 
 	public Result darReservasVencen(){
 		List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).where().isNull("ruta").eq("fecha", Reserva.maniana()).findList();
+		
+		response().setHeader("Access-Control-Allow-Origin", "*");
 		return ok(Json.toJson(reservas));
 	}
 
@@ -35,6 +41,8 @@ public class ReservaController extends Controller{
         Reserva reserva = (Reserva) new Model.Finder(Long.class, Reserva.class).byId(new Long(j.findPath("reservaId").asInt()));
         reserva.setEstado(Cons.R_ASIGNADA);   
         reserva.update();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(reserva));
     }
 
@@ -44,6 +52,7 @@ public class ReservaController extends Controller{
             reservas.get(i).delete();
         }
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
 }

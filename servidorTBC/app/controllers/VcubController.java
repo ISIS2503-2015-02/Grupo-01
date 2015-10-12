@@ -21,28 +21,37 @@ public class VcubController extends Controller{
         vcub.agregarPosicion(pos);
         vcub.save();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(vcub));
     }
 
     public Result darVcubs() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).all();
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(vcubs));
     }
 
     public Result darVcubsDisponibles() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).
         where().eq("estado", Cons.V_DISPONIBLE).findList();;
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(vcubs));
     }
 
     public Result darVcubsOcupados() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
         where().eq("estado", Cons.V_OCUPADO).findList();;
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvias));
     }
 
     public Result darVcub(Long id){
       Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
+      
+      response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(vcub));  
     }
 
@@ -54,6 +63,7 @@ public class VcubController extends Controller{
         posicion.setVcub(vcub);
         posicion.save();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(posicion));
     }
 
@@ -67,6 +77,7 @@ public class VcubController extends Controller{
         vcub.setUsuario(usuario);
         vcub.update();
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(vcub));
     }
 
@@ -76,6 +87,8 @@ public class VcubController extends Controller{
         Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(new Long(j.findPath("vcubId").asInt()));
         Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(new Long(j.findPath("estacionId").asInt()));
         Usuario usuario = (Usuario) new Model.Finder(Long.class,  Usuario.class).byId(new Long(j.findPath("usuarioId").asInt()));
+        
+        response().setHeader("Access-Control-Allow-Origin", "*");
         if(vcub.getUsuario().getNumeroIdentificacion().equals(usuario.getNumeroIdentificacion())){
             vcub.setEstacion(estacion);
             vcub.setEstado(Cons.V_DISPONIBLE);
@@ -94,6 +107,7 @@ public class VcubController extends Controller{
             vcubs.get(i).delete();
         }
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
 }
