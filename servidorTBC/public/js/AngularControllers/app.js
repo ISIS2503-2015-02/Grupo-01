@@ -6,7 +6,7 @@
 (function(){
     var TBC= angular.module('tranviapp',[]);
     
-    TBC.directive('tablaTranvia', function(){
+    TBC.directive('tablatranvia', function(){
         return{
             restrict:'E',
             templateUrl:'partials/tabla-tranvia.html',
