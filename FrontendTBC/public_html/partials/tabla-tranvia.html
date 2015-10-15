@@ -1,28 +1,37 @@
-<google-map center="map.center" 
-    			zoom="map.zoom" 
-    			draggable="true" 
-    			options="map.options" 
-    			control="map.control" ng-repeat="marker in markers">
-                        
-		<marker coords="marker.position" options="marker.options" idkey="marker.id" ></marker>        
-</google-map>
+<div id="map"></div>
+    <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+    </div>
+<h4>Vehiculos</h4>
 <table class="table table-hover">
     <thead>
         <tr>
             <th>ID</th>
             <th>Estado</th>
-            <th>Choque</th>
             <th>Panico activado</th> 
             <th>Longitud</th>
+            <th>Latitud</th>
+            <th>Temperatura</th>
         </tr>
     </thead>
     <tbody id="sensualtablabody">
-        <tr ng-repeat="tranvia in tranvias | orderBy: 'id'">
+        
+        <tr ng-repeat="tranvia in tranvias | orderBy: 'id'" ng-if="tranvia.isAccidentado()" class="danger">
             <td>{{tranvia.id}}</td>
             <td>{{tranvia.estado}}</td>
-            <td>{{tranvia.presionChoque}}</td>
             <td>{{tranvia.panico}}</td>
-            <td>{{tranvia.revision}}</td>
-        </tr>            
+            <td>{{tranvia.longitud}}</td>
+            <td>{{tranvia.latitud}}</td>
+            <td>{{tranvia.temperatura}}</td>
+        </tr>
+        <tr ng-repeat="tranvia in tranvias | orderBy: 'id'" ng-if="!tranvia.isAccidentado()">
+            <td>{{tranvia.id}}</td>
+            <td>{{tranvia.estado}}</td>
+            <td>{{tranvia.panico}}</td>
+            <td>{{tranvia.longitud}}</td>
+            <td>{{tranvia.latitud}}</td>
+            <td>{{tranvia.temperatura}}</td>
+        </tr>
+        
     </tbody>                
 </table>

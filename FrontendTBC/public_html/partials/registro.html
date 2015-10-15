@@ -4,8 +4,8 @@
             <h2>Reg&iacute;strate</h2>
         </div>
     </div>
-    <div class="container" ng-controller="registro">
-        <form role="form" ng-submit="addUser()">
+    <div class="container" >
+        <form role="form" ng-submit="addUser()" ng-controller="registro">
             <h4>Cuenta</h4><br>
             <div class="row form-group">
                 <div class="col-md-2">
@@ -20,7 +20,7 @@
                     Contrase&ntilde;a
                 </div>
                 <div class="col-md-7">
-                    <input type="password" class="form-control" placeholder="Ingresa una contraseña" id="pass" ng-model="usuario.password" required>
+                    <input type="password" class="form-control" placeholder="Ingresa una contraseña" id="pass" ng-model="usuario.pass" required>
                 </div>
             </div>
             <br>
@@ -38,7 +38,7 @@
                     C&eacute;dula
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" placeholder="Ingresa tu numero de cedula" id="cedula" required ng-model="usuario.id">
+                    <input type="text" class="form-control" placeholder="Ingresa tu numero de cedula" id="cedula" required ng-model="usuario.identificacion">
                 </div>
             </div>
 
@@ -47,7 +47,7 @@
                     Telefono
                 </div>
                 <div class="col-md-7">
-                    <input type="text" class="form-control" placeholder="Ingresa tu numero de telefono" id="telefono" required>
+                    <input type="text" class="form-control" placeholder="Ingresa tu numero de telefono" id="telefono" required ng-model="usuario.telefono ">
                 </div>
             </div>
 
@@ -56,7 +56,7 @@
                     Tipo de documento
                 </div>
                 <div class="col-md-7">
-                    <select class="form-control" id="tiposid" required ng-model="usuario.tipo">
+                    <select class="form-control" id="tiposid" required ng-model="usuario.tipoId">
                         <option value="Cedula">Cedula</option>
                         <option value="Pasaporte">Pasaporte</option>
                       </select>

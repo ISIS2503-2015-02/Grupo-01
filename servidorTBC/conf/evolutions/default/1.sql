@@ -97,6 +97,8 @@ create table usuario (
   tipo_id                   varchar(255),
   telefono                  varchar(255),
   condicion                 varchar(255),
+  usuario                   varchar(255),
+  password                  varchar(255),
   constraint pk_usuario primary key (numero_identificacion))
 ;
 
