@@ -51,8 +51,9 @@ and open the template in the editor.
                       <li><a href="tranvia.html">Monitoreo <span class="sr-only"></span></a></li>
                       <li><a href="emergencias.html">Emergencias <span class="sr-only"></span></a></li>
                       <li><a href="reportes.html">Reportes <span class="sr-only"></span></a></li>
-                      <li  class="active"><a href="rutas.html">Rutas <span class="sr-only"></span></a></li>
+                      <li><a href="rutas.html">Rutas <span class="sr-only"></span></a></li>
                       <li><a href="estaciones.html">Estaciones <span class="sr-only"></span></a></li>
+                      <li class="active"><a href="revisiones.html">Revisiones <span class="sr-only"></span></a></li>
                   </ul>
               </div><!--/.navbar-collapse -->
             </div>
@@ -64,7 +65,7 @@ and open the template in the editor.
                         <img src="@routes.Assets.versioned("images/warning-s.png")">
                     </div>
                     <div class="col-md-10">
-                        <h2>Rutas</h2>
+                        <h2>Revisiones</h2>
                         <p>Sistema Central TBC</p>
                     </div>
                 </div>
@@ -80,13 +81,11 @@ and open the template in the editor.
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Origen</th>
-                                        <th>Destino</th>
-                                        <th>Tipo</th>
-                                        <th>Tiempo trayecto</th>
-                                        <th>Terminado</th>
-                                        <th>Tipo Accidente</th>
-                                        <th>Enviar reposici&oacute;n</th>
+                                        <th>Fecha anterior</th>
+                                        <th>Fecha</th>
+                                        <th>Kilometraje</th>
+                                        <th>Tranvia</th>
+                                        <th>MobiBus</th>
                                         <th>Acci&oacute;n</th>
                                     </tr>
                                 </thead>
@@ -94,12 +93,11 @@ and open the template in the editor.
 
                                     <tr>
                                         <td>id</td>
-                                        <td>origen</td>
-                                        <td>destino</td> 
-                                        <td>tipo</td>
-                                        <td>tiempo</td>
-                                        <td>accidente</td>
-                                        <td><button class="btn btn-default">Enviar</button></td>
+                                        <td>fecha</td>
+                                        <td>fecha</td> 
+                                        <td>kilometraje</td>
+                                        <td>tranvia</td>
+                                        <td>mobibus</td>
                                         <td><button class="btn btn-danger">Eliminar</button></td>
                                     </tr>
 
