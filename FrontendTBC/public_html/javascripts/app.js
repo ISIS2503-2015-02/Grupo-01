@@ -88,16 +88,43 @@
     });
     
     TBC.controller("vcub", function($http, $scope){
+        $scope.bicis = [];
         $scope.llenarTodas = function(){
-            
+          $http.put('http://localhost:9000/estaciones/llenar').success(function(data, status, headers, config){
+              for(i = 0; i < data.length; i++){
+                var estacion = {
+                    id : data[i].id,
+                    capacidad : data[i].capacidad,
+                    ubicacion : data[i].ubicacion,
+                    llena : data[i].llena,
+                    ocupacion : data[i].ocupacion,
+                    bicis : data[i].vcubs
+                };
+                $scope.estaciones.push(estacion);
+            }
+          }).error(function(data, status, headers, config){
+              
+          });  
+        };
+        $scope.ocultar = function(){
+           $scope.bicis = [];
+        }
+        $scope.vcubs = function(index){
+           $scope.bicis = $scope.estaciones[index].vcubs;
         };
         $scope.estaciones = [];
-        $http.get('http://localhost:9000/vcubs').succes(function(data, status, headers, config){
-            var vcub = {
-                eliminar : function(){
-                    
-                }
-            };
+        $http.get('http://localhost:9000/vcubs').success(function(data, status, headers, config){
+            for(i = 0; i < data.length; i++){
+                var estacion = {
+                    id : data[i].id,
+                    capacidad : data[i].capacidad,
+                    ubicacion : data[i].ubicacion,
+                    llena : data[i].llena,
+                    ocupacion : data[i].ocupacion,
+                    bicis : data[i].vcubs
+                };
+                $scope.estaciones.push(estacion);
+            }
         }).error(function(data, status, headers, config){
             
         });
