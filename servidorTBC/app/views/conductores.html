@@ -49,12 +49,12 @@ and open the template in the editor.
               <div id="navbar" class="navbar-collapse collapse">
                   <ul class="nav navbar-nav">
                       <li><a href="tranvia.html">Monitoreo <span class="sr-only"></span></a></li>
-                      <li><a href="emergencias.html">Emergencias <span class="sr-only"></span></a></li>
-                      <li><a href="reportes.html">Reportes <span class="sr-only"></span></a></li>
-                      <li><a href="rutas.html">Rutas <span class="sr-only"></span></a></li>
-                      <li><a href="estaciones.html">Estaciones <span class="sr-only"></span></a></li>
-                      <li class="active"><a href="revisiones.html">Revisiones <span class="sr-only"></span></a></li>
-                      <li><a href="conductores.html">Conductores <span class="sr-only"></span></a></li>
+                        <li><a href="emergencias.html">Emergencias <span class="sr-only"></span></a></li>
+                        <li><a href="reportes.html">Reportes <span class="sr-only"></span></a></li>
+                        <li><a href="rutas.html">Rutas <span class="sr-only"></span></a></li>
+                        <li><a href="estaciones.html">Estaciones <span class="sr-only"></span></a></li>
+                        <li><a href="revisiones.html">Revisiones <span class="sr-only"></span></a></li>
+                        <li class="active"><a href="conductores.html">Conductores <span class="sr-only"></span></a></li>
                   </ul>
               </div><!--/.navbar-collapse -->
             </div>
@@ -66,7 +66,7 @@ and open the template in the editor.
                         <img src="@routes.Assets.versioned("images/warning-s.png")">
                     </div>
                     <div class="col-md-10">
-                        <h2>Revisiones</h2>
+                        <h2>Conductores</h2>
                         <p>Sistema Central TBC</p>
                     </div>
                 </div>
@@ -82,24 +82,28 @@ and open the template in the editor.
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Fecha anterior</th>
-                                        <th>Fecha</th>
-                                        <th>Kilometraje</th>
-                                        <th>Tranvia</th>
-                                        <th>MobiBus</th>
-                                        <th>Acci&oacute;n</th>
+                                        <th>Tipo ID</th>
+                                        <th>Nombre</th>
+                                        <th>Edad</th>
+                                        <th>Telefono</th>
+                                        <th>N&uacute;mero licencia</th>
+                                        <th>Fecha vencimiento</th>
+                                        <th>Estado</th>
+                                        <th>Acci&oaucte;n</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
-                                    <tr>
+                                    <tr class="warning">
                                         <td>id</td>
+                                        <td>tipo</td>
+                                        <td>nombre</td> 
+                                        <td>edad</td>
+                                        <td>telefono</td>
+                                        <td>licencia</td>
                                         <td>fecha</td>
-                                        <td>fecha</td> 
-                                        <td>kilometraje</td>
-                                        <td>tranvia</td>
-                                        <td>mobibus</td>
-                                        <td><button class="btn btn-danger">Eliminar</button></td>
+                                        <td>estado</td>
+                                        <td><button class="btn btn-danger">Despedir</button></td>
                                     </tr>
 
                             </tbody>
