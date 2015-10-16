@@ -8,10 +8,14 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import actions.CorsComposition;
+import actions.ForceHttps;
 
 import java.util.List;
 import java.util.ArrayList;
 
+CorsComposition.Cors
+//@ForceHttps.Https
 public class RutaController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
