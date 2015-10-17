@@ -12,7 +12,7 @@ import actions.ForceHttps;
 
 import java.util.List;
 
-CorsComposition.Cors
+@CorsComposition.Cors
 //@ForceHttps.Https
 public class EstacionController  extends Controller{
 	

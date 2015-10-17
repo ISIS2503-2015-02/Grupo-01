@@ -19,6 +19,8 @@ create table estacion (
   id                        bigint auto_increment not null,
   capacidad                 integer,
   ubicacion                 varchar(255),
+  longitud                  double,
+  latitud                   double,
   llena                     boolean,
   ocupacion                 double,
   constraint pk_estacion primary key (id))

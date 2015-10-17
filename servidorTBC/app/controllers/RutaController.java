@@ -14,7 +14,7 @@ import actions.ForceHttps;
 import java.util.List;
 import java.util.ArrayList;
 
-CorsComposition.Cors
+@CorsComposition.Cors
 //@ForceHttps.Https
 public class RutaController extends Controller {
 
