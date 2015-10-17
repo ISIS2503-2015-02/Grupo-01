@@ -59,4 +59,11 @@ public class ReservaController extends Controller{
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
+
+    public Result eliminarReserva(Long id){
+      Reserva reserva = (Reserva) new Model.Finder(Long.class, Reserva.class).byId(id);
+      reserva.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
+    }
 }

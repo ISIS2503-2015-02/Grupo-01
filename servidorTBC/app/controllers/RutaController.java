@@ -178,5 +178,12 @@ public class RutaController extends Controller {
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
+
+    public Result eliminarRuta(Long id){
+      Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
+      ruta.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
+    }
 }
 

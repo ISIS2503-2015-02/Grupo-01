@@ -100,4 +100,11 @@ public class TranviaController extends Controller {
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
+
+    public Result eliminarTranvia(Long id){
+      Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
+      tranvia.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
+    }
 }

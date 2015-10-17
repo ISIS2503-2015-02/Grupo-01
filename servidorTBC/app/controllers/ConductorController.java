@@ -41,6 +41,13 @@ public class ConductorController extends Controller{
       return ok(Json.toJson(conductor));  
     }
 
+    public Result eliminarConductor(Long cedula){
+      Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(cedula);
+      conductor.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
+    }
+
     public Result eliminarConductores(){
         List<Conductor> conductores = new Model.Finder(Long.class, Conductor.class).all();
         for(int i = 0; i<conductores.size();i++){

@@ -61,4 +61,18 @@ public class UsuarioController extends Controller {
         return ok(Json.toJson(""));
     }
 
+    public Result darUsuario(Long id){
+      Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(id);
+
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(usuario));  
+    }
+
+    public Result eliminarUsuario(Long id){
+      Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(id);
+      usuario.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(usuario));  
+    }
+
 }

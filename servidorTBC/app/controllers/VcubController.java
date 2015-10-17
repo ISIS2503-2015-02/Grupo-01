@@ -114,4 +114,11 @@ public class VcubController extends Controller{
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
+
+    public Result eliminarVcub(Long id){
+      Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
+      vcub.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
+    }
 }

@@ -72,4 +72,11 @@ public class EstacionController  extends Controller{
         return ok(Json.toJson("")); 
     }
 
+    public Result eliminarEstacion(Long id){
+      Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
+      estacion.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
+    }
+
 }
