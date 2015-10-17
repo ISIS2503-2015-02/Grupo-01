@@ -53,13 +53,7 @@
 
 //Usuario
 	/Crear
-		{  "identificacion" : "102837546",
-		"edad" : 25,
-		"nombre" : "Paul",
-		"tipoId" : "C.C",
-		"telefono" : "4535678",
-		"condicion": "Paralitico"
-	}
+		-
 	
 	/Crear reserva
 	{

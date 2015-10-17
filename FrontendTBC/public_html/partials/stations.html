@@ -1,0 +1,64 @@
+<div class="col-md-10">              
+    <h4>Estaciones | <a ng-click="llenarTodas()">LLenar estaciones</a> | <a ng-click="form()">Agregar estación</a></h4>
+    <div id="map"></div>
+    <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ubicaci&oacute;n</th>
+                <th>Capacidad</th>
+                <th>Nivel de ocupaci&oacute;n
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="success" ng-repeat="estacion in estaciones | orderBy: 'id'">
+                <td>{{estacion.id}}</td>
+                <td>{{estacion.ubicacion}}</td>
+                <td>{{estacion.capacidad}}</td>
+                <td>{{estacion.ocupacion}}</td>
+                <td><a ng-click="mostrar($index)">Ver vcubs</a> <a ng-if="estacion.mostrar" ng-click="ocultar($index)">Ocultar vcubs</a> | <a ng-click="eliminar($index)">Eliminar</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<table class="table table-hover" ng-if="bicis.length > 0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Estado</th>
+            <th>Prestada a</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="success" ng-repeat="bici in bicis | orderBy: 'id'">
+            <td>{{bici.id}}</td>
+            <td>{{bici.estado}}</td>
+            <td>{{bici.usuario}}</td>
+        </tr>
+    </tbody>
+</table>
+<form ng-if="formulario">
+    <label>Selecione una ruta</label>
+        <select class="form-control" id="rutas" name="rutas">
+          <option>Ruta 1</option>
+          <option>Ruta 2</option>
+          <option>Ruta 3</option>
+          <option>Ruta 4</option>
+          <option>Ruta 5</option>
+        </select>
+        <br>
+        <label>Selecione un bus</label>
+        <select class="form-control" id="buses" name="buses">
+          <option>Bus 1</option>
+          <option>Bus 2</option>
+          <option>Bus 3</option>
+          <option>Bus 4</option>
+          <option>Bus 5</option>
+        </select>
+        <br>
+          <button type="submit" class="btn btn-default">Asignar</button>
+</form>

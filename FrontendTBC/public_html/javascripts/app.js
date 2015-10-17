@@ -79,55 +79,105 @@
     /**
      * Directiva y controlador de estaciones vcub
      */
-    TBC.directive('tablaVcub', function(){
+    
+    TBC.directive('stations', function(){
         return {    
             restrict:'E',
-            templateUrl:'partials/tabla-vcub.html',
+            templateUrl:'partials/stations.html',
             controller: 'vcub'
         };
     });
     
     TBC.controller("vcub", function($http, $scope){
         $scope.bicis = [];
+        $scope.formulario = false;
+        
         $scope.llenarTodas = function(){
-          $http.put('http://localhost:9000/estaciones/llenar').success(function(data, status, headers, config){
-              for(i = 0; i < data.length; i++){
-                var estacion = {
-                    id : data[i].id,
-                    capacidad : data[i].capacidad,
-                    ubicacion : data[i].ubicacion,
-                    llena : data[i].llena,
-                    ocupacion : data[i].ocupacion,
-                    bicis : data[i].vcubs
-                };
-                $scope.estaciones.push(estacion);
-            }
-          }).error(function(data, status, headers, config){
+            for (i = 0 ; i < $scope.estaciones.length; i++){
+               var station = {
+                    estacionId : $scope.estaciones[i].id
+                    };
+                    $http.put('http://localhost:9000/estaciones/llenar', JSON.stringify(station)).success(function(data, status, headers, config){
+                    console.log(data);
+                    for(i = 0; i < data.length; i++){
+                        var estacion = {
+                            id : data[i].id,
+                            capacidad : data[i].capacidad,
+                            ubicacion : data[i].ubicacion,
+                            llena : data[i].llena,
+                            ocupacion : data[i].ocupacion,
+                            bicis : data[i].vcubs,
+                            longitud : data[i].longitud,
+                            latitud : data[i].latitud,
+                            mostrar : false
+                        };
+                        $scope.estaciones = [];
+                        $scope.estaciones.push(estacion);
+                        $scope.$apply();
+                    }
+                }).error(function(data, status, headers, config){
               
-          });  
+                });
+            }  
         };
-        $scope.ocultar = function(){
-           $scope.bicis = [];
-        }
-        $scope.vcubs = function(index){
-           $scope.bicis = $scope.estaciones[index].vcubs;
+        $scope.ocultar = function(index){
+            $scope.estaciones[index].mostrar = false;;
+            $scope.bicis = [];
+        };
+        $scope.mostrar = function(index){
+           $scope.estaciones[index].mostrar = true;
+           $scope.bicis = $scope.estaciones[index].bicis;
         };
         $scope.estaciones = [];
-        $http.get('http://localhost:9000/vcubs').success(function(data, status, headers, config){
+        $http.get('http://localhost:9000/estaciones').success(function(data, status, headers, config){
             for(i = 0; i < data.length; i++){
                 var estacion = {
-                    id : data[i].id,
-                    capacidad : data[i].capacidad,
-                    ubicacion : data[i].ubicacion,
-                    llena : data[i].llena,
-                    ocupacion : data[i].ocupacion,
-                    bicis : data[i].vcubs
+                id : data[i].id,
+                capacidad : data[i].capacidad,
+                ubicacion : data[i].ubicacion,
+                llena : data[i].llena,
+                ocupacion : data[i].ocupacion,
+                bicis : data[i].vcubs,
+                latitud : data[i].latitud,
+                longitud : data[i].longitud
                 };
-                $scope.estaciones.push(estacion);
+            $scope.estaciones.push(estacion);
             }
-        }).error(function(data, status, headers, config){
-            
+            var mapOptions = {
+                zoom: 8,
+                center: new google.maps.LatLng(4.60, -74.08),
+                mapTypeId: google.maps.MapTypeId.TERRAIN
+            }
+        $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+        $scope.markers = [];
+    
+        var infoWindow = new google.maps.InfoWindow();
+    
+        var createMarker = function (info){
+        
+            var marker = new google.maps.Marker({
+                map: $scope.map,
+                position: new google.maps.LatLng(info.longitud, info.latitud),
+            });
+        
+        marker.content = '<div class="infoWindowContent"> Bus ' + info.id + '</div>';
+        
+        google.maps.event.addListener(marker, 'click', function(){
+            infoWindow.setContent(marker.content);
+            infoWindow.open($scope.map, marker);
         });
+        
+        $scope.markers.push(marker);
+     
+        }  
+
+        
+        for (i = 0; i < data.length; i++){
+            createMarker(data[i]);
+        }
+        }).error(function(data, status, headers, config){
+        });   
     });
     
     /**
