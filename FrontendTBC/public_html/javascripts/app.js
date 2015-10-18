@@ -23,29 +23,28 @@
           $scope.rutasacc = [];
             for(i = 0; i < data.length; i++){
               var rutaac = {
-              id : data[i].id,
-              ubicaiconOrigen : data[i].ubicaiconOrigen,
-              ubicacionDestino : data[i].ubicacionDestino,
-              tipo : data[i].tipo,
-              tiempoTrayecto : data[i].tiempoTrayecto,
-              terminado : data[i].terminado,
-              tipoAccidente : data[i].tipoAccidente,
-              bus : data[i].bus,
-              tranvia : data[i].tranvia,
-              conductor : data[i].conductor,
-              mostrarmob : false
+                  id : data[i].id,
+                  ubicaiconOrigen : data[i].ubicaiconOrigen,
+                  ubicacionDestino : data[i].ubicacionDestino,
+                  tipo : data[i].tipo,
+                  tiempoTrayecto : data[i].tiempoTrayecto,
+                  terminado : data[i].terminado,
+                  tipoAccidente : data[i].tipoAccidente,
+                  bus : data[i].bus,
+                  tranvia : data[i].tranvia,
+                  conductor : data[i].conductor,
+                  mostrarmob : false
               };
               
               rutaac.vehiculoTranvia = function(){
                   return rutaac.tranvia === null;
-              }
+              };
               
               rutaac.vehiculoBus = function(){
                   return rutaac.bus === null;
-              }
+              };
               
               $scope.rutasacc.push(rutaac);
-              console.log($scope.rutasacc);
             }
             
             $scope.busesCerc = [];
@@ -230,8 +229,43 @@
     });
     
     TBC.controller("getConductores", function($http, $scope){
-       $http.get('http://localhost:9000/conductores').success(function(data, status, headers, config){
-          $scope.conductores = [];
+        $scope.formulario = false;
+        $scope.conductores = [];
+        $scope.eliminar = function(index){
+            $http.delete('http://localhost:9000/conductores/'+$scope.conductores[index].id).success(function(data, status, headers, config){
+                $scope.conductores.splice(index,1);
+            }).error(function(data, status, headers, config){
+                
+            });
+        };
+        $scope.mostrarFormulario = function(){
+            $scope.formulario = true;
+        };
+        $scope.ocultar = function(){
+            $scope.formulario = false;
+        };
+        $scope.addDriver = function(){
+            console.log($scope.conductor);
+            $http.post('http://localhost:9000/conductores',JSON.stringify($scope.conductor)).success(function(data, status, headers, config){
+              var conduc = {
+              numeroIdentificacion : data.numeroIdentificacion,
+              edad : data.edad,
+              nombre : data.nombre,
+              tipoId : data.tipoId,
+              telefono : data.telefono,
+              licenciaDeConduccion : data.licenciaDeConduccion,
+              fechaVencimientoLicencia : data.fechaVencimientoLicencia
+              };
+              $scope.conductores.push(conduc);
+              $scope.$apply();
+              $scope.formulario = false;
+              $scope.conductor={};
+                
+            }).error(function(data, status, headers, config){
+                
+            });
+        };
+        $http.get('http://localhost:9000/conductores').success(function(data, status, headers, config){
             for(i = 0; i < data.length; i++){
               var conductor = {
               numeroIdentificacion : data[i].numeroIdentificacion,
@@ -242,12 +276,8 @@
               licenciaDeConduccion : data[i].licenciaDeConduccion,
               fechaVencimientoLicencia : data[i].fechaVencimientoLicencia
               };
-              
               $scope.conductores.push(conductor);
-              console.log($scope.conductores);
-              
             }
-            
        }).
       error(function(data, status, headers, config) {
         // log error
