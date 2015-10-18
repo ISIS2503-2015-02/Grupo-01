@@ -22,7 +22,7 @@ public class RutaController extends Controller {
     public Result crearRuta() {
         JsonNode j = Controller.request().body().asJson();
         Ruta ruta = Ruta.bind(j);
-        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("estado", Cons.V_DISPONIBLE).findUnique();
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("estado", Cons.V_DISPONIBLE).findList().get(0);
         ruta.setTranvia(tranvia);
         ruta.save();
         
@@ -35,9 +35,11 @@ public class RutaController extends Controller {
         JsonNode j = Controller.request().body().asJson();
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(new Long(j.findPath("tranviaId").asInt()));
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
-        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(new Long(j.findPath("conductorId").asInt()));
+        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).where().eq("estado", Cons.V_DISPONIBLE).findList().get(0);
         tranvia.setEstado(Cons.V_OCUPADO);
         tranvia.update();
+        conductor.setEstado(Cons.V_OCUPADO);
+        conductor.update();
         ruta.setBus(null);
         ruta.setTipoAccidente(Cons.EA_NORMAL);
         ruta.setTerminado(Cons.ET_CURSO);
@@ -55,9 +57,11 @@ public class RutaController extends Controller {
         JsonNode j = Controller.request().body().asJson();
         Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(new Long(j.findPath("mobibusId").asInt()));
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
-        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(new Long(j.findPath("conductorId").asInt()));
+        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).where().eq("estado", Cons.V_DISPONIBLE).findList().get(0);
         mobibus.setEstado(Cons.V_OCUPADO);
         mobibus.update();
+        conductor.setEstado(Cons.V_OCUPADO);
+        conductor.update();
         ruta.setTranvia(null);
         ruta.setTipoAccidente(Cons.EA_NORMAL);
         ruta.setTerminado(Cons.ET_CURSO);
@@ -79,7 +83,7 @@ public class RutaController extends Controller {
 
     public Result darRutasAccidenteTranvia(){
       List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
-      where().eq("tipo_accidente", "choque").eq("tipo", "tranvia").findList();
+      where().eq("tipo_accidente", "choque").eq("tipo", "Ruta tranvia").findList();
 
       response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(rutas));  
@@ -161,7 +165,7 @@ public class RutaController extends Controller {
     }
 
     public Result darRutasAccidentes(){
-        List<Ruta> rutas = new Model.Finder(Long.class, Mobibus.class).
+        List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
         where().eq("terminado", Cons.ET_ANORMAL).findList();
 
         response().setHeader("Access-Control-Allow-Origin", "*");

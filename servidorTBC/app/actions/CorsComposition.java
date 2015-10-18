@@ -24,6 +24,7 @@ public class CorsComposition  {
         public F.Promise<Result> call(Http.Context context) throws Throwable {
             Http.Response response = context.response();
             response.setHeader("Access-Control-Allow-Origin", "*");
+            response.setHeader("Access-Control-Allow-Origin", "http://localhost:8383");
             if(context.request().method().equals("OPTIONS")) {
                 response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
                 response.setHeader("Access-Control-Max-Age", "3600");

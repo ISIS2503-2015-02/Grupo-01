@@ -8,10 +8,10 @@
         <tr>
             <th>ID</th>
             <th>Estado</th>
-            <th>Panico activado</th> 
-            <th>Longitud</th>
+            <th>Placa</th> 
+            <th>Capacidad</th>
             <th>Latitud</th>
-            <th>Temperatura</th>
+            <th>Longitud</th>
         </tr>
     </thead>
     <tbody id="sensualtablabody">
@@ -19,18 +19,18 @@
         <tr ng-repeat="bus in buses | orderBy: 'id'" ng-if="bus.isAccidentado()" class="danger">
             <td>{{bus.id}}</td>
             <td>{{bus.estado}}</td>
-            <td>{{bus.panico}}</td>
-            <td>{{bus.longitud}}</td>
-            <td>{{bus.latitud}}</td>
-            <td>{{bus.temperatura}}</td>
+            <td>{{bus.placa}}</td>
+            <td>{{bus.capacidad}}</td>
+            <td>{{bus.Latitud}}</td>
+            <td>{{bus.Longitud}}</td>
         </tr>
         <tr ng-repeat="bus in buses | orderBy: 'id'" ng-if="!bus.isAccidentado()">
             <td>{{bus.id}}</td>
             <td>{{bus.estado}}</td>
-            <td>{{bus.panico}}</td>
-            <td>{{bus.longitud}}</td>
+            <td>{{bus.placa}}</td>
+            <td>{{bus.capacidad}}</td>
             <td>{{bus.latitud}}</td>
-            <td>{{bus.temperatura}}</td>
+            <td>{{bus.longitud}}</td>
         </tr>
         
     </tbody>                

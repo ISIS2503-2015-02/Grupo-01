@@ -1,0 +1,28 @@
+
+<h4>Conductores</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de identificacion</th>
+            <th>Id</th> 
+            <th>Edad</th>
+            <th>Telefono</th>
+            <th>Licencia de conduccion</th>
+            <th>Vencimiento licencia</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">
+        
+        <tr ng-repeat="conductor in conductores | orderBy: 'id'" >
+            <td>{{conductor.nombre}}</td>
+            <td>{{conductor.tipoId}}</td>
+            <td>{{conductor.numeroIdentificacion}}</td>
+            <td>{{conductor.edad}}</td>
+            <td>{{conductor.telefono}}</td>
+            <td>{{conductor.licenciaDeConduccion}}</td>
+            <td>{{conductor.fechaVencimientoLicencia}}</td>
+        </tr>
+        
+    </tbody>                
+</table>
