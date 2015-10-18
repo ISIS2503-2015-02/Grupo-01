@@ -56,6 +56,8 @@ GET			/rutas/accidentes				controllers.RutaController.darRutasAccidentes()
 
 GET			/rutas/terminadas				controllers.RutaController.darRutasTerminadas()
 
+GET			/rutas/busesCercanos/:id		controllers.RutaController.darBusesCercanosAccidente(id: Long)
+
 PUT			/rutas/asignacionTranvia		controllers.RutaController.asignarTranvia()
 
 PUT			/rutas/asignacionMobibus		controllers.RutaController.asignarMobibus()

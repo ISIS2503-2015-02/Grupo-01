@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -21,7 +22,12 @@ public class MobibusController extends Controller {
     public Result create() {
         JsonNode j = Controller.request().body().asJson();
         Mobibus bus = Mobibus.bind(j);
-        Posicion pos = Posicion.bind(j);
+        
+        double[] coords = Utilidad.coordenadasNuevas();
+        Posicion pos = new Posicion(coords[0], coords[1], new Date());
+        
+        //Posicion posicion = Posicion.bind(j);
+
         bus.agregarPosicion(pos);
         bus.save();
         
@@ -107,4 +113,5 @@ public class MobibusController extends Controller {
       response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(""));  
     }
+
 }

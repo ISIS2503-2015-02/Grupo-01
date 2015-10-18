@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import play.mvc.Result;
 import actions.CorsComposition;
 import actions.ForceHttps;
 
+
 import java.util.List;
 
 @CorsComposition.Cors
@@ -22,8 +24,13 @@ public class TranviaController extends Controller {
     public Result crearTranvia() {
         JsonNode j = Controller.request().body().asJson();
         Tranvia tranvia = Tranvia.bind(j);
-        Posicion pos = Posicion.bind(j);
-        tranvia.agregarPosicion(pos);
+        
+        double[] coords = Utilidad.coordenadasNuevas();
+        Posicion posicion = new Posicion(coords[0], coords[1], new Date());
+        
+        //Posicion posicion = Posicion.bind(j);
+
+        tranvia.agregarPosicion(posicion);
         tranvia.save();
 
         response().setHeader("Access-Control-Allow-Origin", "*");

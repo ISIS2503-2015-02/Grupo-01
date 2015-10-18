@@ -8,3 +8,4 @@ target
 .sbtserver
 /RUNNING_PID
 project/.sbtserver
+/FrontendTBC/nbproject/private/
