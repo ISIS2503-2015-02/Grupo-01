@@ -51,6 +51,12 @@ public class UsuarioController extends Controller {
         return ok(Json.toJson(usuario));
    	}   
 
+    public Result darReservasUsuario(Long id){
+      List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).where().eq("usuario_numero_identificacion", id).findList();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(reservas));  
+    }
+
     public Result eliminarUsuarios(){
         List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
         for(int i = 0; i<usuarios.size();i++){

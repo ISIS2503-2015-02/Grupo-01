@@ -5,7 +5,7 @@
  */
 (function(){
     var TBC = angular.module('TBC',[]);
-    
+    var usActual;
     /**
      * Directiva y controlador de rutas
      */
@@ -874,11 +874,15 @@
     
     TBC.controller('usuario',function($http, $scope, $location){
     $scope.active = {};
+    
     $scope.login = function(){
+        console.log(JSON.stringify($scope.user));
         $http.post('http://localhost:9000/usuarios/login',JSON.stringify($scope.user)).success(function(data,headers){
             $scope.active = data;
+            usActual = data;
             $scope.crearReserva = false;
             $scope.verReserva = false;
+            console.log($scope.active);
             
         }).error(function(data, headers){
             
@@ -888,15 +892,56 @@
         
     };
     $scope.reservar = function(){
+        
         $scope.reserva.ruta.tipo = "Ruta Mobibus";
-        $scope.reserva.usuarioId = $scope.active.numeroIdentificacion;
+        $scope.reserva.usuarioId = usActual.numeroIdentificacion;
+        console.log($scope.active);
+        console.log(JSON.stringify($scope.reserva));
+        $http.put('http://localhost:9000/usuarios/reserva',JSON.stringify($scope.reserva)).success(function(data,headers){
+            console.log(data);
+            
+        }).error(function(data, headers){
+            log(data);
+        });
     };
     $scope.accioncrear = function(){
-        $scope.crearReserva = true;
+        if($scope.crearReserva === false)
+            $scope.crearReserva = true;   
+        else
+            $scope.crearReserva = false;
+        
     };
     
+    $scope.verReservas = function(){
+        $scope.reservasus = [];
+        $http.get('http://localhost:9000/usuarios/'+$scope.active.numeroIdentificacion + '/reservas').
+            success(function(data, status, headers, config) {
+                for(i = 0; i < data.length; i++){
+                    var res = {
+                        id : data[i].id,
+                        ubicacionorigen : data[i].ruta.ubicacionOrigen,
+                        ubicaciondestino : data[i].ruta.ubicacionDestino,
+                        fecha : data[i].fecha,
+                        precio : data[i].precio,
+                        estado : data[i].estado,
+                        turno : data[i].turno
+                    }; 
+                    $scope.tranvias.push(res);
+                    $scope.cancelarRes = function(ind){
+                    $http.delete('http://localhost:9000/reservas/'+$scope.active.numeroIdentificacion).
+                        success(function(data, status, headers, config) {
+                        
+                });
+                }       
+    }
+            });
+        }
+    
     $scope.accionver = function(){
-        $scope.verReserva = true;
+        if($scope.verReserva === false)
+            $scope.verReserva = true;
+         else
+            $scope.verReserva = false;
     };
     
     

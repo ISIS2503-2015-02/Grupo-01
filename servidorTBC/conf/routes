@@ -158,6 +158,8 @@ DELETE	/reservas/:id 				controllers.ReservaController.eliminarReserva(id: Long)
 
 GET		/usuarios					controllers.UsuarioController.darUsuarios()
 
+GET		/usuarios/:id/reservas		controllers.UsuarioController.darReservasUsuario(id: Long)
+
 POST	/usuarios 					controllers.UsuarioController.crearUsuario()
 
 PUT		/usuarios/reserva 			controllers.UsuarioController.crearReserva()
