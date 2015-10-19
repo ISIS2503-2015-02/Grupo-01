@@ -78,8 +78,7 @@
                             capacidad: data[i].capacidad
                             }; 
                             $scope.busesCerc.push(busc);
-                            console.log($scope.busesCerc);
-                        }
+                            }
                         $scope.markersbus = [];
                         var mapOptions = {
                             zoom: 14,
@@ -257,13 +256,13 @@
               fechaVencimientoLicencia : data.fechaVencimientoLicencia
               };
               $scope.conductores.push(conduc);
-              $scope.$apply();
               $scope.formulario = false;
               $scope.conductor={};
                 
             }).error(function(data, status, headers, config){
                 
             });
+            $scope.$apply();
         };
         $http.get('http://localhost:9000/conductores').success(function(data, status, headers, config){
             for(i = 0; i < data.length; i++){
@@ -367,7 +366,39 @@
     TBC.controller("vcub", function($http, $scope){
         $scope.bicis = [];
         $scope.formulario = false;
-        
+        $scope.show = false;
+        $scope.mostrarTab = function(){
+            $scope.show = true;
+        };
+        $scope.ocultarTab = function(){
+            $scope.show = false;
+        };
+        $scope.showForm = function(){
+           $scope.formulario = true;
+        };
+        $scope.ocultarForm = function(){
+            $scope.formulario = false;
+        };
+        $scope.addEstation = function(){
+            $http.post('http://localhost:9000/estaciones', JSON.stringify($scope.estation)).success(function(data, status, headers, config){
+                var estacion = {
+                            id : data.id,
+                            capacidad : data.capacidad,
+                            ubicacion : data.ubicacion,
+                            llena : data.llena,
+                            ocupacion : data.ocupacion,
+                            bicis : data.vcubs,
+                            longitud : data.longitud,
+                            latitud : data.latitud,
+                            mostrar : false
+                        };
+                        $scope.estaciones.push(estacion);
+                        $scope.ocultarForm();
+                        $scope.estation = {};
+            }).error(function(data, status, headers, config){
+                
+            });
+        };
         $scope.llenarTodas = function(){
             for (i = 0 ; i < $scope.estaciones.length; i++){
                var station = {
@@ -397,12 +428,14 @@
             }  
         };
         $scope.ocultar = function(index){
-            $scope.estaciones[index].mostrar = false;;
+            $scope.ocultarTab();
+            $scope.estaciones[index].mostrar = false;
             $scope.bicis = [];
         };
         $scope.mostrar = function(index){
            $scope.estaciones[index].mostrar = true;
            $scope.bicis = $scope.estaciones[index].bicis;
+           $scope.mostrarTab();
         };
         $scope.estaciones = [];
         $http.get('http://localhost:9000/estaciones').success(function(data, status, headers, config){
@@ -464,30 +497,54 @@
         return{
             restrict:'E',
             templateUrl:'partials/tabla-tranvia.html',
-            controller: 'getTranvia'
+            controller: 'tranviaapp'
         };
     });
  
-    TBC.controller("getTranvia", function($http, $scope) {
+    TBC.controller("tranviaapp", function($http, $scope) {
         $scope.tranvias = [];
-    $http.get('http://localhost:9000/tranvias').
-      success(function(data, status, headers, config) {
-          console.log(data);
-        
-        for(i = 0; i < data.length; i++){
-              var tran = {
-              estado : data[i].estado,
-              id : data[i].id,
-              panico : data[i].panico,
-              longitud : data[i].posiciones[data[i].posiciones.length-1].longitud,
-              latitud : data[i].posiciones[data[i].posiciones.length-1].latitud,
-              temperatura : data[i].temperatura
-            };
-        tran.isAccidentado = function(){
-          return tran.estado === "Accidentado";  
-        };  
-            $scope.tranvias.push(tran);
-        }
+        $scope.ocupados = false;
+        $scope.disponibles = false;
+        $scope.showForm = function(){
+            
+        };
+        $scope.hideForm = function(){
+            
+        };
+        $scope.addTranvia = function(){
+            
+        };
+        $scope.eliminar = function(index){
+            
+        };
+        $scope.showOcupados = function(){
+            
+        };
+        $scope.showDisponibles = function(){
+            
+        };
+        $scope.showAll = function(){
+            
+        };
+        $scope.showReviews = function(index){
+            
+        };
+        $http.get('http://localhost:9000/tranvias').
+            success(function(data, status, headers, config) {
+                for(i = 0; i < data.length; i++){
+                    var tran = {
+                        estado : data[i].estado,
+                        id : data[i].id,
+                        panico : data[i].panico,
+                        longitud : data[i].posiciones[data[i].posiciones.length-1].longitud,
+                        latitud : data[i].posiciones[data[i].posiciones.length-1].latitud,
+                        temperatura : data[i].temperatura
+                    };
+                    tran.isAccidentado = function(){
+                        return tran.estado === "Accidentado";  
+                    };  
+                    $scope.tranvias.push(tran);
+                }
         $scope.map = {
 		center: {
 			latitude: 40.454018, 
@@ -569,41 +626,45 @@
             controllerAs:'toolbar'
         };
     });
-    
-    TBC.directive('registrar', function(){
-       return{
-           restrict : 'E',
-           templateUrl: 'partials/resitrar.html',
-           controller: function(){
-               this.show = false;
-               this.isClicked = function(){
-                 this.show = true;  
-               };
-               this.unshow = function(){
-                 this.show = false;  
-               };
-           },
-           controllerAs: 'registrar'
-       }; 
-    });
-    
+       
     TBC.directive('registro', function(){
        return{
            restrict : 'E',
            templateUrl: 'partials/registro.html',
-           controller: 'registro'
+           controller: 'usuario'
        }; 
     });
     
-    TBC.controller('registro',function($http, $scope, $location){ 
+    TBC.directive('usuario',function(){
+        return {
+            restric : 'E',
+            templateUrl:'partials/usuario.html',
+            controller:'usuario'
+        };
+    });
+    
+    TBC.controller('usuario',function($http, $scope, $location){
+    $scope.active = {};
+    $scope.login = function(){
+        $http.post('http://localhost:9000/usuarios/login',JSON.stringify($scope.user)).success(function(data,headers){
+            
+        }).error(function(data, headers){
+            
+        });
+    };
+    $scope.logout = function(){
+        
+    };
+    $scope.reservar = function(){
+        
+    };
     $scope.addUser=function(){
-            console.log('entro');
             $http.post('http://localhost:9000/usuarios', JSON.stringify($scope.usuario)).success(function(data,headers){
                 $scope.usuario={};
                 window.location.assign("/FrontendTBC/index.html");
             });
         };	       
-});
+    });
     
     var compareTo = function() {
     return {

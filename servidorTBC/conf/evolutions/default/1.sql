@@ -101,6 +101,7 @@ create table usuario (
   condicion                 varchar(255),
   usuario                   varchar(255),
   password                  varchar(255),
+  constraint uq_usuario_usuario unique (usuario),
   constraint pk_usuario primary key (numero_identificacion))
 ;
 

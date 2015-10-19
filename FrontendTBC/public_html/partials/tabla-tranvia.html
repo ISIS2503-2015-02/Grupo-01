@@ -1,8 +1,15 @@
+<h4>Vehiculos 
+    | <a ng-click="showOcupados()" ng-if="!ocupados">Ver ocupados</a><a ng-click="showAll()" ng-if="ocupados">Ver todos</a> 
+    | <a ng-click="showDisponibles()" ng-if="!disponibles">Ver disonbiles</a><a ng-click="showAll()" ng-if="disponibles">Ver todos</a>
+    | <a ng-click="form()">Agregar tranvia</a>
+</h4>
+<form ng-controller="tranviaapp" ng-submit="addTranvia()">
+    
+</form>
 <div id="map"></div>
-    <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
-         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
-    </div>
-<h4>Vehiculos</h4>
+<div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+    <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+</div>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -12,6 +19,7 @@
             <th>Longitud</th>
             <th>Latitud</th>
             <th>Temperatura</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody id="sensualtablabody">
@@ -23,6 +31,7 @@
             <td>{{tranvia.longitud}}</td>
             <td>{{tranvia.latitud}}</td>
             <td>{{tranvia.temperatura}}</td>
+            <td><a></a></td>
         </tr>
         <tr ng-repeat="tranvia in tranvias | orderBy: 'id'" ng-if="!tranvia.isAccidentado()">
             <td>{{tranvia.id}}</td>

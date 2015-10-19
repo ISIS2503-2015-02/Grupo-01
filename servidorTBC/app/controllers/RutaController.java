@@ -152,8 +152,8 @@ public class RutaController extends Controller {
             double tempposY = tempPos.getLongitud();
             double tempposX = tempPos.getLatitud();
 
-            if(tempposX > (posX + 0.02) || tempposX < (posX - 0.02) || 
-             tempposY > (posY + 0.02) || tempposY < (posY - 0.02)){
+            if(tempposX > (posX + 0.2) || tempposX < (posX - 0.2) || 
+             tempposY > (posY + 0.2) || tempposY < (posY - 0.2)){
 
                 buses.remove(i);
                 i--;

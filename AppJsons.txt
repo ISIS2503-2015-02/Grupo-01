@@ -13,7 +13,9 @@
 //Estacion
 	/Crear
 	{  "capacidad" : 78,
-		"ubicacion" : "Bulevar niza" 
+		"ubicacion" : "Bulevar niza"
+		"longitud" : 4.711531,
+		"latitud" : -74.071946
 	}
 
 	/Llenar
@@ -53,7 +55,13 @@
 
 //Usuario
 	/Crear
-		-
+	{  "identificacion" : "102837546",
+		"edad" : 25,
+		"nombre" : "Paul",
+		"tipoId" : "C.C",
+		"telefono" : "4535678",
+		"condicion": "Paralitico"
+	}
 	
 	/Crear reserva
 	{

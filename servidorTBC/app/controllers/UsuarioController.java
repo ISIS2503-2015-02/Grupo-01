@@ -75,4 +75,16 @@ public class UsuarioController extends Controller {
       return ok(Json.toJson(usuario));  
     }
 
+    public Result login(){
+        JsonNode j = Controller.request().body().asJson();
+        String user = j.findPath("user").asText();
+        String pass = j.findPath("pass").asText();
+        Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).where().eq("usuario",user).eq("password",pass).findUnique();
+        return ok(Json.toJson(usuario));
+    }
+
+    public Result logout(){
+        return ok();
+    }
+
 }

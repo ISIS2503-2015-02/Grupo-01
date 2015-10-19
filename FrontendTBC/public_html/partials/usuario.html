@@ -1,0 +1,54 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">TBC</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right" role="form" action="index.html" ng-controller="usuario" ng-submit="logout()">
+            <button type="submit" class="btn btn-info" >Cerrar Sesi&oacute;n</button>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav> 
+      
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="images/man.png">
+            </div>
+            <div class="col-md-10">
+                <h2>{{usuario.nombre}}</h2>
+                <h4>Bienvenido</h4>
+            </div>
+        </div>  
+    </div>
+</div>
+        
+<div class="container">
+    <form role="form" ng-controller="usuario" ng-submit="reservar()">
+        <h3>Sistema de reserva</h3><br>
+        <div class="row form-group">
+            <div class="col-md-4">
+                Escoge la estaci&oacute;n de la cual deseas separar un v-cub
+            </div>
+            <div class="col-md-7 "> 
+                <select class="form-control" name="estaciones">
+                    <option>Chapinero</option>
+                    <option>Usaquen</option>
+                    <option>Centro</option>
+                    <option>Teusaquillo</option>
+                    <option>Suba</option>
+                    <option>Candelaria</option>
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="row form-group">
+            <input type="submit" value="Reservar" name="reserva" class="btn btn-info btn-lg" id="reserv">
+        </div> 
+    </form>
+    <footer>
+        <p>&copy; TBC 2015</p>
+    </footer>
+</div>

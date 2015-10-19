@@ -1,7 +1,7 @@
 <h4>Conductores | <a ng-click="mostrarFormulario()">Agregar conductor</a></h4>
 <div class="container" ng-if="formulario">
     <h2>Formulario Conductor</h2>  
-    <form ng-submit="addDriver()">
+    <form ng-submit="addDriver()" ng-controller="getConductores" novalidate>
         <div class="form-group">
             <label for="exampleInputEmail1">Nombre</label>
             <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" ng-model="conductor.nombre">

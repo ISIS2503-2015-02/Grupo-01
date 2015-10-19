@@ -12,10 +12,10 @@
             <th>Capacidad</th>
             <th>Latitud</th>
             <th>Longitud</th>
+            <th>Acciones</th>
         </tr>
     </thead>
-    <tbody id="sensualtablabody">
-        
+    <tbody id="sensualtablabody">  
         <tr ng-repeat="bus in buses | orderBy: 'id'" ng-if="bus.isAccidentado()" class="danger">
             <td>{{bus.id}}</td>
             <td>{{bus.estado}}</td>
@@ -23,6 +23,7 @@
             <td>{{bus.capacidad}}</td>
             <td>{{bus.Latitud}}</td>
             <td>{{bus.Longitud}}</td>
+            <td><a ng-click="revisiones($index)">Ver revisiones</a>|<a ng-click="elimina($index)">Eliminar</a></td>
         </tr>
         <tr ng-repeat="bus in buses | orderBy: 'id'" ng-if="!bus.isAccidentado()">
             <td>{{bus.id}}</td>
@@ -31,7 +32,7 @@
             <td>{{bus.capacidad}}</td>
             <td>{{bus.latitud}}</td>
             <td>{{bus.longitud}}</td>
-        </tr>
-        
+            <td>a ng-click="revisiones($index)">Ver revisiones</a>|<a ng-click="elimina($index)">Eliminar</a></td>
+        </tr>    
     </tbody>                
 </table>

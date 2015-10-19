@@ -20,6 +20,7 @@ public class Usuario  extends Persona{
     //--------------------------------------------
     private String condicion;
 
+    @Column(unique = true)
     private String usuario;
 
     private String password;
