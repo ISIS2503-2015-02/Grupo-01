@@ -16,7 +16,7 @@
     </thead>
     <tbody id="sensualtablabody">
         
-        <tr ng-repeat="ruta in rutas | orderBy: 'id'" ng-if="ruta.accidentada()" class="danger">
+        <tr ng-repeat="ruta in rutas | orderBy: 'id'" ng-if="!(ruta.terminado==='Anormal')">
             <td>{{ruta.id}}</td>
             <td>{{ruta.ubicaiconOrigen}}</td>
             <td>{{ruta.ubicacionDestino}}</td>
@@ -25,21 +25,8 @@
             <td>{{ruta.terminado}}</td>
             <td>{{ruta.tipoAccidente}}</td>
             <td ng-if="ruta.vehiculoTranvia() && ruta.vehiculoBus()"> Ninguno </td>
-            <td ng-if="!ruta.vehiculoTranvia()"> Tranvia {{ruta.tranvia.id}} </td>
-            <td ng-if="!ruta.vehiculoBus()"> Mobibus {{ruta.bus.id}} </td>
-            <td>{{ruta.conductor}}</td>
-        </tr>
-        <tr ng-repeat="ruta in rutas | orderBy: 'id'" ng-if="!ruta.accidentada()">
-            <td>{{ruta.id}}</td>
-            <td>{{ruta.ubicaiconOrigen}}</td>
-            <td>{{ruta.ubicacionDestino}}</td>
-            <td>{{ruta.tipo}}</td>
-            <td>{{ruta.tiempoTrayecto}}</td>
-            <td>{{ruta.terminado}}</td>
-            <td>{{ruta.tipoAccidente}}</td>
-            <td ng-if="ruta.vehiculoTranvia() && ruta.vehiculoBus()"> Ninguno </td>
-            <td ng-if="!ruta.vehiculoTranvia()"> Tranvia {{ruta.tranvia.id}} </td>
-            <td ng-if="!ruta.vehiculoBus()"> Mobibus {{ruta.bus.id}} </td>
+            <td ng-if="!(ruta.tranvia === null)"> Tranvia {{ruta.tranvia.id}} </td>
+            <td ng-if="!(ruta.bus === null)"> Mobibus {{ruta.bus.id}} </td>
             <td>{{ruta.conductor.numeroIdentificacion}}</td>
         </tr>
  

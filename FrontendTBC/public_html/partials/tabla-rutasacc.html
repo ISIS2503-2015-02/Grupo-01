@@ -30,7 +30,7 @@
             <td ng-if="!rutaac.vehiculoTranvia()"> Tranvia {{rutaac.tranvia.id}} </td>
             <td ng-if="!rutaac.vehiculoBus()"> Mobibus {{rutaac.bus.id}} </td>
             <td>{{rutaac.conductor.numeroIdentificacion}}</td>
-            <td><a ng-click="mostrar($index)">Ver mobibuses cercanos</a> </td>
+            <td><button ng-click="mostrar($index)">Ver mobibuses cercanos</button> </td>
         </tr>
         
         

@@ -111,12 +111,13 @@
                         }
                         
                         $scope.asignarMobibus = function(ind){
-                            console.log(JSON.stringify({mobibusId: $scope.busesCerc[ind].id , rutaId: $scope.rutasacc[index].id}));
-                            $http.put('http://localhost:9000/rutas/asignacionMobibus', JSON.stringify({mobibusId: $scope.busesCerc[ind] , rutaId: $scope.rutasacc[index].id})).success(function(data,headers){
+                            $http.put('http://localhost:9000/rutas/asignacionMobibus', JSON.stringify({mobibusId: $scope.busesCerc[ind].id , rutaId: $scope.rutasacc[index].id})).success(function(data,headers){
                             $scope.rutasacc[index]=data;
                             console.log(data);
-                            console.log(hola);
+                        }).error(function(data, headers){
+                            console.log(data);
                         });
+                                
                         }
                     })};
                 
@@ -156,7 +157,7 @@
               };
               
               ruta.accidentada = function(){
-                  return ruta.terminado==='Anormal';
+                  return ruta.terminado==="Anormal";
               }
               
               ruta.vehiculoTranvia = function(){
@@ -586,7 +587,7 @@
         
             var marker = new google.maps.Marker({
                 map: $scope.map,
-                position: new google.maps.LatLng(info.posiciones[info.posiciones.length-1].longitud, info.posiciones[info.posiciones.length-1].latitud),
+                position: new google.maps.LatLng(info.posiciones[info.posiciones.length-1].latitud, info.posiciones[info.posiciones.length-1].longitud ),
             });
         
         marker.content = '<div class="infoWindowContent"> Tranvia ' + info.id + '</div>';
@@ -647,6 +648,9 @@
     $scope.active = {};
     $scope.login = function(){
         $http.post('http://localhost:9000/usuarios/login',JSON.stringify($scope.user)).success(function(data,headers){
+            $scope.active = data;
+            $scope.crearReserva = false;
+            $scope.verReserva = false;
             
         }).error(function(data, headers){
             
@@ -656,8 +660,18 @@
         
     };
     $scope.reservar = function(){
-        
+        $scope.reserva.ruta.tipo = "Ruta Mobibus";
+        $scope.reserva.usuarioId = $scope.active.numeroIdentificacion;
     };
+    $scope.accioncrear = function(){
+        $scope.crearReserva = true;
+    };
+    
+    $scope.accionver = function(){
+        $scope.verReserva = true;
+    };
+    
+    
     $scope.addUser=function(){
             $http.post('http://localhost:9000/usuarios', JSON.stringify($scope.usuario)).success(function(data,headers){
                 $scope.usuario={};

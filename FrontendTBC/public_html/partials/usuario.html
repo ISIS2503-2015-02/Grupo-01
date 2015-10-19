@@ -26,28 +26,35 @@
 </div>
         
 <div class="container">
-    <form role="form" ng-controller="usuario" ng-submit="reservar()">
-        <h3>Sistema de reserva</h3><br>
+    <form role="form" ng-controller="usuario">
+        <h3>Sistema de reservas</h3><br>
         <div class="row form-group">
-            <div class="col-md-4">
-                Escoge la estaci&oacute;n de la cual deseas separar un v-cub
-            </div>
-            <div class="col-md-7 "> 
-                <select class="form-control" name="estaciones">
-                    <option>Chapinero</option>
-                    <option>Usaquen</option>
-                    <option>Centro</option>
-                    <option>Teusaquillo</option>
-                    <option>Suba</option>
-                    <option>Candelaria</option>
-                </select>
-            </div>
-        </div>
         <br>
         <div class="row form-group">
-            <input type="submit" value="Reservar" name="reserva" class="btn btn-info btn-lg" id="reserv">
+            <input type="submit" value="Reservar" name="reserva" class="btn btn-info btn-lg" id="reserv" ng-click="accioncrear()">
+            <input type="submit" value="Verificar Reservas" name="reserva" class="btn btn-info btn-lg" id="reserv" ng-click="accionver()">
         </div> 
     </form>
+    
+    <div class="container" ng-if="crearReserva">
+    <h2>Formulario Conductor</h2>  
+    <form ng-submit="addDriver()" ng-controller="usuario" novalidate>
+        <div class="form-group" >
+            <label for="exampleInputEmail1">Ubicación Origen</label>
+            <input type="text" class="form-control"  placeholder="Ingrese el nombre" ng-model="reserva.ubicacionOrigen">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Ubicacion destino</label>
+            <input type="text" class="form-control"  placeholder="Ingrese el n&uacute;mero de identificaci&oacute;n" ng-model="reserva.ubicacionDestino">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Fecha de viaje</label>
+            <input type="date" class="form-control"  ng-model="reserva.fechaVencimientoLicencia">
+        </div>
+        <button type="submit" class="btn btn-default">Crear</button>    <button type="reset" ng-click="ocultar()" class="btn btn-default">Cancelar</button>
+    </form>
+</div>  
+    
     <footer>
         <p>&copy; TBC 2015</p>
     </footer>
