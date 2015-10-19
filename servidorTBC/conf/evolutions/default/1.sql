@@ -31,6 +31,7 @@ create table mobibus (
   estado                    varchar(255),
   capacidad                 integer,
   placa                     varchar(255),
+  ruta_id                   bigint,
   constraint pk_mobibus primary key (id))
 ;
 
@@ -89,6 +90,7 @@ create table tranvia (
   presion_choque            double,
   temperatura               double,
   panico                    boolean,
+  ruta_id                   bigint,
   constraint pk_tranvia primary key (id))
 ;
 
@@ -118,30 +120,34 @@ create sequence conductor_seq;
 
 create sequence usuario_seq;
 
-alter table posicion add constraint fk_posicion_tranvia_1 foreign key (tranvia_id) references tranvia (id) on delete restrict on update restrict;
-create index ix_posicion_tranvia_1 on posicion (tranvia_id);
-alter table posicion add constraint fk_posicion_vcub_2 foreign key (vcub_id) references vcub (id) on delete restrict on update restrict;
-create index ix_posicion_vcub_2 on posicion (vcub_id);
-alter table posicion add constraint fk_posicion_mobibus_3 foreign key (mobibus_id) references mobibus (id) on delete restrict on update restrict;
-create index ix_posicion_mobibus_3 on posicion (mobibus_id);
-alter table reserva add constraint fk_reserva_ruta_4 foreign key (ruta_id) references ruta (id) on delete restrict on update restrict;
-create index ix_reserva_ruta_4 on reserva (ruta_id);
-alter table reserva add constraint fk_reserva_usuario_5 foreign key (usuario_numero_identificacion) references usuario (numero_identificacion) on delete restrict on update restrict;
-create index ix_reserva_usuario_5 on reserva (usuario_numero_identificacion);
-alter table revision add constraint fk_revision_tranv_6 foreign key (tranvia_id) references tranvia (id) on delete restrict on update restrict;
-create index ix_revision_tranv_6 on revision (tranvia_id);
-alter table revision add constraint fk_revision_mobi_7 foreign key (mobibus_id) references mobibus (id) on delete restrict on update restrict;
-create index ix_revision_mobi_7 on revision (mobibus_id);
-alter table ruta add constraint fk_ruta_bus_8 foreign key (mobibus_id) references mobibus (id) on delete restrict on update restrict;
-create index ix_ruta_bus_8 on ruta (mobibus_id);
-alter table ruta add constraint fk_ruta_tranvia_9 foreign key (tranvia_id) references tranvia (id) on delete restrict on update restrict;
-create index ix_ruta_tranvia_9 on ruta (tranvia_id);
-alter table ruta add constraint fk_ruta_conductor_10 foreign key (conductor_numero_identificacion) references conductor (numero_identificacion) on delete restrict on update restrict;
-create index ix_ruta_conductor_10 on ruta (conductor_numero_identificacion);
-alter table vcub add constraint fk_vcub_usuario_11 foreign key (usuario_numero_identificacion) references usuario (numero_identificacion) on delete restrict on update restrict;
-create index ix_vcub_usuario_11 on vcub (usuario_numero_identificacion);
-alter table vcub add constraint fk_vcub_estacion_12 foreign key (estacion_id) references estacion (id) on delete restrict on update restrict;
-create index ix_vcub_estacion_12 on vcub (estacion_id);
+alter table mobibus add constraint fk_mobibus_ruta_1 foreign key (ruta_id) references ruta (id) on delete restrict on update restrict;
+create index ix_mobibus_ruta_1 on mobibus (ruta_id);
+alter table posicion add constraint fk_posicion_tranvia_2 foreign key (tranvia_id) references tranvia (id) on delete restrict on update restrict;
+create index ix_posicion_tranvia_2 on posicion (tranvia_id);
+alter table posicion add constraint fk_posicion_vcub_3 foreign key (vcub_id) references vcub (id) on delete restrict on update restrict;
+create index ix_posicion_vcub_3 on posicion (vcub_id);
+alter table posicion add constraint fk_posicion_mobibus_4 foreign key (mobibus_id) references mobibus (id) on delete restrict on update restrict;
+create index ix_posicion_mobibus_4 on posicion (mobibus_id);
+alter table reserva add constraint fk_reserva_ruta_5 foreign key (ruta_id) references ruta (id) on delete restrict on update restrict;
+create index ix_reserva_ruta_5 on reserva (ruta_id);
+alter table reserva add constraint fk_reserva_usuario_6 foreign key (usuario_numero_identificacion) references usuario (numero_identificacion) on delete restrict on update restrict;
+create index ix_reserva_usuario_6 on reserva (usuario_numero_identificacion);
+alter table revision add constraint fk_revision_tranv_7 foreign key (tranvia_id) references tranvia (id) on delete restrict on update restrict;
+create index ix_revision_tranv_7 on revision (tranvia_id);
+alter table revision add constraint fk_revision_mobi_8 foreign key (mobibus_id) references mobibus (id) on delete restrict on update restrict;
+create index ix_revision_mobi_8 on revision (mobibus_id);
+alter table ruta add constraint fk_ruta_bus_9 foreign key (mobibus_id) references mobibus (id) on delete restrict on update restrict;
+create index ix_ruta_bus_9 on ruta (mobibus_id);
+alter table ruta add constraint fk_ruta_tranvia_10 foreign key (tranvia_id) references tranvia (id) on delete restrict on update restrict;
+create index ix_ruta_tranvia_10 on ruta (tranvia_id);
+alter table ruta add constraint fk_ruta_conductor_11 foreign key (conductor_numero_identificacion) references conductor (numero_identificacion) on delete restrict on update restrict;
+create index ix_ruta_conductor_11 on ruta (conductor_numero_identificacion);
+alter table tranvia add constraint fk_tranvia_ruta_12 foreign key (ruta_id) references ruta (id) on delete restrict on update restrict;
+create index ix_tranvia_ruta_12 on tranvia (ruta_id);
+alter table vcub add constraint fk_vcub_usuario_13 foreign key (usuario_numero_identificacion) references usuario (numero_identificacion) on delete restrict on update restrict;
+create index ix_vcub_usuario_13 on vcub (usuario_numero_identificacion);
+alter table vcub add constraint fk_vcub_estacion_14 foreign key (estacion_id) references estacion (id) on delete restrict on update restrict;
+create index ix_vcub_estacion_14 on vcub (estacion_id);
 
 
 

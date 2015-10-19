@@ -23,6 +23,8 @@ public class RutaController extends Controller {
         JsonNode j = Controller.request().body().asJson();
         Ruta ruta = Ruta.bind(j);
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("estado", Cons.V_DISPONIBLE).findList().get(0);
+        tranvia.setEstado(Cons.V_OCUPADO);
+        tranvia.update();
         ruta.setTranvia(tranvia);
         ruta.save();
         

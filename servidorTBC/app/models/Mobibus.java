@@ -31,6 +31,11 @@ public class Mobibus extends Model{
     @OneToMany(cascade=CascadeType.ALL)
     private List<Revision> revisiones;
 
+    @ManyToOne
+    @JoinColumn(name="ruta_id")
+    @JsonBackReference
+    private Ruta ruta;
+
     //-----------------------------------------------------------
     // Constructores
     //-----------------------------------------------------------
@@ -107,6 +112,15 @@ public class Mobibus extends Model{
 
     public void agregarRevision(Revision rev){
         this.revisiones.add(rev);
+    }
+
+    @JsonIgnore
+    public Ruta getRuta(){
+        return ruta;
+    }
+
+    public void setRuta(Ruta ruta){
+        this.ruta = ruta;
     }
 
     //-----------------------------------------------------------

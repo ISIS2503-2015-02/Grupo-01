@@ -30,6 +30,7 @@ public class Reserva extends Model {
 
     private double costo;
 
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int turno;
 
     @OneToOne
@@ -122,12 +123,9 @@ public class Reserva extends Model {
     //-----------------------------------------------------------
 
     public static Reserva bind(JsonNode j){
-        String esta = j.findPath("estado").asText();
         String fechaa = j.findPath("fecha").asText();
         Date fechaDate = stringToDate(fechaa);
-        double elCosto = j.findPath("costo").asDouble();
-        int turnoEnFila = j.findPath("turno").asInt();
-        Reserva reserva = new Reserva(esta, fechaDate, elCosto, turnoEnFila, null);
+        Reserva reserva = new Reserva(Cons.R_ESPERA, fechaDate, 15000, 1, null);
         return reserva;
     }
 

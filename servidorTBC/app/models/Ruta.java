@@ -152,11 +152,8 @@ public class Ruta extends Model {
     public static Ruta bind(JsonNode j) {
         String ubicacionOri = j.findPath("ubicacionOrigen").asText();
         String ubicacionDes = j.findPath("ubicacionDestino").asText();
-        double tiempoTrayecto = j.findPath("tiempoTrayecto").asDouble();
         String tipoo = j.findPath("tipo").asText();
-        String terminado = j.findPath("terminado").asText();
-        String tipoAccidente = j.findPath("accidente").asText();
-        Ruta rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, terminado, tipoAccidente,null, null, null);
+        Ruta rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, 0.0, Cons.ET_CURSO, Cons.EA_NORMAL ,null , null , null);
         return rout;
     }
 }
