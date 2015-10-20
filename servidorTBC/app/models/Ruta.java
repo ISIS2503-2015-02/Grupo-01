@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.*; 
 
 @Entity
 public class Ruta extends Model {
@@ -40,6 +41,10 @@ public class Ruta extends Model {
     @ManyToOne
     @JoinColumn(name="conductor_numero_identificacion")
     private Conductor conductor;
+
+    @OneToOne
+    @JoinColumn(name="reserva_id")
+    private Reserva reserva;
 
     //-----------------------------------------------------------
     // Constructores
@@ -144,6 +149,16 @@ public class Ruta extends Model {
     public void setConductor(Conductor conductor){
         this.conductor = conductor;
     }
+
+    @JsonIgnore
+    public Reserva getReserva(){
+        return reserva;
+    }
+
+    public void setReserva(Reserva reserva){
+        this.reserva = reserva;
+    }
+
     
     //-----------------------------------------------------------
     // Métodos auxiliares
