@@ -46,5 +46,3 @@
 TBC.directive("compareTo", compareTo);
     
 })();
-
-
