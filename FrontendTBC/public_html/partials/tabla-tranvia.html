@@ -1,25 +1,42 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
+<h4>Vehiculos 
+    | <a ng-click="showOcupados()" ng-if="!ocupados">Ver ocupados</a><a ng-click="showAll()" ng-if="ocupados">Ver todos</a> 
+    | <a ng-click="showDisponibles()" ng-if="!disponibles">Ver disonbiles</a><a ng-click="showAll()" ng-if="disponibles">Ver todos</a>
+    | <a ng-click="form()">Agregar tranvia</a>
+</h4>
+<form ng-controller="tranviaapp" ng-submit="revisiones()">
+    
+</form>
+<div id="map"></div>
+<div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+    <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+</div>
 <table class="table table-hover">
     <thead>
         <tr>
-            <th>Tipo</th>
+            <th>ID</th>
             <th>Estado</th>
-            <th>Latitud</th> 
-            <th>Longitud</th>
+            <th>Panico activado</th> 
+            <th>Temperatura</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody id="sensualtablabody">
-        <tr ng-repeat="tranvia in tranvias | orderBy: 'id'">
+        
+        <tr ng-repeat="tranvia in tranvias | orderBy: 'id'" ng-if="tranvia.isAccidentado()" class="danger">
             <td>{{tranvia.id}}</td>
             <td>{{tranvia.estado}}</td>
-            <td>{{tranvia.presionChoque}}</td>
             <td>{{tranvia.panico}}</td>
-            <td>{{tranvia.revision}}</td>
-        </tr>            
+            <td>{{tranvia.temperatura}}</td>
+            <td><a ng-click="showReviews($index)">Ver revisiones</a></td>
+        </tr>
+        <tr ng-repeat="tranvia in tranvias | orderBy: 'id'" ng-if="!tranvia.isAccidentado()">
+            <td>{{tranvia.id}}</td>
+            <td>{{tranvia.estado}}</td>
+            <td>{{tranvia.panico}}</td>
+            <td>{{tranvia.longitud}}</td>
+            <td>{{tranvia.latitud}}</td>
+            <td>{{tranvia.temperatura}}</td>
+        </tr>
+        
     </tbody>                
 </table>

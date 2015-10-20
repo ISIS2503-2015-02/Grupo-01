@@ -8,9 +8,13 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import actions.CorsComposition;
+import actions.ForceHttps;
 
 import java.util.List;
 
+@CorsComposition.Cors
+//@ForceHttps.Https
 public class ConductorController extends Controller{
 	
 	@BodyParser.Of(BodyParser.Json.class)
@@ -35,6 +39,13 @@ public class ConductorController extends Controller{
       
       response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(conductor));  
+    }
+
+    public Result eliminarConductor(Long cedula){
+      Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(cedula);
+      conductor.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
     }
 
     public Result eliminarConductores(){

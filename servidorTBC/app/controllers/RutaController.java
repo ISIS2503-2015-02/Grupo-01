@@ -8,17 +8,23 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import actions.CorsComposition;
+import actions.ForceHttps;
 
 import java.util.List;
 import java.util.ArrayList;
 
+@CorsComposition.Cors
+//@ForceHttps.Https
 public class RutaController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result crearRuta() {
         JsonNode j = Controller.request().body().asJson();
         Ruta ruta = Ruta.bind(j);
-        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("estado", Cons.V_DISPONIBLE).findUnique();
+        Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("estado", Cons.V_DISPONIBLE).findList().get(0);
+        tranvia.setEstado(Cons.V_OCUPADO);
+        tranvia.update();
         ruta.setTranvia(tranvia);
         ruta.save();
         
@@ -31,7 +37,14 @@ public class RutaController extends Controller {
         JsonNode j = Controller.request().body().asJson();
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(new Long(j.findPath("tranviaId").asInt()));
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
-        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(new Long(j.findPath("conductorId").asInt()));
+        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).where().eq("estado", Cons.V_DISPONIBLE).findList().get(0);
+        tranvia.setEstado(Cons.V_OCUPADO);
+        tranvia.update();
+        conductor.setEstado(Cons.V_OCUPADO);
+        conductor.update();
+        ruta.setBus(null);
+        ruta.setTipoAccidente(Cons.EA_NORMAL);
+        ruta.setTerminado(Cons.ET_CURSO);
         ruta.setTranvia(tranvia);
         ruta.setConductor(conductor);
         ruta.update();
@@ -46,7 +59,14 @@ public class RutaController extends Controller {
         JsonNode j = Controller.request().body().asJson();
         Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(new Long(j.findPath("mobibusId").asInt()));
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
-        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(new Long(j.findPath("conductorId").asInt()));
+        Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).where().eq("estado", Cons.V_DISPONIBLE).findList().get(0);
+        mobibus.setEstado(Cons.V_OCUPADO);
+        mobibus.update();
+        conductor.setEstado(Cons.V_OCUPADO);
+        conductor.update();
+        ruta.setTranvia(null);
+        ruta.setTipoAccidente(Cons.EA_NORMAL);
+        ruta.setTerminado(Cons.ET_CURSO);
         ruta.setBus(mobibus);
         ruta.setConductor(conductor);
         ruta.update();
@@ -65,7 +85,7 @@ public class RutaController extends Controller {
 
     public Result darRutasAccidenteTranvia(){
       List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
-      where().eq("tipo_accidente", "choque").eq("tipo", "tranvia").findList();
+      where().eq("tipo_accidente", "choque").eq("tipo", "Ruta tranvia").findList();
 
       response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(rutas));  
@@ -109,10 +129,9 @@ public class RutaController extends Controller {
         return ok(Json.toJson(ruta));
     }
 
-    @BodyParser.Of(BodyParser.Json.class)
-    public Result darBusesCercanosAccidente(){
+    public Result darBusesCercanosAccidente(Long id){
         JsonNode j = Controller.request().body().asJson();
-        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(new Long(j.findPath("rutaId").asInt()));
+        Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
         ruta.setTerminado(Cons.ET_ANORMAL);   
         Mobibus bus = ruta.getBus();
         Tranvia tranvia = ruta.getTranvia();
@@ -121,17 +140,34 @@ public class RutaController extends Controller {
         if(bus!=null)
             pos=bus.getPosiciones().get(bus.getPosiciones().size() - 1);
         else
-            pos=tranvia.getPosiciones().get(bus.getPosiciones().size() - 1);
+            pos=tranvia.getPosiciones().get(tranvia.getPosiciones().size() - 1);
 
-        double posX = pos.getLongitud();
-        double posY = pos.getLatitud();
+        double posY = pos.getLongitud();
+        double posX = pos.getLatitud();
+
+        List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).where().eq("estado", Cons.V_DISPONIBLE).findList();
+
+        for(int i = 0; i<buses.size();i++){
+
+            Mobibus buss = buses.get(i);
+            Posicion tempPos = buss.getPosiciones().get(buss.getPosiciones().size() - 1);
+            double tempposY = tempPos.getLongitud();
+            double tempposX = tempPos.getLatitud();
+
+            if(tempposX > (posX + 0.2) || tempposX < (posX - 0.2) || 
+             tempposY > (posY + 0.2) || tempposY < (posY - 0.2)){
+
+                buses.remove(i);
+                i--;
+            }
+        }
 
         response().setHeader("Access-Control-Allow-Origin", "*");
-        return ok(Json.toJson(ruta));
+        return ok(Json.toJson(buses));
     }
 
     public Result darRutasAccidentes(){
-        List<Ruta> rutas = new Model.Finder(Long.class, Mobibus.class).
+        List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
         where().eq("terminado", Cons.ET_ANORMAL).findList();
 
         response().setHeader("Access-Control-Allow-Origin", "*");
@@ -139,13 +175,14 @@ public class RutaController extends Controller {
     }
 
     public Result darRutasTerminadas(){
-        List<Ruta> rutas = new Model.Finder(Long.class, Mobibus.class).
+        List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
         where().eq("terminado", Cons.ET_TERMINADO).findList();
 
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(rutas));
     }
 
+    /**
     private double[][] darCoordenadas(double latitud, double longitud){
         double[][] coord = new double[4][2];
         double radLat = Math.toRadians(latitud);
@@ -161,9 +198,9 @@ public class RutaController extends Controller {
             coord[j][1] = longitudRadial;
         }
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
         return coord;
     }
+    */
 
     public Result eliminarRutas(){
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).all();
@@ -173,6 +210,13 @@ public class RutaController extends Controller {
 
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
+    }
+
+    public Result eliminarRuta(Long id){
+      Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
+      ruta.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
     }
 }
 

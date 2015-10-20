@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import java.io.Serializable;
@@ -9,18 +10,27 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import actions.CorsComposition;
+import actions.ForceHttps;
 
 
 import java.util.List;
 
+@CorsComposition.Cors
+//@ForceHttps.Https
 public class TranviaController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result crearTranvia() {
         JsonNode j = Controller.request().body().asJson();
         Tranvia tranvia = Tranvia.bind(j);
-        Posicion pos = Posicion.bind(j);
-        tranvia.agregarPosicion(pos);
+        
+        double[] coords = Utilidad.coordenadasNuevas();
+        Posicion posicion = new Posicion(coords[0], coords[1], new Date());
+        
+        //Posicion posicion = Posicion.bind(j);
+
+        tranvia.agregarPosicion(posicion);
         tranvia.save();
 
         response().setHeader("Access-Control-Allow-Origin", "*");
@@ -96,5 +106,12 @@ public class TranviaController extends Controller {
 
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
+    }
+
+    public Result eliminarTranvia(Long id){
+      Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
+      tranvia.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
     }
 }

@@ -2,6 +2,7 @@ package models;
 
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,11 @@ public class Tranvia extends Model{
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Revision> revisiones;
+
+	@ManyToOne
+	@JoinColumn(name="ruta_id")
+	@JsonBackReference
+	private Ruta ruta;
 
 	//-----------------------------------
 	// Constructores
@@ -116,6 +122,15 @@ public class Tranvia extends Model{
 	public void agregarRevision(Revision rev){
 		this.revisiones.add(rev);
 	}
+
+	@JsonIgnore
+	public Ruta getRuta(){
+        return ruta;
+    }
+
+    public void setRuta(Ruta ruta){
+        this.ruta = ruta;
+    }
 	// Crea un objeto a partir de un nodo JSon
     public static Tranvia bind(JsonNode j) {
         String estado = j.findPath("estado").asText();

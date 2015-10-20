@@ -1,0 +1,38 @@
+<div id="map"></div>
+    <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+    </div>
+<h4>Vehiculos</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Estado</th>
+            <th>Placa</th> 
+            <th>Capacidad</th>
+            <th>Latitud</th>
+            <th>Longitud</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">  
+        <tr ng-repeat="bus in buses | orderBy: 'id'" ng-if="bus.isAccidentado()" class="danger">
+            <td>{{bus.id}}</td>
+            <td>{{bus.estado}}</td>
+            <td>{{bus.placa}}</td>
+            <td>{{bus.capacidad}}</td>
+            <td>{{bus.Latitud}}</td>
+            <td>{{bus.Longitud}}</td>
+            <td><a ng-click="revisiones($index)">Ver revisiones</a>|<a ng-click="elimina($index)">Eliminar</a></td>
+        </tr>
+        <tr ng-repeat="bus in buses | orderBy: 'id'" ng-if="!bus.isAccidentado()">
+            <td>{{bus.id}}</td>
+            <td>{{bus.estado}}</td>
+            <td>{{bus.placa}}</td>
+            <td>{{bus.capacidad}}</td>
+            <td>{{bus.latitud}}</td>
+            <td>{{bus.longitud}}</td>
+            <td>a ng-click="revisiones($index)">Ver revisiones</a>|<a ng-click="elimina($index)">Eliminar</a></td>
+        </tr>    
+    </tbody>                
+</table>

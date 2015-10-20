@@ -1,0 +1,111 @@
+<div class="jumbotron">
+    <div class="container">
+        <form ng-submit="login()" ng-controller="usuario" novalidate>
+            <h3>Login</h3><br>
+                <div class="form-group" >
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" 
+                           ng-model="user.user">
+                </div>
+                <div class="form-group">
+                    <label>Contrasena</label>
+                    <input type="text" class="form-control"  ng-model="user.pass">
+                </div>
+                <button type="submit" class="btn btn-default">Login</button>    <button type="reset" class="btn btn-default">Cancelar</button>
+        </form>
+    </div>
+</div>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">TBC</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right" role="form" action="index.html" ng-controller="usuario" ng-submit="logout()">
+            <button type="submit" class="btn btn-info" >Cerrar Sesi&oacute;n</button>
+            </form>
+        </div><!--/.navbar-collapse -->
+    </div>
+</nav> 
+      
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2">
+                <img src="images/man.png">
+            </div>
+            <div class="col-md-10">
+                <h2>{{usuario.nombre}}</h2>
+                <h4>Bienvenido</h4>
+            </div>
+        </div>  
+    </div>
+</div>
+        
+<div class="container">
+    <form role="form" ng-controller="usuario">
+        <h3>Sistema de reservas</h3><br>
+        <div class="row form-group">
+        <br>
+        <div class="row form-group">
+            <input type="submit" value="Reservar" name="reserva" class="btn btn-info btn-lg" id="reserv" ng-click="accioncrear()">
+            <input type="submit" value="Verificar Reservas" name="reserva" class="btn btn-info btn-lg" id="reserv" ng-click="accionver()">
+        </div> 
+    </form>
+    
+    <div class="container" ng-if="crearReserva">
+    <h2>Formulario Reserva</h2>  
+    <form ng-submit="reservar()" ng-controller="usuario" novalidate>
+        <div class="form-group" >
+            <label for="exampleInputEmail1">Ubicación Origen</label>
+            <input type="text" class="form-control"  placeholder="Ingrese el nombre" ng-model="reserva.ruta.ubicacionOrigen">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Ubicacion destino</label>
+            <input type="text" class="form-control"  placeholder="Ingrese el n&uacute;mero de identificaci&oacute;n" ng-model="reserva.ruta.ubicacionDestino">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Fecha de viaje</label>
+            <input type="date" class="form-control"  ng-model="reserva.fecha">
+        </div>
+        <button type="submit" class="btn btn-default">Crear</button>    <button type="reset"  class="btn btn-default">Cancelar</button>
+    </form>
+</div>  
+    
+    <div class="container" ng-if="verReserva">
+    <h4>Reservas</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Turno</th>
+            <th>Estado</th>
+            <th>Fecha</th> 
+            <th>Precio</th>
+            <th>Ubicacion Origen</th>
+            <th>Ubicacion Destino</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">
+        
+        <tr ng-repeat="res in reservasus | orderBy: 'id'" >
+            <td>{{res.id}}</td>
+            <td>{{res.turno}}</td>
+            <td>{{res.estado}}</td>
+            <td>{{res.fecha}}</td>
+            <td>{{res.precio}}</td>
+            <td>{{res.ubicacionorigen}}</td>
+            <td>{{res.ubicaciondestino}}</td>
+            <td><a ng-click="cancelarRes($index)">Cancelar reserva</a> </td>
+        </tr>
+ 
+    </tbody>                
+</table>
+</div> 
+    
+    <footer>
+        <p>&copy; TBC 2015</p>
+    </footer>
+</div>

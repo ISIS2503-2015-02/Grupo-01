@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,16 +9,25 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import actions.CorsComposition;
+import actions.ForceHttps;
 
 import java.util.List;
 
+@CorsComposition.Cors
+//@ForceHttps.Https
 public class VcubController extends Controller{
 	
 	@BodyParser.Of(BodyParser.Json.class)
     public Result crearVcub() {
         JsonNode j = Controller.request().body().asJson();
         Vcub vcub = Vcub.bind(j);
-        Posicion pos = Posicion.bind(j);
+
+        double[] coords = Utilidad.coordenadasNuevas();
+        Posicion pos = new Posicion(coords[0], coords[1], new Date());
+        
+        //Posicion posicion = Posicion.bind(j);
+
         vcub.agregarPosicion(pos);
         vcub.save();
 
@@ -110,4 +120,12 @@ public class VcubController extends Controller{
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
+
+    public Result eliminarVcub(Long id){
+      Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
+      vcub.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
+    }
+
 }

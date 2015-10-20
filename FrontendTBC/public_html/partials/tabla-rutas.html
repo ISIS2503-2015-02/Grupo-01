@@ -1,0 +1,42 @@
+
+<h4>Rutas</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Ubicacion origen</th>
+            <th>Ubicacion destino</th> 
+            <th>Tipo de ruta</th>
+            <th>Tiempo trayecto</th>
+            <th>Estado</th>
+            <th>Tipo de accidente</th>
+            <th>Vehiculo</th>
+            <th>Conductor</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">
+        
+        <tr ng-repeat="ruta in rutas | orderBy: 'id'" ng-if="!(ruta.terminado==='Anormal')">
+            <td>{{ruta.id}}</td>
+            <td>{{ruta.ubicaiconOrigen}}</td>
+            <td>{{ruta.ubicacionDestino}}</td>
+            <td>{{ruta.tipo}}</td>
+            <td>{{ruta.tiempoTrayecto}}</td>
+            <td>{{ruta.terminado}}</td>
+            <td>{{ruta.tipoAccidente}}</td>
+            <td ng-if="ruta.vehiculoTranvia() && ruta.vehiculoBus()"> Ninguno </td>
+            <td ng-if="!(ruta.tranvia === null)"> Tranvia {{ruta.tranvia.id}} </td>
+            <td ng-if="!(ruta.bus === null)"> Mobibus {{ruta.bus.id}} </td>
+            <td>{{ruta.conductor.numeroIdentificacion}}</td>
+        </tr>
+ 
+    </tbody>                
+</table>
+
+<div id="map"></div>
+    <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+    </div>
+    <div id="class" ng-repeat="marker in markersbus | orderBy : 'title'">
+         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+    </div>

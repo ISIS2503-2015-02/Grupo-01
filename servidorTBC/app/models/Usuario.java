@@ -20,6 +20,11 @@ public class Usuario  extends Persona{
     //--------------------------------------------
     private String condicion;
 
+    @Column(unique = true)
+    private String usuario;
+
+    private String password;
+
     @OneToMany(cascade=CascadeType.ALL)
     @JsonManagedReference
     private List<Reserva> reservas;
@@ -30,10 +35,12 @@ public class Usuario  extends Persona{
     //--------------------------------------------
     public Usuario(){ super();}
 
-    public Usuario(Long identificacion, int edad, String nombre, String tipoId, String telefono,
+    public Usuario(String user, String pass,Long identificacion, int edad, String nombre, String tipoId, String telefono,
                    String condicion, List<Reserva> nReservas){
         super(identificacion, edad, nombre, tipoId, telefono);
         this.condicion = condicion;
+        this.usuario = user;
+        this.password = pass;
         reservas = nReservas;
     }
 
@@ -60,14 +67,32 @@ public class Usuario  extends Persona{
         reservas.add(nReserva);
     }
 
+    public void setUsuario(String usuario){
+        this.usuario = usuario;
+    }
+
+    public String getUsuario(){
+        return usuario;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
+    }
+
+    public String getPassword(){
+        return password;
+    }
+
     public static Usuario bind(JsonNode j) {
+        String user = j.findPath("user").asText();
+        String pass = j.findPath("pass").asText();
         Long id = new Long(j.findPath("identificacion").asInt());
         int edad = j.findPath("edad").asInt();
         String nombre = j.findPath("nombre").asText();
         String tipoId = j.findPath("tipoId").asText();
         String telefono = j.findPath("telefono").asText();
         String condicion = j.findPath("condicion").asText();
-        Usuario usuario = new Usuario(id, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>());
+        Usuario usuario = new Usuario(user, pass, id, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>());
         return usuario;
     }
 }

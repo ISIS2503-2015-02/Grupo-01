@@ -1,0 +1,61 @@
+<h4>Conductores | <a ng-click="mostrarFormulario()">Agregar conductor</a></h4>
+<div class="container" ng-if="formulario">
+    <h2>Formulario Conductor</h2>  
+    <form ng-submit="addDriver()" ng-controller="getConductores" novalidate>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Nombre</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" ng-model="conductor.nombre">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Identificaci&oacute;</label>
+            <input type="text" class="form-control" id="id" placeholder="Ingrese el n&uacute;mero de identificaci&oacute;n" ng-model="conductor.numeroIdentificacion">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Tipo de ID</label>
+            <input type="text" class="form-control" id="tipoID" placeholder="Ingrese el tipo de identificaci&oacute;n" ng-model="conductor.tipoId">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Telefono</label>
+            <input type="text" class="form-control" id="numero" placeholder="Ingrese el n&uacute;mero de telefono" ng-model="conductor.telefono">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Licencia de conducci&oacute;n</label>
+            <input type="text" class="form-control" id="licencia" placeholder="Ingrese la licencia" ng-model="conductor.licenciaDeConduccion">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Fecha de vencimiento</label>
+            <input type="date" class="form-control" id="fechaVencimineto" ng-model="conductor.fechaVencimientoLicencia">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Edad</label>
+            <input type="text" class="form-control" id="estado" placeholder="Ingrese la edad" ng-model="conductor.edad">
+        </div>
+        <button type="submit" class="btn btn-default">Crear</button>    <button type="reset" ng-click="ocultar()" class="btn btn-default">Cancelar</button>
+    </form>
+</div>  
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo de identificacion</th>
+            <th>Id</th> 
+            <th>Edad</th>
+            <th>Telefono</th>
+            <th>Licencia de conduccion</th>
+            <th>Vencimiento licencia</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">     
+        <tr ng-repeat="conductor in conductores | orderBy: 'id'" >
+            <td>{{conductor.nombre}}</td>
+            <td>{{conductor.tipoId}}</td>
+            <td>{{conductor.numeroIdentificacion}}</td>
+            <td>{{conductor.edad}}</td>
+            <td>{{conductor.telefono}}</td>
+            <td>{{conductor.licenciaDeConduccion}}</td>
+            <td>{{conductor.fechaVencimientoLicencia}}</td>
+            <td><a ng-click="eliminar($index)">Eliminar</a></td>
+        </tr>
+    </tbody>                
+</table>

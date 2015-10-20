@@ -1,0 +1,63 @@
+<div class="col-md-10">              
+    <h4>Estaciones | <a ng-click="$apply(llenarTodas())">LLenar estaciones</a> | <a ng-click="showForm()">Agregar estación</a></h4>
+    <form ng-if="formulario" ng-submit="addEstation()" ng-controller="vcub" >
+        <div class="form-group">
+            <label for="capacidad">Capacidad :</label>
+            <input ng-model="estation.capacidad" type="number" step="0.000001" id="capacidad" class="form-control" placeholder="Ingrese la capacidad">
+        </div>
+        <div class="form-group">
+            <label for="ubicacion">Ubicacion :</label>
+            <input ng-model="estation.ubicacion" type="Text" id="ubicacion" class="form-control" placeholder="Ingrese la capacidad">
+        </div>
+        <div class="form-group">
+            <label for="longitud">Longitud :</label>
+            <input ng-model="estation.longitud" type="number" step="0.000001" id="longitud" class="form-control" placeholder="Ingrese la capacidad">
+        </div>
+        <div class="form-group">
+            <label for="laitud">Latitud :</label>
+            <input ng-model="estation.latitud" type="number" step="0.000001" id="laitud" class="form-control" placeholder="Ingrese la capacidad">
+        </div>
+        <button type="submit" class="btn btn-default">Asignar</button>
+        <button type="reset" ng-click="ocultar()" class="btn btn-default">Cancelar</button>
+    </form>
+    <div id="map"></div>
+    <div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+         <a href="#" ng-click="openInfoWindow($event, marker)">{{marker.title}}</a>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ubicaci&oacute;n</th>
+                <th>Capacidad</th>
+                <th>Nivel de ocupaci&oacute;n
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="success" ng-repeat="estacion in estaciones | orderBy: 'id'">
+                <td>{{estacion.id}}</td>
+                <td>{{estacion.ubicacion}}</td>
+                <td>{{estacion.capacidad}}</td>
+                <td>{{estacion.ocupacion}}</td>
+                <td><a ng-click="mostrar($index)">Ver vcubs</a> <a ng-if="estacion.mostrar" ng-click="ocultar($index)">Ocultar vcubs</a> | <a ng-click="eliminar($index)">Eliminar</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<table class="table table-hover" ng-if="show">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Estado</th>
+            <th>Prestada a</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="success" ng-repeat="bici in bicis | orderBy: 'id'" ng-if="bicis.length > 0">
+            <td>{{bici.id}}</td>
+            <td>{{bici.estado}}</td>
+            <td>{{bici.usuario}}</td>
+        </tr>
+    </tbody>
+</table>

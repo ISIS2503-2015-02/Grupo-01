@@ -38,6 +38,8 @@ POST		/tranvias/posicion				controllers.TranviaController.actualizarUbicacion()
 
 DELETE		/tranvias 						controllers.TranviaController.eliminarTranvias()
 
+DELETE		/tranvias/:id 					controllers.TranviaController.eliminarTranvia(id: Long)
+
 # Servicios de ruta
 
 POST        /rutas                 			controllers.RutaController.crearRuta()
@@ -54,11 +56,15 @@ GET			/rutas/accidentes				controllers.RutaController.darRutasAccidentes()
 
 GET			/rutas/terminadas				controllers.RutaController.darRutasTerminadas()
 
+GET			/rutas/busesCercanos/:id		controllers.RutaController.darBusesCercanosAccidente(id: Long)
+
 PUT			/rutas/asignacionTranvia		controllers.RutaController.asignarTranvia()
 
 PUT			/rutas/asignacionMobibus		controllers.RutaController.asignarMobibus()
 
 DELETE		/rutas 							controllers.RutaController.eliminarRutas()
+
+DELETE		/rutas/:id 						controllers.RutaController.eliminarRuta(id: Long)
 
 # Servicios de conductor
 
@@ -69,6 +75,8 @@ GET			/conductores				controllers.ConductorController.darConductores()
 GET			/conductores/:id 			controllers.ConductorController.darConductor(id: Long)
 
 DELETE		/conductores  				controllers.ConductorController.eliminarConductores()
+
+DELETE		/conductores/:id 			controllers.ConductorController.eliminarConductor(id: Long)
 
 # Servicios de estacion
 
@@ -83,6 +91,8 @@ GET			/estaciones/:id 			controllers.EstacionController.darEstacion(id: Long)
 PUT			/estaciones/llenar			controllers.EstacionController.llenarEstacion()
 
 DELETE		/estaciones  				controllers.EstacionController.eliminarEstaciones()
+
+DELETE		/estaciones/:id 			controllers.EstacionController.eliminarEstacion(id: Long)
 
 
 # Servicios de mobibus
@@ -103,6 +113,9 @@ PUT			/mobibuses/posicion			controllers.MobibusController.actualizarUbicacion()
 
 DELETE		/mobibuses  				controllers.MobibusController.eliminarMobibuses()
 
+DELETE		/mobibuses/:id 				controllers.MobibusController.eliminarBus(id: Long)
+
+
 # Servicios de vcub	
 
 POST        /vcubs                 		controllers.VcubController.crearVcub()
@@ -121,7 +134,10 @@ PUT			/vcubs/adquirir				controllers.VcubController.adquirir()
 
 PUT			/vcubs/restituir			controllers.VcubController.restituir()
 
-DELETE		/vcubs 						controllers.VcubController.eliminarVcubs()	
+DELETE		/vcubs 						controllers.VcubController.eliminarVcubs()
+
+DELETE		/vcubs/:id 					controllers.VcubController.eliminarVcub(id: Long)
+
 
 # Servicios de Reserva
 
@@ -134,17 +150,29 @@ GET		/reservas/vencen			controllers.ReservaController.darReservasVencen()
 PUT		/reservas/asignacion		controllers.ReservaController.asignarReserva()
 
 DELETE  /reservas 					controllers.ReservaController.eliminarReservas()
+
+DELETE	/reservas/:id 				controllers.ReservaController.eliminarReserva(id: Long)
  
 # Servicios de usuario
 
 
 GET		/usuarios					controllers.UsuarioController.darUsuarios()
 
+GET		/usuarios/:id/reservas		controllers.UsuarioController.darReservasUsuario(id: Long)
+
 POST	/usuarios 					controllers.UsuarioController.crearUsuario()
 
 PUT		/usuarios/reserva 			controllers.UsuarioController.crearReserva()
 
-DELETE	/usuarios 					controllers.UsuarioController.eliminarUsuarios()			
+DELETE	/usuarios 					controllers.UsuarioController.eliminarUsuarios()	
+
+DELETE	/usuarios/:id 				controllers.UsuarioController.eliminarUsuario(id: Long)
+
+POST	/usuarios/login 			controllers.UsuarioController.login()
+
+POST	/usuarios/logout			controllers.UsuarioController.logout()		
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
+
+OPTIONS /*path						controllers.Application.preflight(path)

@@ -33,6 +33,10 @@ public class Estacion extends Model
 	 * Ubicacion de la estacion
 	 */
 	private String ubicacion;
+
+	private double longitud;
+
+	private double latitud;
 	
 	/**
 	 * Vector que contiene los Vcubs de la estacion
@@ -59,13 +63,15 @@ public class Estacion extends Model
 	 * @param ID
 	 * @param ubicacion
 	 */
-	public Estacion (int capacidad, String ubicacion)
+	public Estacion (int capacidad, String ubicacion, double longitud, double latitud)
 	{
 		this.capacidad = capacidad;
 		this.ubicacion = ubicacion;
 		this.vcubs = new ArrayList<Vcub>();
 		this.llena = false;
 		this.ocupacion = 0.0;
+		this.longitud = longitud;
+		this.latitud = latitud;
 	}
 
 	//Metodos
@@ -167,6 +173,22 @@ public class Estacion extends Model
 			llena=true;
 		}
 	}
+
+	public void setLongitud(double longitud){
+		this.longitud = longitud;
+	}
+
+	public double getLongitud(){
+		return longitud;
+	}
+
+	public void setLatitud(double latitud){
+		this.latitud = latitud;
+	}
+
+	public double getLatitud(){
+		return latitud;
+	}
 		
 	
 	/**
@@ -188,7 +210,9 @@ public class Estacion extends Model
 	public static Estacion bind(JsonNode j) {
         int capacidad = j.findPath("capacidad").asInt();
         String ubicacion = j.findPath("ubicacion").asText();
-        Estacion estacion= new Estacion(capacidad, ubicacion);
+        double latitud = j.findPath("latitud").asDouble();
+        double longitud = j.findPath("longitud").asDouble();
+        Estacion estacion= new Estacion(capacidad, ubicacion, longitud, latitud);
         return estacion;
     }	
 }

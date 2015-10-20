@@ -120,7 +120,7 @@ public class Posicion extends Model {
     	Date fecha = stringToDate(fechaStr);
     	double latitud = j.findPath("latitud").asDouble();
     	double longitud = j.findPath("longitud").asDouble();
-        Posicion posicion = new Posicion(latitud, longitud, fecha);
+        Posicion posicion = new Posicion(latitud, longitud, new Date());
         return posicion;
     }
 

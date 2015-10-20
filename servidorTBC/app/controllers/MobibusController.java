@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Date;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -8,16 +9,25 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import actions.CorsComposition;
+import actions.ForceHttps;
 
 import java.util.List;
 
+@CorsComposition.Cors
+//@ForceHttps.Https
 public class MobibusController extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result create() {
         JsonNode j = Controller.request().body().asJson();
         Mobibus bus = Mobibus.bind(j);
-        Posicion pos = Posicion.bind(j);
+        
+        double[] coords = Utilidad.coordenadasNuevas();
+        Posicion pos = new Posicion(coords[0], coords[1], new Date());
+        
+        //Posicion posicion = Posicion.bind(j);
+
         bus.agregarPosicion(pos);
         bus.save();
         
@@ -96,4 +106,12 @@ public class MobibusController extends Controller {
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(""));
     }
+
+    public Result eliminarBus(Long id){
+      Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
+      mobibus.delete();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(""));  
+    }
+
 }

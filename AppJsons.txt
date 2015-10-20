@@ -13,7 +13,9 @@
 //Estacion
 	/Crear
 	{  "capacidad" : 78,
-		"ubicacion" : "Bulevar niza" 
+		"ubicacion" : "Bulevar niza"
+		"longitud" : 4.711531,
+		"latitud" : -74.071946
 	}
 
 	/Llenar
@@ -53,28 +55,25 @@
 
 //Usuario
 	/Crear
-		{  "identificacion" : "102837546",
+	{  "identificacion" : "102837546",
 		"edad" : 25,
 		"nombre" : "Paul",
 		"tipoId" : "C.C",
 		"telefono" : "4535678",
-		"condicion": "Paralitico"
+		"condicion": "Paralitico",
+		"user": "hola",
+		"pass":"hola"
+
 	}
 	
 	/Crear reserva
 	{
     "usuarioId": "102837546",
-    "estado" : "En espera",
     "fecha": "11/4/2014",
-    "costo": 1445.3,
-    "turno": 1,
     "ruta":{
         "ubicacionOrigen": "Cr57A98",
         "ubicacionDestino": "Unicentro",
-        "tiempoTrayecto": 0.0,
-        "tipo": "Ruta movibus",
-        "terminado": "En curso",
-        "accidente": "Normal"
+        "tipo": "Ruta movibus"
 		}
 	}
 	

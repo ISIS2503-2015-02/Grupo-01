@@ -1,0 +1,127 @@
+<toolbar></toolbar> 
+<div class="jumbotron" >
+    <div class="container">
+        <h2>Reg&iacute;strate</h2>
+    </div>
+</div>
+<div class="container" >
+    <form role="form" ng-submit="addUser()" ng-controller="usuario">
+        <h4>Cuenta</h4><br>
+        <div class="row form-group">
+            <div class="col-md-2">
+                Usuario
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" placeholder="Escoge un usuario" id="user" ng-model="usuario.user" required>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2">
+                Contrase&ntilde;a
+            </div>
+            <div class="col-md-7">
+                <input type="password" class="form-control" placeholder="Ingresa una contraseña" id="pass" ng-model="usuario.pass" required>
+            </div>
+        </div>
+        <br>
+        <h4>Informaci&oacute;n Personal</h4><br>
+        <div class="row form-group">
+            <div class="col-md-2">
+                Nombre
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" placeholder="Ingresa tu nombre" id="nombre" required ng-model="usuario.nombre">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2">
+                C&eacute;dula
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" placeholder="Ingresa tu numero de cedula" id="cedula" required ng-model="usuario.identificacion">
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                Telefono
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" placeholder="Ingresa tu numero de telefono" id="telefono" required ng-model="usuario.telefono ">
+            </div>
+        </div>
+
+         <div class="row form-group">
+            <div class="col-md-2">
+                Tipo de documento
+            </div>
+            <div class="col-md-7">
+                <select class="form-control" id="tiposid" required ng-model="usuario.tipoId">
+                    <option value="Cedula">Cedula</option>
+                    <option value="Pasaporte">Pasaporte</option>
+                  </select>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                Edad
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" id="edad" required ng-model="usuario.edad">
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                Condici&oacute;n
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" id="condicion" ng-model="usuario.condicion">
+            </div>
+        </div>
+
+        <br>
+        <h4>Datos de Pago</h4><br>
+        <div class="row form-group">
+            <div class="col-md-2">
+                Tarjeta de Credito
+            </div>
+            <div class="col-md-7">
+                <select class="form-control">
+                    <option>Visa</option>
+                    <option>Master Card</option>
+                  </select>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                N&uacute;mero
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" placeholder="Ingresa tu numero de tarjeta" id="cedula">
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                Clave
+            </div>
+            <div class="col-md-7">
+                <input type="text" class="form-control" placeholder="Ingresa tu clave" id="cedula">
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2">
+                Fecha de vencimiento
+            </div>
+            <div class="col-md-7">
+                <input type="date" class="form-control" id="fecha_tarjeta">
+            </div>
+        </div>
+        <br>
+        <input type="submit" value="Registrarse" name="registro" class="btn btn-info btn-lg" id="registro">
+    </form>           
+</div>
