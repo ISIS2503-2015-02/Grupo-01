@@ -16,8 +16,6 @@
             <th>ID</th>
             <th>Estado</th>
             <th>Panico activado</th> 
-            <th>Longitud</th>
-            <th>Latitud</th>
             <th>Temperatura</th>
             <th>Acciones</th>
         </tr>
@@ -28,10 +26,8 @@
             <td>{{tranvia.id}}</td>
             <td>{{tranvia.estado}}</td>
             <td>{{tranvia.panico}}</td>
-            <td>{{tranvia.longitud}}</td>
-            <td>{{tranvia.latitud}}</td>
             <td>{{tranvia.temperatura}}</td>
-            <td><a></a></td>
+            <td><a ng-click="showReviews($index)">Ver revisiones</a></td>
         </tr>
         <tr ng-repeat="tranvia in tranvias | orderBy: 'id'" ng-if="!tranvia.isAccidentado()">
             <td>{{tranvia.id}}</td>

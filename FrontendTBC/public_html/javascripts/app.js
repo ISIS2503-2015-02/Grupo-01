@@ -507,6 +507,8 @@
         $scope.form = false;
         $scope.ocupados = false;
         $scope.disponibles = false;
+        $scope.review = -1;
+        $scope.revisiones = [];
         $scope.showForm = function(){
             $scope.form = true;
         };
@@ -756,7 +758,28 @@
             });
         };
         $scope.showReviews = function(index){
-            
+            $http.get('http://localhost:9000/tranvias/'+$scope.tranvias[index]+'/revisiones').
+                    success(function(data, status, headers, config){
+                        for   (i = 0; i < data.length; i++){
+                            
+                        }
+            }).error(function(data, status, headers, config){
+                
+            });
+        };
+        $scope.addReview = function(index){
+            $http.post('http://localhost:9000/tranvia/'+$scope.review+'/revisiones',JSON.stringify($scope.revision)).success(function(data,status,headers,config){
+               $scope.revision = {};
+               $scope.hideReview();
+            }).error(function(data, status, headers, config){
+                
+            });
+        };
+        $scope.formReview = function(index){
+            $scope.review = $scope.tranvias[index].id;
+        };
+        $scope.hideReview = function(){
+            $scope.review = -1;
         };
         $http.get('http://localhost:9000/tranvias').
             success(function(data, status, headers, config) {
