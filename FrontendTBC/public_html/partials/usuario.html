@@ -1,3 +1,21 @@
+<div class="jumbotron">
+    <div class="container">
+        <form ng-submit="login()" ng-controller="usuario" novalidate>
+            <h3>Login</h3><br>
+                <div class="form-group" >
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" 
+                           ng-model="user.user">
+                </div>
+                <div class="form-group">
+                    <label>Contrasena</label>
+                    <input type="text" class="form-control"  ng-model="user.pass">
+                </div>
+                <button type="submit" class="btn btn-default">Login</button>    <button type="reset" class="btn btn-default">Cancelar</button>
+        </form>
+    </div>
+</div>
+
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <div class="navbar-header">
@@ -37,23 +55,55 @@
     </form>
     
     <div class="container" ng-if="crearReserva">
-    <h2>Formulario Conductor</h2>  
+    <h2>Formulario Reserva</h2>  
     <form ng-submit="addDriver()" ng-controller="usuario" novalidate>
         <div class="form-group" >
             <label for="exampleInputEmail1">Ubicación Origen</label>
-            <input type="text" class="form-control"  placeholder="Ingrese el nombre" ng-model="reserva.ubicacionOrigen">
+            <input type="text" class="form-control"  placeholder="Ingrese el nombre" ng-model="reserva.ruta.ubicacionOrigen">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Ubicacion destino</label>
-            <input type="text" class="form-control"  placeholder="Ingrese el n&uacute;mero de identificaci&oacute;n" ng-model="reserva.ubicacionDestino">
+            <input type="text" class="form-control"  placeholder="Ingrese el n&uacute;mero de identificaci&oacute;n" ng-model="reserva.ruta.ubicacionDestino">
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Fecha de viaje</label>
             <input type="date" class="form-control"  ng-model="reserva.fechaVencimientoLicencia">
         </div>
-        <button type="submit" class="btn btn-default">Crear</button>    <button type="reset" ng-click="ocultar()" class="btn btn-default">Cancelar</button>
+        <button type="submit" ng-click="reservar()" class="btn btn-default">Crear</button>    <button type="reset"  class="btn btn-default">Cancelar</button>
     </form>
 </div>  
+    
+    <div class="container" ng-if="verReservas">
+    <h4>Rutas</h4>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Turno</th>
+            <th>Estado</th>
+            <th>Fecha</th> 
+            <th>Precio</th>
+            <th>Ubicacion Origen</th>
+            <th>Ubicacion Destino</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">
+        
+        <tr ng-repeat="reservasus in res | orderBy: 'id'" >
+            <td>{{res.id}}</td>
+            <td>{{res.ubicaiconOrigen}}</td>
+            <td>{{res.ubicacionDestino}}</td>
+            <td>{{res.tipo}}</td>
+            <td>{{res.tiempoTrayecto}}</td>
+            <td>{{res.terminado}}</td>
+            <td>{{res.tipoAccidente}}</td>
+            <td><a ng-click="cancelarRes($index)">Cancelar reserva</a> </td>
+        </tr>
+ 
+    </tbody>                
+</table>
+</div> 
     
     <footer>
         <p>&copy; TBC 2015</p>

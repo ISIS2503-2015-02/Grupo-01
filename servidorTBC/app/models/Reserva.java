@@ -50,12 +50,11 @@ public class Reserva extends Model {
         
     }
 
-    public Reserva (String nEstado, Date nFecha, double nCosto, int nTurno, Ruta nRuta){
+    public Reserva (String nEstado, Date nFecha, double nCosto, Ruta nRuta){
         estado = nEstado;
         fecha = nFecha;
-        costo = nCosto;
-        turno = nTurno;
         ruta = nRuta;
+        costo = nCosto;
     }
 
     //-----------------------------------------------------------
@@ -125,7 +124,9 @@ public class Reserva extends Model {
     public static Reserva bind(JsonNode j){
         String fechaa = j.findPath("fecha").asText();
         Date fechaDate = stringToDate(fechaa);
-        Reserva reserva = new Reserva(Cons.R_ESPERA, fechaDate, 15000, 1, null);
+        JsonNode rutaJson = j.get("ruta");
+        Ruta rout = Ruta.bind(rutaJson);
+        Reserva reserva = new Reserva(Cons.R_ESPERA, fechaDate, 15000, rout);
         return reserva;
     }
 

@@ -41,15 +41,24 @@ public class UsuarioController extends Controller {
     	Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(j.findPath("usuarioId").asLong());
         JsonNode rutaJson = j.get("ruta");
         Ruta rout = Ruta.bind(rutaJson);
-        reserva.setRuta(rout);
-    	usuario.addReserva(reserva);
-        rout.save();
+
         reserva.save();
-    	usuario.update();
+        rout.save();
+
+        reserva.setRuta(rout);
+        reserva.setUsuario(usuario);
+        reserva.update();
+
     	
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(usuario));
    	}   
+
+    public Result darReservasUsuario(Long id){
+      List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).where().eq("usuario_numero_identificacion", id ).findList();
+      response().setHeader("Access-Control-Allow-Origin", "*");
+      return ok(Json.toJson(reservas));  
+    }
 
     public Result eliminarUsuarios(){
         List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
