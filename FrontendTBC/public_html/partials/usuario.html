@@ -56,7 +56,7 @@
     
     <div class="container" ng-if="crearReserva">
     <h2>Formulario Reserva</h2>  
-    <form ng-submit="addDriver()" ng-controller="usuario" novalidate>
+    <form ng-submit="reservar()" ng-controller="usuario" novalidate>
         <div class="form-group" >
             <label for="exampleInputEmail1">Ubicación Origen</label>
             <input type="text" class="form-control"  placeholder="Ingrese el nombre" ng-model="reserva.ruta.ubicacionOrigen">
@@ -67,14 +67,14 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Fecha de viaje</label>
-            <input type="date" class="form-control"  ng-model="reserva.fechaVencimientoLicencia">
+            <input type="date" class="form-control"  ng-model="reserva.fecha">
         </div>
-        <button type="submit" ng-click="reservar()" class="btn btn-default">Crear</button>    <button type="reset"  class="btn btn-default">Cancelar</button>
+        <button type="submit" class="btn btn-default">Crear</button>    <button type="reset"  class="btn btn-default">Cancelar</button>
     </form>
 </div>  
     
-    <div class="container" ng-if="verReservas">
-    <h4>Rutas</h4>
+    <div class="container" ng-if="verReserva">
+    <h4>Reservas</h4>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -90,14 +90,14 @@
     </thead>
     <tbody id="sensualtablabody">
         
-        <tr ng-repeat="reservasus in res | orderBy: 'id'" >
+        <tr ng-repeat="res in reservasus | orderBy: 'id'" >
             <td>{{res.id}}</td>
-            <td>{{res.ubicaiconOrigen}}</td>
-            <td>{{res.ubicacionDestino}}</td>
-            <td>{{res.tipo}}</td>
-            <td>{{res.tiempoTrayecto}}</td>
-            <td>{{res.terminado}}</td>
-            <td>{{res.tipoAccidente}}</td>
+            <td>{{res.turno}}</td>
+            <td>{{res.estado}}</td>
+            <td>{{res.fecha}}</td>
+            <td>{{res.precio}}</td>
+            <td>{{res.ubicacionorigen}}</td>
+            <td>{{res.ubicaciondestino}}</td>
             <td><a ng-click="cancelarRes($index)">Cancelar reserva</a> </td>
         </tr>
  
