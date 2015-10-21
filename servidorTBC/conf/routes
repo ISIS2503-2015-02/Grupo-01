@@ -18,6 +18,15 @@ GET         /                       		controllers.Application.index()
 #GET			/logAdmin.html					controllers.Application.login()
 #GET			/user.html						controllers.Application.registro()
 
+# Servicios de Login/Logout
+
+POST		/login 							controllers.SecureUsuarioController.login()
+
+POST		/logout 						controllers.SecureUsuarioController.logout()
+
+POST		/usuarios 						controllers.SecureUsuarioController.crearUsuario()
+
+
 # Servicios de tranvia
 
 POST        /tranvias                 		controllers.TranviaController.crearTranvia()
@@ -159,8 +168,6 @@ DELETE	/reservas/:id 				controllers.ReservaController.eliminarReserva(id: Long)
 GET		/usuarios					controllers.UsuarioController.darUsuarios()
 
 GET		/usuarios/:id/reservas		controllers.UsuarioController.darReservasUsuario(id: Long)
-
-POST	/usuarios 					controllers.UsuarioController.crearUsuario()
 
 PUT		/usuarios/reserva 			controllers.UsuarioController.crearReserva()
 

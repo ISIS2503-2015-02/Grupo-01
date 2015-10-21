@@ -19,15 +19,6 @@ import java.util.List;
 //@ForceHttps.Https
 public class UsuarioController extends Controller {
 
-	@BodyParser.Of(BodyParser.Json.class)
-    public Result crearUsuario() {
-        JsonNode j = Controller.request().body().asJson();
-        Usuario usuario = Usuario.bind(j);
-        usuario.save();
-
-        response().setHeader("Access-Control-Allow-Origin", "*");
-        return ok(Json.toJson(usuario));
-    }
 
     public Result darUsuarios() {
         List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();

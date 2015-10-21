@@ -8,6 +8,8 @@ import play.data.validation.Constraints;
 import play.libs.F;
 import play.libs.Json;
 import play.mvc.*;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.avaje.ebean.Model;
 
 import static play.libs.Json.toJson;
 import static play.mvc.Controller.request;
@@ -23,19 +25,33 @@ public class SecureUsuarioController extends Controller {
         return (Usuario)Http.Context.current().args.get("user");
     }
 
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result crearUsuario() {
+        JsonNode j = Controller.request().body().asJson();
+        Usuario usuario = Usuario.bind(j);
+        usuario.save();
+
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        return ok(Json.toJson(usuario));
+    }
+
     // returns an authToken
+    @BodyParser.Of(BodyParser.Json.class)
     public Result login() {
 
         //
         // Completar
         //
 
-
-        if (user == null) {
+        JsonNode j = Controller.request().body().asJson();
+        String user = j.findPath("user").asText();
+        String pass = j.findPath("pass").asText();
+        Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).where().eq("usuario",user).eq("password",pass).findUnique();
+        if (usuario == null) {
             return unauthorized();
         }
         else {
-            String authToken = user.createToken();
+            String authToken = usuario.createToken();
             ObjectNode authTokenJson = Json.newObject();
             authTokenJson.put(AUTH_TOKEN, authToken);
             response().setCookie(AUTH_TOKEN, authToken);
@@ -44,7 +60,7 @@ public class SecureUsuarioController extends Controller {
     }
 
     @With(SecuredAction.class)
-    public static Result logout() {
+    public Result logout() {
         response().discardCookie(AUTH_TOKEN);
         getUser().deleteAuthToken();
         return redirect("/");

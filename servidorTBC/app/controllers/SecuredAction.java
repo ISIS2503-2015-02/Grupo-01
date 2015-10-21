@@ -13,7 +13,7 @@ public class SecuredAction extends Action.Simple {
     public F.Promise<Result> call(Http.Context ctx) throws Throwable {
         String token = getTokenFromHeader(ctx);
         if (token != null) {
-            Usuario user = (Usuario) new Model.Finder(Long.class, Usuario.class).where().eq("token", token).findUnique();
+            Usuario user = (Usuario) new Model.Finder(Long.class, Usuario.class).where().eq("authToken", token).findUnique();
             if (user != null) {
                 ctx.request().setUsername(user.getUsuario());
                 return delegate.call(ctx);
