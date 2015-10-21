@@ -102,6 +102,7 @@ create table usuario (
   nombre                    varchar(255),
   tipo_id                   varchar(255),
   telefono                  varchar(255),
+  auth_token                varchar(255),
   condicion                 varchar(255),
   usuario                   varchar(255),
   password                  varchar(255),

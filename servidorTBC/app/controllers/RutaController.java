@@ -8,12 +8,14 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import actions.CorsComposition;
 import actions.ForceHttps;
 
 import java.util.List;
 import java.util.ArrayList;
 
+@With(SecuredAction.class)
 @CorsComposition.Cors
 //@ForceHttps.Https
 public class RutaController extends Controller {
@@ -64,6 +66,7 @@ public class RutaController extends Controller {
         mobibus.update();
         conductor.setEstado(Cons.V_OCUPADO);
         conductor.update();
+        ruta.getTranvia();
         ruta.setTranvia(null);
         ruta.setTipoAccidente(Cons.EA_NORMAL);
         ruta.setTerminado(Cons.ET_CURSO);

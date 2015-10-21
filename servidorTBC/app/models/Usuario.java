@@ -15,20 +15,24 @@ import java.util.List;
 @Entity
 public class Usuario  extends Persona{
 
+
+    public String authToken;
+
     //--------------------------------------------
     //Atributos
     //--------------------------------------------
     private String condicion;
 
     @Column(unique = true)
-    private String usuario;
+    public String usuario;
 
-    private String password;
+    public String password;
 
     @OneToMany(cascade=CascadeType.ALL)
     @JsonManagedReference
     private List<Reserva> reservas;
 
+    public static Finder<Integer,User> find = new Finder(Integer.class, User.class);
 
     //--------------------------------------------
     //Constructores
@@ -43,10 +47,26 @@ public class Usuario  extends Persona{
         this.password = pass;
         reservas = nReservas;
     }
+    //--------------------------------------------
+    //Metodos token
+    //--------------------------------------------
+    public String createToken() {
+        authToken = UUID.randomUUID().toString();
+        save();
+        return authToken;
+    }
+
+     public void deleteAuthToken() {
+        authToken = null;
+        save();
+    }
+
 
     //--------------------------------------------
     //Getters & Setters
     //--------------------------------------------
+    
+
     public String getCondicion() {
         return condicion;
     }
