@@ -32,7 +32,7 @@ public class Usuario  extends Persona{
     @JsonManagedReference
     private List<Reserva> reservas;
 
-    public static Finder<Integer,User> find = new Finder(Integer.class, User.class);
+    public static Finder<Integer,Usuario> find = new Finder(Integer.class, Usuario.class);
 
     //--------------------------------------------
     //Constructores

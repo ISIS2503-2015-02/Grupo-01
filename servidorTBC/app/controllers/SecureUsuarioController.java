@@ -43,7 +43,7 @@ public class SecureUsuarioController extends Controller {
         }
     }
 
-    @Security.Authenticated(Secured.class)
+    @With(SecuredAction.class)
     public static Result logout() {
         response().discardCookie(AUTH_TOKEN);
         getUser().deleteAuthToken();
