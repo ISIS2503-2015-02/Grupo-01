@@ -12,6 +12,8 @@ import models.*;
 
 import views.html.*;
 
+//@CorsComposition.Cors
+//@ForceHttps.Https
 public class Application extends Controller {
 
     public Result index() {
@@ -19,6 +21,10 @@ public class Application extends Controller {
     }
 
     public Result preflight(String path){
+    	return ok();
+    }
+
+    public Result preflight(){
     	return ok();
     }
 }

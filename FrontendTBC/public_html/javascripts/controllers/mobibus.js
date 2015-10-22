@@ -31,7 +31,7 @@
             $scope.disponibles = false;
             $http.get('http://localhost:9000/tranviasOcupados').
             success(function(data, status, headers, config) {
-                $scope.tranvias = [];
+                $scope.buses = [];
                 for(i = 0; i < data.length; i++){
                     var tran = {
                         estado : data[i].estado,
@@ -44,7 +44,7 @@
                     tran.isAccidentado = function(){
                         return tran.estado === "Accidentado";  
                     };  
-                    $scope.tranvias.push(tran);
+                    $scope.buses.push(tran);
                 }
                 $scope.map = {
                         center: {
@@ -84,7 +84,7 @@
                         map: $scope.map,
                         position: new google.maps.LatLng(info.posiciones[info.posiciones.length-1].latitud,info.posiciones[info.posiciones.length-1].longitud)
                     });
-                    marker.content = '<div class="infoWindowContent"> Tranvia ' + info.id + '</div>';
+                    marker.content = '<div class="infoWindowContent"> Bus ' + info.id + '</div>';
                     google.maps.event.addListener(marker, 'click', function(){
                         infoWindow.setContent(marker.content);
                         infoWindow.open($scope.map, marker);
@@ -104,7 +104,7 @@
             $scope.ocupados = false;
             $http.get('http://localhost:9000/tranviasDisponibles').
             success(function(data, status, headers, config) {
-                $scope.tranvias = [];
+                $scope.buses = [];
                 for(i = 0; i < data.length; i++){
                     var tran = {
                         estado : data[i].estado,
@@ -117,7 +117,7 @@
                     tran.isAccidentado = function(){
                         return tran.estado === "Accidentado";  
                     };  
-                    $scope.tranvias.push(tran);
+                    $scope.buses.push(tran);
                 }
                 $scope.map = {
                         center: {
@@ -177,7 +177,7 @@
             $scope.disponibles = false;
             $http.get('http://localhost:9000/tranvias').
             success(function(data, status, headers, config) {
-                $scope.tranvias = [];
+                $scope.buses = [];
                 for(i = 0; i < data.length; i++){
                     var tran = {
                         estado : data[i].estado,
@@ -190,7 +190,7 @@
                     tran.isAccidentado = function(){
                         return tran.estado === "Accidentado";  
                     };  
-                    $scope.tranvias.push(tran);
+                    $scope.buses.push(tran);
                 }
                 $scope.map = {
                         center: {
@@ -246,8 +246,8 @@
             });
         };
         $scope.showReviews = function(index){
-            $scope.reviews = $scope.tranvias[index].id;
-            $http.get('http://localhost:9000/tranvias/'+$scope.tranvias[index].id+'/revisiones').success(function(data, status, headers, config){
+            $scope.reviews = $scope.buses[index].id;
+            $http.get('http://localhost:9000/tranvias/'+$scope.buses[index].id+'/revisiones').success(function(data, status, headers, config){
                 for (i = 0; i < data.length; i++){
                     var rev = {
                        id : data[i].id,

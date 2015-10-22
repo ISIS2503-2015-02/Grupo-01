@@ -35,11 +35,11 @@
             <td>{{bus.capacidad}}</td>
             <td>{{bus.latitud}}</td>
             <td>{{bus.longitud}}</td>
-            <td><a ng-click="showReviews($index)" ng-if="reviews != tranvia.id">Ver revisiones</a><a ng-if="reviews == tranvia.id" ng-click="hideReviews()">Ocultar</a></td>
+            <td><a ng-click="showReviews($index)" ng-if="reviews != bus.id">Ver revisiones</a><a ng-if="reviews == bus.id" ng-click="hideReviews()">Ocultar</a></td>
         </tr>    
     </tbody>                
 </table>
-<table class="table table-hover" ng-if="revisiones.length > 0">
+<table class="table table-hover" ng-if="reviews > 0">
     <thead>
         <tr>
             <th>ID</th>
