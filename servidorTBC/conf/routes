@@ -32,7 +32,7 @@ GET			/tranvias/:id 					controllers.TranviaController.darTranvia(id: Long)
 
 GET			/tranvias/:id/revisiones		controllers.TranviaController.darRevisiones(id: Long)
 
-POST		/tranvias/:id/revisiones		controllers.TranviaController.crearRevision(id: Long)
+PUT 		/tranvias/:id/revisiones		controllers.TranviaController.crearRevision(id: Long)
 
 POST		/tranvias/posicion				controllers.TranviaController.actualizarUbicacion()
 
