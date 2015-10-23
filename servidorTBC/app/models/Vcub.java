@@ -18,6 +18,9 @@ public class Vcub extends Model
 		/**
 		 * Estado del Vcub
 		 */
+
+		public String authToken;
+		
 		@Id
    		@GeneratedValue(strategy=GenerationType.IDENTITY)
 		private long id;

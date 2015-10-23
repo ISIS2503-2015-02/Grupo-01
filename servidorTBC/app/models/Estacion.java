@@ -16,7 +16,7 @@ import java.util.List;
 @Entity
 public class Estacion extends Model 
 {
-	
+	public String authToken;
 	/**
 	 * Capacidad 
 	 */

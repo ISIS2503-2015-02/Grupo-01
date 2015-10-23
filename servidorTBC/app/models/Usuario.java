@@ -19,6 +19,8 @@ public class Usuario  extends Persona{
 
     public String authToken;
 
+    private String rol;
+
     //--------------------------------------------
     //Atributos
     //--------------------------------------------
@@ -41,12 +43,13 @@ public class Usuario  extends Persona{
     public Usuario(){ super();}
 
     public Usuario(String user, String pass,Long identificacion, int edad, String nombre, String tipoId, String telefono,
-                   String condicion, List<Reserva> nReservas){
+                   String condicion, List<Reserva> nReservas, String rol){
         super(identificacion, edad, nombre, tipoId, telefono);
         this.condicion = condicion;
         this.usuario = user;
         this.password = pass;
         reservas = nReservas;
+        this.rol = rol;
     }
     //--------------------------------------------
     //Metodos token
@@ -104,6 +107,14 @@ public class Usuario  extends Persona{
         return password;
     }
 
+    public String getRol(){
+        return rol;
+    }
+
+    public void setRol(String rol){
+        this.rol = rol;
+    }
+
     public static Usuario bind(JsonNode j) {
         String user = j.findPath("user").asText();
         String pass = j.findPath("pass").asText();
@@ -113,7 +124,8 @@ public class Usuario  extends Persona{
         String tipoId = j.findPath("tipoId").asText();
         String telefono = j.findPath("telefono").asText();
         String condicion = j.findPath("condicion").asText();
-        Usuario usuario = new Usuario(user, pass, id, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>());
+        String rol = j.findPath("rol").asText();
+        Usuario usuario = new Usuario(user, pass, id, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>(), rol);
         return usuario;
     }
 }

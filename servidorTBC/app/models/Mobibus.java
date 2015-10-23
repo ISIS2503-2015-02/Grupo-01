@@ -14,6 +14,8 @@ public class Mobibus extends Model{
     // Atributos
     //-----------------------------------------------------------
     
+    public String authToken;
+    
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
