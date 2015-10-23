@@ -14,7 +14,7 @@ import java.util.UUID;
 
 
 @Entity
-public class Usuario  extends Persona{
+public class Usuario extends Persona{
 
 
     public String authToken;
