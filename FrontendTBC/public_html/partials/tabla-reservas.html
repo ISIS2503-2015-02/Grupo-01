@@ -1,0 +1,43 @@
+<h4>Reservas | <a ng-click="mostrarFormulario()">Agregar reserva</a></h4>
+<div class="container" ng-if="formulario">
+    <h2>Formulario Reserva</h2>
+    <form ng-submit="addReservation()" ng-controller="getReservations" novalidate>
+        <div class="form-group">
+            <label>Estado</label>
+            <input type="text" class="form-control" id="estado" placeholder="Ingrese el estado" ng-model="reserva.estado">
+        </div>
+        <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" class="form-control" id="fecha" ng-model="reserva.fecha">
+        </div>
+        <div class="form-group">
+            <label>Ruta</label>
+            <input type="text" class="form-control" id="ruta" placeholder="Ingrese la ruta" ng-model="reserva.ruta">
+        </div>
+        <div class="form-group">
+            <label>Costo</label>
+            <input type="text" class="form-control" id="costo" placeholder="Ingrese el costo" ng-model="reserva.costo">
+        </div>
+        <button type="submit" class="btn btn-default">Crear</button>    <button type="reset" ng-click="ocultar()" class="btn btn-default">Cancelar</button>
+    </form>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Ruta</th>
+            <th>Costo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">
+        <tr ng-repeat="reserva in reservas | orderBy: 'fecha'" >
+            <td>{{reserva.estado}}</td>
+            <td>{{reserva.fecha}}</td>
+            <td>{{reserva.ruta}}</td>
+            <td>{{reserva.costo}}</td>
+            <td><a ng-click="eliminar($index)">Eliminar</a></td>
+        </tr>
+    </tbody>
+</table>
