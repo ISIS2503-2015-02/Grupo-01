@@ -10,6 +10,7 @@ import play.libs.Json;
 import play.mvc.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.avaje.ebean.Model;
+import security.*;
 
 import static play.libs.Json.toJson;
 import static play.mvc.Controller.request;
@@ -39,10 +40,6 @@ public class SecureUsuarioController extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public Result login() {
 
-        //
-        // Completar
-        //
-
         JsonNode j = Controller.request().body().asJson();
         String user = j.findPath("user").asText();
         String pass = j.findPath("pass").asText();
@@ -59,7 +56,7 @@ public class SecureUsuarioController extends Controller {
         }
     }
 
-    @With(SecuredAction.class)
+    @With(SecuredActionUsuario.class)
     public Result logout() {
         response().discardCookie(AUTH_TOKEN);
         getUser().deleteAuthToken();

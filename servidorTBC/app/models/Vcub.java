@@ -8,6 +8,8 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.UUID;
+
 
 @Entity
 public class Vcub extends Model
@@ -51,6 +53,20 @@ public class Vcub extends Model
 		this.estacion = null;
 	}
 		
+	//--------------------------------------------
+    //Metodos token
+    //--------------------------------------------
+    public String createToken() {
+        authToken = UUID.randomUUID().toString();
+        save();
+        return authToken;
+    }
+
+     public void deleteAuthToken() {
+        authToken = null;
+        save();
+    }
+
 	// Metodos
 		
 	public long getId() {

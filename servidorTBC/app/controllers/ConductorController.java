@@ -11,10 +11,11 @@ import play.mvc.With;
 import play.mvc.Result;
 import actions.CorsComposition;
 import actions.ForceHttps;
+import security.*;
 
 import java.util.List;
 
-@With(SecuredAction.class)
+@With(SecuredActionAdmin.class)
 @CorsComposition.Cors
 //@ForceHttps.Https
 public class ConductorController extends Controller{

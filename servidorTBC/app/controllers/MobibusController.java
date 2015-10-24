@@ -4,6 +4,7 @@ import java.util.Date;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
@@ -12,13 +13,16 @@ import play.mvc.Result;
 import play.mvc.With;
 import actions.CorsComposition;
 import actions.ForceHttps;
+import security.*;
 
 import java.util.List;
 
-@With(SecuredAction.class)
 @CorsComposition.Cors
 //@ForceHttps.Https
 public class MobibusController extends Controller {
+
+    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public static final String AUTH_TOKEN = "authToken";
 
     @BodyParser.Of(BodyParser.Json.class)
     public Result create() {
@@ -31,12 +35,16 @@ public class MobibusController extends Controller {
         //Posicion posicion = Posicion.bind(j);
 
         bus.agregarPosicion(pos);
-        bus.save();
-        
+        String authToken = bus.createToken();
+        ObjectNode authTokenJson = Json.newObject();
+        authTokenJson.put(AUTH_TOKEN, authToken);
+        response().setCookie(AUTH_TOKEN, authToken);
+
         response().setHeader("Access-Control-Allow-Origin", "*");
-        return ok(Json.toJson(bus));
+        return ok(authTokenJson);
     }
 
+    @With(SecuredActionAdmin.class)
     public Result read() {
         List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).all();
         
@@ -44,6 +52,7 @@ public class MobibusController extends Controller {
         return ok(Json.toJson(buses));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darMobibusesDisponibles() {
         List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).
         where().eq("estado", Cons.V_DISPONIBLE).findList();;
@@ -52,6 +61,7 @@ public class MobibusController extends Controller {
         return ok(Json.toJson(buses));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darMobibusesOcupados() {
         List<Mobibus> buses = new Model.Finder(Long.class, Mobibus.class).
         where().eq("estado", Cons.V_OCUPADO).findList();;
@@ -60,6 +70,7 @@ public class MobibusController extends Controller {
         return ok(Json.toJson(buses));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darBus(Long id){
       Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
       
@@ -67,6 +78,7 @@ public class MobibusController extends Controller {
       return ok(Json.toJson(mobibus));  
     }
 
+    @With(SecuredActionAdmin.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result crearRevision() {
         JsonNode j = Controller.request().body().asJson();
@@ -79,6 +91,7 @@ public class MobibusController extends Controller {
         return ok(Json.toJson(mobibus));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darRevisiones(Long id) {
         Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
         List<Revision> revisiones = mobibus.getRevisiones();
@@ -87,6 +100,7 @@ public class MobibusController extends Controller {
         return ok(Json.toJson(revisiones));
     }
 
+    @With(SecuredActionMobibus.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
@@ -99,6 +113,7 @@ public class MobibusController extends Controller {
         return ok(Json.toJson(mobibus));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarMobibuses(){
         List<Mobibus> mobibuses = new Model.Finder(Long.class, Mobibus.class).all();
         for(int i = 0; i<mobibuses.size();i++){
@@ -109,6 +124,7 @@ public class MobibusController extends Controller {
         return ok(Json.toJson(""));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarBus(Long id){
       Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).byId(id);
       mobibus.delete();

@@ -17,6 +17,7 @@ create table conductor (
 
 create table estacion (
   id                        bigint auto_increment not null,
+  auth_token                varchar(255),
   capacidad                 integer,
   ubicacion                 varchar(255),
   longitud                  double,
@@ -28,6 +29,7 @@ create table estacion (
 
 create table mobibus (
   id                        bigint auto_increment not null,
+  auth_token                varchar(255),
   estado                    varchar(255),
   capacidad                 integer,
   placa                     varchar(255),
@@ -88,6 +90,7 @@ create table ruta (
 
 create table tranvia (
   id                        bigint auto_increment not null,
+  auth_token                varchar(255),
   estado                    varchar(255),
   presion_choque            double,
   temperatura               double,
@@ -103,6 +106,7 @@ create table usuario (
   tipo_id                   varchar(255),
   telefono                  varchar(255),
   auth_token                varchar(255),
+  rol                       varchar(255),
   condicion                 varchar(255),
   usuario                   varchar(255),
   password                  varchar(255),
@@ -112,6 +116,7 @@ create table usuario (
 
 create table vcub (
   id                        bigint auto_increment not null,
+  auth_token                varchar(255),
   estado                    varchar(255),
   usuario_numero_identificacion bigint,
   estacion_id               bigint,
