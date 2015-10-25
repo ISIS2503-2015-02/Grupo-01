@@ -1,0 +1,61 @@
+<h4>Usuarios | <a ng-click="mostrarFormulario()">Agregar usuario</a></h4>
+<div class="container" ng-if="formulario">
+    <h2>Formulario Usuario</h2>
+    <form ng-submit="addUser()" ng-controller="getUsuarios" novalidate>
+        <div class="form-group">
+            <label>Usuario</label>
+            <input type="text" class="form-control" id="usuario" placeholder="Ingrese el usuario" ng-model="usuario.user">
+        </div>
+        <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" class="form-control" id="nombre" placeholder="Ingrese el nombre" ng-model="usuario.nombre">
+        </div>
+        <div class="form-group">
+            <label>Identificaci&oacute;</label>
+            <input type="text" class="form-control" id="id" placeholder="Ingrese el n&uacute;mero de identificaci&oacute;n" ng-model="usuario.identificacion">
+        </div>
+        <div class="form-group">
+            <label>Tipo ID</label>
+            <input type="text" class="form-control" id="tipoId" placeholder="Ingrese el tipo de identificaci&oacute;n" ng-model="usuario.tipoId">
+        </div>
+        <div class="form-group">
+            <label>Edad</label>
+            <input type="text" class="form-control" id="edad" placeholder="Ingrese la edad" ng-model="usuario.edad">
+        </div>
+        <div class="form-group">
+            <label>Telefono</label>
+            <input type="text" class="form-control" id="numero" placeholder="Ingrese el n&uacute;mero de telefono" ng-model="usuario.telefono">
+        </div>
+        <div class="form-group">
+            <label>Condici&oacute;n</label>
+            <input type="text" class="form-control" id="condicion" placeholder="Ingrese la condici&oacute;n" ng-model="usuario.condicion">
+        </div>
+        <button type="submit" class="btn btn-default">Crear</button>    <button type="reset" ng-click="ocultar()" class="btn btn-default">Cancelar</button>
+    </form>
+</div>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Usuario</th>
+            <th>Nombre</th>
+            <th>Identificaci&oacute;n</th>
+            <th>Tipo de identificaci&oacute;n</th>
+            <th>Edad</th>
+            <th>Telefono</th>
+            <th>Condici&oacute;n</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody id="sensualtablabody">
+        <tr ng-repeat="usuario in usuarios | orderBy: 'id'" >
+            <td>{{usuario.user}}</td>
+            <td>{{usuario.nombre}}</td>
+            <td>{{usuario.identificacion}}</td>
+            <td>{{usuario.tipoId}}</td>
+            <td>{{usuario.edad}}</td>
+            <td>{{usuario.telefono}}</td>
+            <td>{{usuario.condicion}}</td>
+            <td><a ng-click="eliminar($index)">Eliminar</a></td>
+        </tr>
+    </tbody>
+</table>
