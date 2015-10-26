@@ -22,15 +22,15 @@
     $scope.active = {};
     $scope.crearReserva = false;
     $scope.verReserva = false;
-    
+    $scope.test = function(){
+       console.log(hola);
+   };
     
     $scope.login = function(){
         console.log(JSON.stringify($scope.user));
         $http.post('http://localhost:9000/usuarios/login',JSON.stringify($scope.user)).success(function(data,headers){
-            $scope.active = data;
-            usActual = data;
-
-            console.log($scope.active);
+            user = data;
+            console.log(user);
             
         }).error(function(data, headers){
             
