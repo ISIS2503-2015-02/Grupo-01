@@ -12,15 +12,19 @@ import models.*;
 
 public class SecuredActionTranvia extends Action.Simple {
     public F.Promise<Result> call(Http.Context ctx) throws Throwable {
-        String token = getTokenFromHeader(ctx);
+        String tokenCifrado = getTokenFromHeader(ctx);
+        String tokenFirmado = getSignFronHeader(ctx);
+        if (tokenCifrado != null && tokenFirmado != null) {
 
-        if (token != null) {
-
-             //DESENCRIPTACION TODO
+            String token = Crypto.decryptAES(tokenCifrado);
             Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("authToken", token).findUnique();
             if (tranvia != null) {
+                String llave = tranvia.id;
+                String verifica = Crypto.sign(token, llave.getBytes());
+                if(verifica.equals(tokenFirmado)){
                     ctx.request().setUsername(tranvia.getId()+"");
                     return delegate.call(ctx);
+                }
             }
 
 
@@ -34,6 +38,14 @@ public class SecuredActionTranvia extends Action.Simple {
     private String getTokenFromHeader(Http.Context ctx) {
         String[] authTokenHeaderValues = ctx.request().headers().get("X-AUTH-TOKEN");
         if ((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)) {
+            return authTokenHeaderValues[0];
+        }
+        return null;
+    }
+
+    private String getSignFronHeader(Http.Context ctx){
+        String[]  authTokenHeaderValues = ctx.request().headers().get("X-SIGN-TOKEN");
+        if((authTokenHeaderValues != null) && (authTokenHeaderValues.length == 1) && (authTokenHeaderValues[0] != null)){
             return authTokenHeaderValues[0];
         }
         return null;

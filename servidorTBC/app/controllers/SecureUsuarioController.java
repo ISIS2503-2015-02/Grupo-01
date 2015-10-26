@@ -20,6 +20,7 @@ public class SecureUsuarioController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
     public static final String AUTH_TOKEN = "authToken";
+    public final static String SECRET = "secret";
 
 
     public static Usuario getUser() {
@@ -49,10 +50,12 @@ public class SecureUsuarioController extends Controller {
         }
         else {
             String authToken = usuario.createToken();
+            String token = Crypto.encryptAES(authToken);
             ObjectNode authTokenJson = Json.newObject();
             authTokenJson.put(AUTH_TOKEN, authToken);
             response().setCookie(AUTH_TOKEN, authToken);
-            return ok(authTokenJson);
+            response().setCookie(SECRET, System.getenv("APP_SECRET"));
+            return ok(Json.toJson(usuario));
         }
     }
 
