@@ -40,6 +40,7 @@ public class SecureUsuarioController extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public Result login() {
 
+        response().setHeader("Access-Control-Allow-Origin", "*");
         JsonNode j = Controller.request().body().asJson();
         String user = j.findPath("user").asText();
         String pass = j.findPath("pass").asText();
@@ -52,15 +53,19 @@ public class SecureUsuarioController extends Controller {
             ObjectNode authTokenJson = Json.newObject();
             authTokenJson.put(AUTH_TOKEN, authToken);
             response().setCookie(AUTH_TOKEN, authToken);
-            return ok(authTokenJson);
+            return ok(Json.toJson(usuario));
         }
     }
 
     @With(SecuredActionUsuario.class)
     public Result logout() {
         response().discardCookie(AUTH_TOKEN);
-        getUser().deleteAuthToken();
-        return redirect("/");
+        JsonNode j = Controller.request().body().asJson();
+        String id = j.findPath("numeroIdentificacion").asText();
+        Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).where().eq("numero_identificacion",id).findUnique();
+        usuario.deleteAuthToken();
+        response().setHeader("Access-Control-Allow-Origin", "*");
+        return ok("User logged out");
     }
 
     public static class Login {

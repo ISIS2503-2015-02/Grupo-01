@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+usActual = {};
 (function(){
     var TBC = angular.module('TBC',[]);
-    var usActual;
     
     TBC.directive('toolbar', function(){
         return{

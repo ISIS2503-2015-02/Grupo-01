@@ -26,18 +26,36 @@
     
     $scope.login = function(){
         console.log(JSON.stringify($scope.user));
-        $http.post('http://localhost:9000/usuarios/login',JSON.stringify($scope.user)).success(function(data,headers){
+        $http.post('http://localhost:9000/login',JSON.stringify($scope.user)).success(function(data,headers){
             $scope.active = data;
             usActual = data;
 
-            console.log($scope.active);
+            console.log(data);
             
         }).error(function(data, headers){
             
         });
     };
     $scope.logout = function(){
-        
+        var peti={
+                    method: 'POST',
+                    url: 'http://localhost:9000/logout',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken,
+                    },
+                    data: JSON.stringify(usActual)
+
+
+                };
+        console.log(peti);        
+        $http(peti).success(function(data,headers){
+            console.log(data);
+            console.log(":)")
+        }).error(function(data, headers){
+            console.log(data);
+            console.log(":(")
+        });
     };
     $scope.reservar = function(){
         
