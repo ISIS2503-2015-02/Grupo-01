@@ -31,6 +31,7 @@
         $http.post('http://localhost:9000/usuarios/login',JSON.stringify($scope.user)).success(function(data,headers){
             user = data;
             console.log(user);
+            console.log(headers);
             
         }).error(function(data, headers){
             

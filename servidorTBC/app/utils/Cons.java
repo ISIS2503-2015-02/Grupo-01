@@ -1,5 +1,6 @@
 package models;
 
+import play.libs.Crypto;
 public final class Cons  {
 
 	//Estado vehiculos

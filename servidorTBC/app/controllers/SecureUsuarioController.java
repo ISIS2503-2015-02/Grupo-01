@@ -1,27 +1,31 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import models.Usuario;
+import models.*;
 import play.Logger;
 import play.data.Form;
 import play.data.validation.Constraints;
 import play.libs.F;
 import play.libs.Json;
+import play.libs.Crypto;
 import play.mvc.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.avaje.ebean.Model;
 import security.*;
-
+import utils.*;
 import static play.libs.Json.toJson;
 import static play.mvc.Controller.request;
 import static play.mvc.Controller.response;
 
+
 public class SecureUsuarioController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public final static String SECRET_HEADER = "X-SECRET";
     public static final String AUTH_TOKEN = "authToken";
     public final static String SECRET = "secret";
 
+    private final static Crypto crypto = play.Play.application().injector().instanceOf(Crypto.class);
 
     public static Usuario getUser() {
         return (Usuario)Http.Context.current().args.get("user");
@@ -50,11 +54,11 @@ public class SecureUsuarioController extends Controller {
         }
         else {
             String authToken = usuario.createToken();
-            String token = Crypto.encryptAES(authToken);
+            String token = crypto.encryptAES(authToken);
             ObjectNode authTokenJson = Json.newObject();
             authTokenJson.put(AUTH_TOKEN, authToken);
             response().setCookie(AUTH_TOKEN, authToken);
-            response().setCookie(SECRET, System.getenv("APP_SECRET"));
+            response().setHeader(SECRET_HEADER, System.getenv("APP_SECRET"));
             return ok(Json.toJson(usuario));
         }
     }

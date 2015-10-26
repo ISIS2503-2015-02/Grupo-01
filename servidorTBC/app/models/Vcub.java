@@ -7,9 +7,8 @@ import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
 import java.util.UUID;
-
+import utils.*;
 
 @Entity
 public class Vcub extends Model

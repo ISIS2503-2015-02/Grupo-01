@@ -1,6 +1,6 @@
 package models;
 import java.util.concurrent.ThreadLocalRandom;
-
+import utils.*;
 
 public final class Utilidad  {
 

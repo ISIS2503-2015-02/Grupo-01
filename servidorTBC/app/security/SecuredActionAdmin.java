@@ -8,22 +8,25 @@ import play.mvc.Result;
 import play.mvc.Results;
 import play.libs.Crypto;
 import com.avaje.ebean.Model;
-
+import utils.*;
 import models.*;
 
 public class SecuredActionAdmin extends Action.Simple {
+
+    private final static Crypto crypto = play.Play.application().injector().instanceOf(Crypto.class);
+
     public F.Promise<Result> call(Http.Context ctx) throws Throwable {
         String tokenCifrado = getTokenFromHeader(ctx);
-        String tokenFirmado = getSignFromHeader(ctx);
+        String tokenFirmado = getSignFronHeader(ctx);
 
         if (tokenCifrado != null && tokenFirmado != null) {
 
-            String token = Crypto.decryptAES(tokenCifrado);
+            String token = crypto.decryptAES(tokenCifrado);
 
             Usuario user = (Usuario) new Model.Finder(Long.class, Usuario.class).where().eq("authToken", token).findUnique();
             if (user != null) {
-                String llave = user.id+user.usuario+user.password;
-                String verifica = Crypto.sign(token, llave.getBytes() );
+                String llave = user.getNumeroIdentificacion()+user.getUsuario()+user.getPassword();
+                String verifica = crypto.sign(token, llave.getBytes() );
                 if(verifica.equals(tokenFirmado)){
                     if(user.getRol().equals(Cons.ROL_ADMIN)){
                         ctx.request().setUsername(user.getUsuario());

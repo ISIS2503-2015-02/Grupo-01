@@ -6,21 +6,27 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.libs.Crypto;
 import com.avaje.ebean.Model;
-
+import utils.*;
 import models.*;
 
 public class SecuredActionVcub extends Action.Simple {
+    
+    private final static Crypto crypto = play.Play.application().injector().instanceOf(Crypto.class);
     public F.Promise<Result> call(Http.Context ctx) throws Throwable {
+
+        
+
         String tokenCifrado = getTokenFromHeader(ctx);
         String tokenFimrado = getSignFronHeader(ctx);
         if (tokenCifrado != null && tokenFimrado != null) {
 
-            String token = Crypto.decryptAES(tokenCifrado);
+            String token = crypto.decryptAES(tokenCifrado);
             Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).where().eq("authToken", token).findUnique();
             if (vcub != null) {
-                String llave = vcub.id;
-                String verifica = Crypto.sign(token, llave.getBytes());
+                String llave = vcub.getId()+"";
+                String verifica = crypto.sign(token, llave.getBytes());
                 if(verifica.equals(tokenFimrado)){
                     ctx.request().setUsername(vcub.getId()+"");
                     return delegate.call(ctx);

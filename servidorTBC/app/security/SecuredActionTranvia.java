@@ -6,21 +6,25 @@ import play.mvc.Action;
 import play.mvc.Http;
 import play.mvc.Result;
 import play.mvc.Results;
+import play.libs.Crypto;
 import com.avaje.ebean.Model;
-
+import utils.*;
 import models.*;
 
 public class SecuredActionTranvia extends Action.Simple {
+
+    private final static Crypto crypto = play.Play.application().injector().instanceOf(Crypto.class);
+
     public F.Promise<Result> call(Http.Context ctx) throws Throwable {
         String tokenCifrado = getTokenFromHeader(ctx);
         String tokenFirmado = getSignFronHeader(ctx);
         if (tokenCifrado != null && tokenFirmado != null) {
 
-            String token = Crypto.decryptAES(tokenCifrado);
+            String token = crypto.decryptAES(tokenCifrado);
             Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("authToken", token).findUnique();
             if (tranvia != null) {
-                String llave = tranvia.id;
-                String verifica = Crypto.sign(token, llave.getBytes());
+                String llave = tranvia.getId()+"";
+                String verifica = crypto.sign(token, llave.getBytes());
                 if(verifica.equals(tokenFirmado)){
                     ctx.request().setUsername(tranvia.getId()+"");
                     return delegate.call(ctx);
