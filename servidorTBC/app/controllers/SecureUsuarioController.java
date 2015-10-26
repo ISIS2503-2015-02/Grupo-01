@@ -16,6 +16,8 @@ import static play.libs.Json.toJson;
 import static play.mvc.Controller.request;
 import static play.mvc.Controller.response;
 
+@CorsComposition.Cors
+@ForceHttps.Https
 public class SecureUsuarioController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";

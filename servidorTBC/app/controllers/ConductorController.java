@@ -17,7 +17,7 @@ import java.util.List;
 
 @With(SecuredActionAdmin.class)
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class ConductorController extends Controller{
 	
 	@BodyParser.Of(BodyParser.Json.class)

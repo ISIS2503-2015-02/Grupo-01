@@ -15,7 +15,7 @@ import security.*;
 import java.util.List;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class ReservaController extends Controller{
 
     @With(SecuredActionAdmin.class)    

@@ -18,7 +18,7 @@ import security.*;
 import java.util.List;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class MobibusController extends Controller {
 
     public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";

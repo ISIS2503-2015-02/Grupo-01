@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class RutaController extends Controller {
 
     @With(SecuredActionAdmin.class)
