@@ -168,7 +168,8 @@ public class Ruta extends Model {
         String ubicacionOri = j.findPath("ubicacionOrigen").asText();
         String ubicacionDes = j.findPath("ubicacionDestino").asText();
         String tipoo = j.findPath("tipo").asText();
-        Ruta rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, 0.0, Cons.ET_CURSO, Cons.EA_NORMAL ,null , null , null);
+        double tiempoTrayecto = j.findPath("tiempoTrayecto").asDouble();
+        Ruta rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, Cons.ET_CURSO, Cons.EA_NORMAL ,null , null , null);
         return rout;
     }
 }

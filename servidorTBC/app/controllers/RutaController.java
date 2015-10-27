@@ -94,7 +94,6 @@ public class RutaController extends Controller {
 
     public Result darRuta(Long id){
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
-
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(ruta));
     }
