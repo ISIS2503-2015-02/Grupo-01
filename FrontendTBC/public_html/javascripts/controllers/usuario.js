@@ -26,7 +26,7 @@
     
     $scope.login = function(){
         console.log(JSON.stringify($scope.user));
-        $http.post('http://localhost:9000/login',JSON.stringify($scope.user)).success(function(data,headers){
+        $http.post(url + '/login',JSON.stringify($scope.user)).success(function(data,headers){
             $scope.active = data;
             usActual = data;
 
