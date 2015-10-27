@@ -6,7 +6,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava, PlayEbean)
 
 scalaVersion := "2.11.6"
 
-herokuAppName in Compile := "transportetbc"
+herokuAppName in Compile := "transporte-tbc"
 
 herokuProcessTypes in Compile := Map(
   "web" -> "target/universal/stage/bin/tbctransporte -Dhttp.port=$PORT -Dplay.evolutions.db.default.autoApply=true -Ddb.default.url=${DATABASE_URL}"

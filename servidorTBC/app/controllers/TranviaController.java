@@ -45,7 +45,7 @@ public class TranviaController extends Controller {
         response().setCookie(AUTH_TOKEN, authToken);
 
         response().setHeader("Access-Control-Allow-Origin", "*");
-        return ok(authTokenJson);
+        return ok(Json.toJson(tranvia));
     }
 
     @With(SecuredActionAdmin.class)
