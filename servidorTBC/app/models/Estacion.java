@@ -12,11 +12,12 @@ import javax.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 public class Estacion extends Model 
 {
-	
+	public String authToken;
 	/**
 	 * Capacidad 
 	 */
@@ -76,11 +77,25 @@ public class Estacion extends Model
 
 	//Metodos
 	
+	//--------------------------------------------
+    //Metodos token
+    //--------------------------------------------
+    public String createToken() {
+        authToken = UUID.randomUUID().toString();
+        save();
+        return authToken;
+    }
+
+     public void deleteAuthToken() {
+        authToken = null;
+        save();
+    }
 	/**
 	 * Devuelve el ID de la estacion
 	 * @return El ID. String
 	 */
 	public Long getId() 
+	
 	{
 		return id;
 	}

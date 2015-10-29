@@ -28,6 +28,8 @@ public class Conductor extends Persona{
     @OneToMany(cascade=CascadeType.ALL)
     private List<Ruta> rutas;
 
+
+
     //--------------------------------------------
     //Constructores
     //--------------------------------------------
@@ -92,5 +94,14 @@ public class Conductor extends Persona{
         Conductor conductor = new Conductor(id,edad, nombre, tipoId, telefono, licenciaConducccion,
          fechaVenLicencia, estado, new ArrayList<Ruta>());
         return conductor;
+    }
+
+    public double darTiempoPromedioRutas(){
+        double acum = 0;
+        for(int i = 0; i< rutas.size(); i++)
+            acum+=rutas.get(i).getTiempoTrayecto();
+        if(rutas.size()!=0)
+            return acum/rutas.size();
+        return -1;
     }
 }

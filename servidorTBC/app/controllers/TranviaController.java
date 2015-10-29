@@ -5,21 +5,28 @@ import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import java.io.Serializable;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import actions.CorsComposition;
 import actions.ForceHttps;
+import security.*;
 
 
 import java.util.List;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class TranviaController extends Controller {
 
+
+    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public static final String AUTH_TOKEN = "authToken";
+    
     @BodyParser.Of(BodyParser.Json.class)
     public Result crearTranvia() {
         JsonNode j = Controller.request().body().asJson();
@@ -31,18 +38,24 @@ public class TranviaController extends Controller {
         //Posicion posicion = Posicion.bind(j);
 
         tranvia.agregarPosicion(posicion);
-        tranvia.save();
+
+        String authToken = tranvia.createToken();
+        ObjectNode authTokenJson = Json.newObject();
+        authTokenJson.put(AUTH_TOKEN, authToken);
+        response().setCookie(AUTH_TOKEN, authToken);
 
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvia));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darTranvias() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).all();
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(tranvias));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darTranviasDisponibles() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
         where().eq("estado", Cons.V_DISPONIBLE).findList();;
@@ -51,6 +64,7 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(tranvias));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darTranviasOcupados() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
         where().eq("estado", Cons.V_OCUPADO).findList();;
@@ -59,6 +73,7 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(tranvias));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darTranvia(Long id){
       Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
 
@@ -66,6 +81,7 @@ public class TranviaController extends Controller {
       return ok(Json.toJson(tranvia));  
     }
 
+    @With(SecuredActionAdmin.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result crearRevision(Long id) {
         JsonNode j = Controller.request().body().asJson();
@@ -78,6 +94,7 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(tranvia));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darRevisiones(Long id) {
         Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
         List<Revision> revisiones = tranvia.getRevisiones();
@@ -86,6 +103,7 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(revisiones));
     }
 
+    @With(SecuredActionTranvia.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
@@ -98,6 +116,7 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(tranvia));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarTranvias(){
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).all();
         for(int i = 0; i<tranvias.size();i++){
@@ -108,6 +127,7 @@ public class TranviaController extends Controller {
         return ok(Json.toJson(""));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarTranvia(Long id){
       Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).byId(id);
       tranvia.delete();

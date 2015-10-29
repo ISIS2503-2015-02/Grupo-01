@@ -8,25 +8,18 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import actions.CorsComposition;
 import actions.ForceHttps;
+import security.*;
 
 import java.util.List;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class UsuarioController extends Controller {
 
-	@BodyParser.Of(BodyParser.Json.class)
-    public Result crearUsuario() {
-        JsonNode j = Controller.request().body().asJson();
-        Usuario usuario = Usuario.bind(j);
-        usuario.save();
-
-        response().setHeader("Access-Control-Allow-Origin", "*");
-        return ok(Json.toJson(usuario));
-    }
-
+    @With(SecuredActionAdmin.class)
     public Result darUsuarios() {
         List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
         
@@ -34,6 +27,7 @@ public class UsuarioController extends Controller {
         return ok(Json.toJson(usuarios));
     }
 
+    @With(SecuredActionUsuario.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result crearReserva(){
     	JsonNode j = Controller.request().body().asJson();
@@ -54,12 +48,14 @@ public class UsuarioController extends Controller {
         return ok(Json.toJson(usuario));
    	}   
 
+    @With(SecuredActionUsuario.class)
     public Result darReservasUsuario(Long id){
       List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).where().eq("usuario_numero_identificacion", id ).findList();
       response().setHeader("Access-Control-Allow-Origin", "*");
       return ok(Json.toJson(reservas));  
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarUsuarios(){
         List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
         for(int i = 0; i<usuarios.size();i++){
@@ -70,6 +66,7 @@ public class UsuarioController extends Controller {
         return ok(Json.toJson(""));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darUsuario(Long id){
       Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(id);
 
@@ -77,6 +74,7 @@ public class UsuarioController extends Controller {
       return ok(Json.toJson(usuario));  
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarUsuario(Long id){
       Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(id);
       usuario.delete();
@@ -84,6 +82,7 @@ public class UsuarioController extends Controller {
       return ok(Json.toJson(usuario));  
     }
 
+    /**
     public Result login(){
         JsonNode j = Controller.request().body().asJson();
         String user = j.findPath("user").asText();
@@ -95,5 +94,5 @@ public class UsuarioController extends Controller {
     public Result logout(){
         return ok();
     }
-
+*/
 }

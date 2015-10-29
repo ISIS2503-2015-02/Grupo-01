@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import java.util.UUID;
+
 @Entity
 public class Tranvia extends Model{
 
@@ -17,6 +19,8 @@ public class Tranvia extends Model{
 	// Atributos
 	//-----------------------------------
 
+	public String authToken;
+	
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
@@ -56,6 +60,20 @@ public class Tranvia extends Model{
 		this.panico = panico;
 		this.revisiones = revisiones;
 	}
+
+	//--------------------------------------------
+    //Metodos token
+    //--------------------------------------------
+    public String createToken() {
+        authToken = UUID.randomUUID().toString();
+        save();
+        return authToken;
+    }
+
+     public void deleteAuthToken() {
+        authToken = null;
+        save();
+    }
 
 	// Getters & Setters
 

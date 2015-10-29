@@ -7,12 +7,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.UUID;
+
 @Entity
 public class Mobibus extends Model{
 
     //-----------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------
+    
+    public String authToken;
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -52,6 +56,20 @@ public class Mobibus extends Model{
         this.capacidad = capacidad;
         this.placa = placa;
         this.revisiones = revisiones;
+    }
+
+    //--------------------------------------------
+    //Metodos token
+    //--------------------------------------------
+    public String createToken() {
+        authToken = UUID.randomUUID().toString();
+        save();
+        return authToken;
+    }
+
+     public void deleteAuthToken() {
+        authToken = null;
+        save();
     }
 
     //-----------------------------------------------------------

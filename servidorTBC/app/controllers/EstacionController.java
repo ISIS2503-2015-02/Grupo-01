@@ -4,25 +4,36 @@ import java.util.Date;
 import com.avaje.ebean.LikeType;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import actions.CorsComposition;
 import actions.ForceHttps;
+import security.*;
 
 import java.util.List;
 
+@With(SecuredActionAdmin.class)
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class EstacionController  extends Controller{
 	
+    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public static final String AUTH_TOKEN = "authToken";
+    
 	@BodyParser.Of(BodyParser.Json.class)
     public Result crearEstacion() {
         JsonNode j = Controller.request().body().asJson();
         Estacion estacion = Estacion.bind(j);
-        estacion.save();
+
+        String authToken = estacion.createToken();
+        ObjectNode authTokenJson = Json.newObject();
+        authTokenJson.put(AUTH_TOKEN, authToken);
+        response().setCookie(AUTH_TOKEN, authToken);
 
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(estacion));

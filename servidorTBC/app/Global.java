@@ -4,13 +4,14 @@ import play.libs.*;
 import com.avaje.ebean.Ebean;
 import models.*;
 import java.util.*;
-
-/**
- * Created by scvalencia606 on 8/10/15.
- */
+import utils.*;
 
 public class Global extends GlobalSettings {
     @Override
     public void onStart(Application app) {
+
+    	if(Usuario.find.all().size() == 0)
+    		DummyData.loadDemoData();
+    	super.onStart(app);
     }
 }

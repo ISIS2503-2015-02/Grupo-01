@@ -124,9 +124,7 @@ public class Reserva extends Model {
     public static Reserva bind(JsonNode j){
         String fechaa = j.findPath("fecha").asText();
         Date fechaDate = stringToDate(fechaa);
-        JsonNode rutaJson = j.get("ruta");
-        Ruta rout = Ruta.bind(rutaJson);
-        Reserva reserva = new Reserva(Cons.R_ESPERA, fechaDate, 15000, rout);
+        Reserva reserva = new Reserva(Cons.R_ESPERA, fechaDate, 15000, null);
         return reserva;
     }
 
