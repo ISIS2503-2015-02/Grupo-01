@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 usActual = {};
-url = "https://transporte-tbc.herokuapp.com";
+urlP = "https://transporte-tbc.herokuapp.com";
 (function(){
     var TBC = angular.module('TBC',[]);
     

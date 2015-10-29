@@ -26,7 +26,7 @@
     
     $scope.login = function(){
         console.log(JSON.stringify($scope.user));
-        $http.post(url + '/login',JSON.stringify($scope.user)).success(function(data,headers){
+        $http.post(urlP + '/login',JSON.stringify($scope.user)).success(function(data,headers){
             $scope.active = data;
             usActual = data;
 
@@ -39,7 +39,7 @@
     $scope.logout = function(){
         var peti={
                     method: 'POST',
-                    url: 'http://localhost:9000/logout',
+                    url: urlP +'/logout',
                     headers:{
                         'Content-Type': 'application/json',
                         'X-AUTH-TOKEN': usActual.authToken,
@@ -63,7 +63,19 @@
         $scope.reserva.usuarioId = usActual.numeroIdentificacion;
         console.log($scope.active);
         console.log(JSON.stringify($scope.reserva));
-        $http.put('http://localhost:9000/usuarios/reserva',JSON.stringify($scope.reserva)).success(function(data,headers){
+        
+        var peti={
+                    method: 'POST',
+                    url: urlP +'/reserva',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken,
+                    },
+                    data: JSON.stringify(usActual)
+
+
+                };
+        $http(peti).success(function(data,headers){
             console.log(data);
             
         }).error(function(data, headers){
