@@ -30,7 +30,16 @@
             $scope.formulario = false;
         };
         $scope.addEstation = function(){
-            $http.post('http://localhost:9000/estaciones', JSON.stringify($scope.estation)).success(function(data, status, headers, config){
+            var peti={
+                    method: 'POST',
+                    url: urlP +'/estaciones',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    },
+                    data: JSON.stringify($scope.estacion)
+                };
+            $http.post(peti).success(function(data, status, headers, config){
                 var estacion = {
                             id : data.id,
                             capacidad : data.capacidad,
@@ -54,7 +63,16 @@
                var station = {
                     estacionId : $scope.estaciones[i].id
                     };
-                    $http.put('http://localhost:9000/estaciones/llenar', JSON.stringify(station)).success(function(data, status, headers, config){
+                    var peti={
+                    method: 'PUT',
+                    url: urlP +'/estaciones/llenar',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    },
+                    data: JSON.stringify(JSON.stringify(estacionId))
+                };
+                    $http.put(peti).success(function(data, status, headers, config){
                     console.log(data);
                     for(i = 0; i < data.length; i++){
                         var estacion = {
@@ -88,7 +106,15 @@
            $scope.mostrarTab();
         };
         $scope.estaciones = [];
-        $http.get('http://localhost:9000/estaciones').success(function(data, status, headers, config){
+        var peti={
+                    method: 'GET',
+                    url: urlP +'/estaciones',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    }
+                };
+        $http.get(peti).success(function(data, status, headers, config){
             for(i = 0; i < data.length; i++){
                 var estacion = {
                 id : data[i].id,

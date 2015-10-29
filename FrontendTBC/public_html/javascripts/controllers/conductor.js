@@ -5,7 +5,15 @@
         $scope.formulario = false;
         $scope.conductores = [];
         $scope.eliminar = function(index){
-            $http.delete('http://localhost:9000/conductores/'+$scope.conductores[index].id).success(function(data, status, headers, config){
+            var peti={
+                    method: 'DELETE',
+                    url: urlP +'/conductores/'+$scope.conductores[index].id,
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    }
+                };
+            $http.delete(peti).success(function(data, status, headers, config){
                 $scope.conductores.splice(index,1);
             }).error(function(data, status, headers, config){
                 
@@ -19,7 +27,16 @@
         };
         $scope.addDriver = function(){
             console.log($scope.conductor);
-            $http.post('http://localhost:9000/conductores',JSON.stringify($scope.conductor)).success(function(data, status, headers, config){
+            var peti={
+                    method: 'POST',
+                    url: urlP +'/conductores',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    },
+                    data: JSON.stringify($scope.conductor)
+                };
+            $http.post(peti).success(function(data, status, headers, config){
               var conduc = {
               numeroIdentificacion : data.numeroIdentificacion,
               edad : data.edad,
@@ -38,7 +55,15 @@
             });
             $scope.$apply();
         };
-        $http.get('http://localhost:9000/conductores').success(function(data, status, headers, config){
+        var peti={
+                    method: 'GET',
+                    url: urlP +'/conductores',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    },
+                };
+        $http.get(peti).success(function(data, status, headers, config){
             for(i = 0; i < data.length; i++){
               var conductor = {
               numeroIdentificacion : data[i].numeroIdentificacion,

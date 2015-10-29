@@ -29,7 +29,15 @@
         $scope.showOcupados = function(){
             $scope.ocupados = true;
             $scope.disponibles = false;
-            $http.get('http://localhost:9000/tranviasOcupados').
+            var peti={
+                    method: 'GET',
+                    url: urlP +'/mobibusesOcupados',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    },
+                };
+            $http.get(peti).
             success(function(data, status, headers, config) {
                 $scope.buses = [];
                 for(i = 0; i < data.length; i++){
@@ -102,7 +110,15 @@
         $scope.showDisponibles = function(){
             $scope.disponibles = true;
             $scope.ocupados = false;
-            $http.get('http://localhost:9000/tranviasDisponibles').
+            var peti={
+                    method: 'GET',
+                    url: urlP +'/mmobibusesDisponibles',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    }
+                };
+            $http.get(peti).
             success(function(data, status, headers, config) {
                 $scope.buses = [];
                 for(i = 0; i < data.length; i++){
@@ -175,7 +191,15 @@
         $scope.showAll = function(){
             $scope.ocupados = false;
             $scope.disponibles = false;
-            $http.get('http://localhost:9000/tranvias').
+            var peti={
+                    method: 'GET',
+                    url: urlP +'/tranvias',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    }
+                };
+            $http.get(urlP+'/tranvias').
             success(function(data, status, headers, config) {
                 $scope.buses = [];
                 for(i = 0; i < data.length; i++){
@@ -247,7 +271,15 @@
         };
         $scope.showReviews = function(index){
             $scope.reviews = $scope.buses[index].id;
-            $http.get('http://localhost:9000/tranvias/'+$scope.buses[index].id+'/revisiones').success(function(data, status, headers, config){
+            var peti={
+                    method: 'GET',
+                    url: urlP +'/mobibuses/'+$scope.buses[index].id+'/revisiones',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    }
+                };
+            $http.get(peti).success(function(data, status, headers, config){
                 for (i = 0; i < data.length; i++){
                     var rev = {
                        id : data[i].id,
@@ -265,7 +297,15 @@
             $scope.reviews = 0;
             $scope.revisiones = [];
         };
-       $http.get('http://localhost:9000/mobibuses').success(function(data, status, headers, config){
+        var peti={
+                    method: 'GET',
+                    url: urlP +'/mobibuses',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken
+                    }
+                };
+       $http.get(urlP+'/mobibuses').success(function(data, status, headers, config){
             for(i = 0; i < data.length; i++){
               var bus = {
               estado : data[i].estado,
