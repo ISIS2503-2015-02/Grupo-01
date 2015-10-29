@@ -26,18 +26,36 @@
     
     $scope.login = function(){
         console.log(JSON.stringify($scope.user));
-        $http.post('http://localhost:9000/usuarios/login',JSON.stringify($scope.user)).success(function(data,headers){
+        $http.post(urlP + '/login',JSON.stringify($scope.user)).success(function(data,headers){
             $scope.active = data;
             usActual = data;
 
-            console.log($scope.active);
+            console.log(data);
             
         }).error(function(data, headers){
             
         });
     };
     $scope.logout = function(){
-        
+        var peti={
+                    method: 'POST',
+                    url: urlP +'/logout',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken,
+                    },
+                    data: JSON.stringify(usActual)
+
+
+                };
+        console.log(peti);        
+        $http(peti).success(function(data,headers){
+            console.log(data);
+            console.log(":)")
+        }).error(function(data, headers){
+            console.log(data);
+            console.log(":(")
+        });
     };
     $scope.reservar = function(){
         
@@ -45,7 +63,19 @@
         $scope.reserva.usuarioId = usActual.numeroIdentificacion;
         console.log($scope.active);
         console.log(JSON.stringify($scope.reserva));
-        $http.put('http://localhost:9000/usuarios/reserva',JSON.stringify($scope.reserva)).success(function(data,headers){
+        
+        var peti={
+                    method: 'PUT',
+                    url: urlP +'/reserva',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken,
+                    },
+                    data: JSON.stringify(usActual)
+
+
+                };
+        $http(peti).success(function(data,headers){
             console.log(data);
             
         }).error(function(data, headers){
@@ -62,6 +92,17 @@
     
     $scope.verReservas = function(){
         $scope.reservasus = [];
+        var peti={
+                    method: 'PUT',
+                    url: urlP +'/reserva',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken,
+                    },
+                    data: JSON.stringify(usActual)
+
+
+                };
         $http.get('http://localhost:9000/usuarios/'+usActual.numeroIdentificacion + '/reservas').
             success(function(data, status, headers, config) {
                 console.log(data);

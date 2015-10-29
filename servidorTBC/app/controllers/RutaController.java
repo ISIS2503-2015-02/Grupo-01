@@ -8,16 +8,19 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import actions.CorsComposition;
 import actions.ForceHttps;
+import security.*;
 
 import java.util.List;
 import java.util.ArrayList;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class RutaController extends Controller {
 
+    @With(SecuredActionAdmin.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result crearRuta() {
         JsonNode j = Controller.request().body().asJson();
@@ -32,6 +35,7 @@ public class RutaController extends Controller {
         return ok(Json.toJson(ruta));
     }
 
+    @With(SecuredActionAdmin.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result asignarTranvia(){
         JsonNode j = Controller.request().body().asJson();
@@ -54,6 +58,7 @@ public class RutaController extends Controller {
 
     }
 
+    @With(SecuredActionAdmin.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result asignarMobibus(){
         JsonNode j = Controller.request().body().asJson();
@@ -64,6 +69,7 @@ public class RutaController extends Controller {
         mobibus.update();
         conductor.setEstado(Cons.V_OCUPADO);
         conductor.update();
+        ruta.getTranvia();
         ruta.setTranvia(null);
         ruta.setTipoAccidente(Cons.EA_NORMAL);
         ruta.setTerminado(Cons.ET_CURSO);
@@ -76,6 +82,7 @@ public class RutaController extends Controller {
 
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darRutas() {
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).all();
 
@@ -83,6 +90,7 @@ public class RutaController extends Controller {
         return ok(Json.toJson(rutas));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darRutasAccidenteTranvia(){
       List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
       where().eq("tipo_accidente", "choque").eq("tipo", "Ruta tranvia").findList();
@@ -91,7 +99,7 @@ public class RutaController extends Controller {
       return ok(Json.toJson(rutas));  
     }
 
-
+    @With(SecuredActionAdmin.class)
     public Result darRuta(Long id){
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
 
@@ -99,6 +107,7 @@ public class RutaController extends Controller {
         return ok(Json.toJson(ruta));
     }
 
+    @With(SecuredActionMobibus.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result alertMobibusAccident() {
         JsonNode j = Controller.request().body().asJson();
@@ -114,6 +123,7 @@ public class RutaController extends Controller {
         return ok(Json.toJson(ruta));
     }
 
+    @With(SecuredActionTranvia.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result alertarAccidenteTranvia(){
         JsonNode j = Controller.request().body().asJson();
@@ -129,6 +139,7 @@ public class RutaController extends Controller {
         return ok(Json.toJson(ruta));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darBusesCercanosAccidente(Long id){
         JsonNode j = Controller.request().body().asJson();
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
@@ -166,6 +177,7 @@ public class RutaController extends Controller {
         return ok(Json.toJson(buses));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darRutasAccidentes(){
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
         where().eq("terminado", Cons.ET_ANORMAL).findList();
@@ -174,6 +186,7 @@ public class RutaController extends Controller {
         return ok(Json.toJson(rutas));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darRutasTerminadas(){
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
         where().eq("terminado", Cons.ET_TERMINADO).findList();
@@ -202,6 +215,7 @@ public class RutaController extends Controller {
     }
     */
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarRutas(){
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).all();
         for(int i = 0; i<rutas.size();i++){
@@ -212,6 +226,7 @@ public class RutaController extends Controller {
         return ok(Json.toJson(""));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarRuta(Long id){
       Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
       ruta.delete();

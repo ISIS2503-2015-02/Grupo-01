@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+usActual = {};
+urlP = "https://transporte-tbc.herokuapp.com";
 (function(){
     var TBC = angular.module('TBC',[]);
-    var usActual;
     
     TBC.directive('toolbar', function(){
         return{

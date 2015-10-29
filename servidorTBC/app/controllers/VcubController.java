@@ -4,20 +4,26 @@ import java.util.Date;
 import com.avaje.ebean.Model;
 import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.With;
 import actions.CorsComposition;
 import actions.ForceHttps;
+import security.*;
 
 import java.util.List;
 
 @CorsComposition.Cors
-//@ForceHttps.Https
+@ForceHttps.Https
 public class VcubController extends Controller{
 	
+    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public static final String AUTH_TOKEN = "authToken";
+    
 	@BodyParser.Of(BodyParser.Json.class)
     public Result crearVcub() {
         JsonNode j = Controller.request().body().asJson();
@@ -29,12 +35,16 @@ public class VcubController extends Controller{
         //Posicion posicion = Posicion.bind(j);
 
         vcub.agregarPosicion(pos);
-        vcub.save();
+        String authToken = vcub.createToken();
+        ObjectNode authTokenJson = Json.newObject();
+        authTokenJson.put(AUTH_TOKEN, authToken);
+        response().setCookie(AUTH_TOKEN, authToken);
 
         response().setHeader("Access-Control-Allow-Origin", "*");
         return ok(Json.toJson(vcub));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darVcubs() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).all();
         
@@ -42,6 +52,7 @@ public class VcubController extends Controller{
         return ok(Json.toJson(vcubs));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darVcubsDisponibles() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).
         where().eq("estado", Cons.V_DISPONIBLE).findList();;
@@ -50,6 +61,7 @@ public class VcubController extends Controller{
         return ok(Json.toJson(vcubs));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darVcubsOcupados() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
         where().eq("estado", Cons.V_OCUPADO).findList();;
@@ -58,6 +70,7 @@ public class VcubController extends Controller{
         return ok(Json.toJson(tranvias));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result darVcub(Long id){
       Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
       
@@ -65,6 +78,7 @@ public class VcubController extends Controller{
       return ok(Json.toJson(vcub));  
     }
 
+    @With(SecuredActionVcub.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result actualizarUbicacion(){
         JsonNode j = Controller.request().body().asJson();
@@ -77,6 +91,7 @@ public class VcubController extends Controller{
         return ok(Json.toJson(posicion));
     }
 
+    @With(SecuredActionVcub.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result adquirir(){
         JsonNode j = Controller.request().body().asJson();
@@ -91,6 +106,7 @@ public class VcubController extends Controller{
         return ok(Json.toJson(vcub));
     }
 
+    @With(SecuredActionVcub.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result restituir(){
         JsonNode j = Controller.request().body().asJson();
@@ -111,6 +127,7 @@ public class VcubController extends Controller{
         }
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarVcubs(){
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).all();
         for(int i = 0; i<vcubs.size();i++){
@@ -121,6 +138,7 @@ public class VcubController extends Controller{
         return ok(Json.toJson(""));
     }
 
+    @With(SecuredActionAdmin.class)
     public Result eliminarVcub(Long id){
       Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
       vcub.delete();

@@ -26,4 +26,12 @@ public final class Cons  {
 	public final static String EA_INCENDIO = "Incendio";
 	public final static String EA_ATROPELLO = "Atropello";
 
+	//Roles del sistema
+	public final static String ROL_USUARIO = "usuario";
+	public final static String ROL_ADMIN = "admin";
+	public final static String ROL_VCUB = "vcub";
+	public final static String ROL_TRANVIA = "tranvia";
+	public final static String ROL_MOBIBUS = "mobibus";
+	public final static String ROL_ESTACION = "estacion";
+
 }

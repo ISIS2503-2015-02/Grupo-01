@@ -10,10 +10,16 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
-public class Usuario  extends Persona{
+public class Usuario extends Persona{
+
+
+    public String authToken;
+
+    private String rol;
 
     //--------------------------------------------
     //Atributos
@@ -21,14 +27,15 @@ public class Usuario  extends Persona{
     private String condicion;
 
     @Column(unique = true)
-    private String usuario;
+    public String usuario;
 
-    private String password;
+    public String password;
 
     @OneToMany(cascade=CascadeType.ALL)
     @JsonManagedReference
     private List<Reserva> reservas;
 
+    public static Finder<Integer,Usuario> find = new Finder(Integer.class, Usuario.class);
 
     //--------------------------------------------
     //Constructores
@@ -36,17 +43,34 @@ public class Usuario  extends Persona{
     public Usuario(){ super();}
 
     public Usuario(String user, String pass,Long identificacion, int edad, String nombre, String tipoId, String telefono,
-                   String condicion, List<Reserva> nReservas){
+                   String condicion, List<Reserva> nReservas, String rol){
         super(identificacion, edad, nombre, tipoId, telefono);
         this.condicion = condicion;
         this.usuario = user;
         this.password = pass;
         reservas = nReservas;
+        this.rol = rol;
     }
+    //--------------------------------------------
+    //Metodos token
+    //--------------------------------------------
+    public String createToken() {
+        authToken = UUID.randomUUID().toString();
+        save();
+        return authToken;
+    }
+
+     public void deleteAuthToken() {
+        authToken = null;
+        save();
+    }
+
 
     //--------------------------------------------
     //Getters & Setters
     //--------------------------------------------
+    
+
     public String getCondicion() {
         return condicion;
     }
@@ -83,6 +107,14 @@ public class Usuario  extends Persona{
         return password;
     }
 
+    public String getRol(){
+        return rol;
+    }
+
+    public void setRol(String rol){
+        this.rol = rol;
+    }
+
     public static Usuario bind(JsonNode j) {
         String user = j.findPath("user").asText();
         String pass = j.findPath("pass").asText();
@@ -92,7 +124,8 @@ public class Usuario  extends Persona{
         String tipoId = j.findPath("tipoId").asText();
         String telefono = j.findPath("telefono").asText();
         String condicion = j.findPath("condicion").asText();
-        Usuario usuario = new Usuario(user, pass, id, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>());
+        String rol = j.findPath("rol").asText();
+        Usuario usuario = new Usuario(user, pass, id, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>(), rol);
         return usuario;
     }
 }
