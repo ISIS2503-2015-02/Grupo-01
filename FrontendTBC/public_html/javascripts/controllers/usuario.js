@@ -6,7 +6,7 @@
        return{
            restrict : 'E',
            templateUrl: 'partials/registro.html',
-           controller: 'usuario'
+           controller: 'registro'
        }; 
     });
    
@@ -28,23 +28,25 @@
         console.log(JSON.stringify($scope.user));
         $http.post(urlP + '/login',JSON.stringify($scope.user)).success(function(data,headers){
             $scope.active = data;
-            usActual = data;
+            document.cookie="id=" + data.numeroIdentificacion;
+            document.cookie="token=" + data.authToken;
 
-            console.log(data);
+            console.log(getCookie("id"));
             
         }).error(function(data, headers){
             
         });
     };
     $scope.logout = function(){
+        console.log(document.cookie);
         var peti={
                     method: 'POST',
                     url: urlP +'/logout',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken,
+                        'X-AUTH-TOKEN': getCookie("token"),
                     },
-                    data: JSON.stringify(usActual)
+                    data: JSON.stringify({numeroIdentificacion:getCookie("id")})
 
 
                 };
@@ -60,18 +62,18 @@
     $scope.reservar = function(){
         
         $scope.reserva.ruta.tipo = "Ruta Mobibus";
-        $scope.reserva.usuarioId = usActual.numeroIdentificacion;
+        $scope.reserva.usuarioId = getCookie("id");
         console.log($scope.active);
         console.log(JSON.stringify($scope.reserva));
         
         var peti={
                     method: 'PUT',
-                    url: urlP +'/reserva',
+                    url: urlP +'/usuarios/reserva',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken,
+                        'X-AUTH-TOKEN': getCookie("token"),
                     },
-                    data: JSON.stringify(usActual)
+                    data: JSON.stringify($scope.reserva)
 
 
                 };
@@ -93,17 +95,16 @@
     $scope.verReservas = function(){
         $scope.reservasus = [];
         var peti={
-                    method: 'PUT',
-                    url: urlP +'/reserva',
+                    method: 'GET',
+                    url: urlP +'/usuarios/'+getCookie("id") + '/reservas',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken,
+                        'X-AUTH-TOKEN': getCookie("token"),
                     },
-                    data: JSON.stringify(usActual)
 
 
                 };
-        $http.get('http://localhost:9000/usuarios/'+usActual.numeroIdentificacion + '/reservas').
+        $http(peti).
             success(function(data, status, headers, config) {
                 console.log(data);
                 for(i = 0; i < data.length; i++){
@@ -118,7 +119,7 @@
                     }; 
                     $scope.reservasus.push(res);
                     $scope.cancelarRes = function(ind){
-                    $http.delete('http://localhost:9000/reservas/'+$scope.reservasus[ind].id).
+                    $http.delete(urlP + '/reservas/'+$scope.reservasus[ind].id).
                         success(function(data, status, headers, config) {
                         
                 });
@@ -135,15 +136,18 @@
          else
             $scope.verReserva = false;
     };
+           
+    });
     
-    
-    $scope.addUser=function(){
+    TBC.controller('registro',function($http, $scope, $location){
+        $scope.addUser=function(){
             $http.post('http://localhost:9000/usuarios', JSON.stringify($scope.usuario)).success(function(data,headers){
                 $scope.usuario={};
                 window.location.assign("/FrontendTBC/index.html");
             });
-        };	       
+        };	
     });
+    
    var compareTo = function() {
     return {
         require: "ngModel",

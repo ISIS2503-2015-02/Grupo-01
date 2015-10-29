@@ -10,7 +10,18 @@
     });
     
     TBC.controller("getRutasacc", function($http, $scope){
-       $http.get('http://localhost:9000:9000/rutas/accidentes').success(function(data, status, headers, config){
+        var peti={
+                    method: 'GET',
+                    url: urlP +'/rutas/accidentes',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
+       $http(peti).success(function(data, status, headers, config){
                   
           $scope.rutasacc = [];
             for(i = 0; i < data.length; i++){
@@ -56,9 +67,20 @@
                     $scope.markersbus = [];
                     
                 }
-                else{    
+                else{
+                    var peti2={
+                    method: 'GET',
+                    url: urlP +'/rutas/busesCercanos/'+ $scope.rutasacc[index].id,
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
                     $scope.rutasacc[index].mostrarmob = true;
-                    $http.get('http://localhost:9000/rutas/busesCercanos/'+ $scope.rutasacc[index].id).success(function(data, status, headers, config){
+                    $http(peti2).success(function(data, status, headers, config){
                         $scope.busesCerc = [];
                         for(i = 0; i < data.length; i++){
                             var busc = {
@@ -103,7 +125,18 @@
                         }
                         
                         $scope.asignarMobibus = function(ind){
-                            $http.put('http://localhost:9000/rutas/asignacionMobibus', JSON.stringify({mobibusId: $scope.busesCerc[ind].id , rutaId: $scope.rutasacc[index].id})).success(function(data,headers){
+                            var peti3={
+                                method: 'PUT',
+                                url: urlP +'/rutas/asignacionMobibus', 
+                                headers:{
+                                    'Content-Type': 'application/json',
+                                    'X-AUTH-TOKEN': getCookie("token"),
+                                },
+                                data: JSON.stringify({mobibusId: $scope.busesCerc[ind].id , rutaId: $scope.rutasacc[index].id})
+
+
+                            };
+                            $http(peti3).success(function(data,headers){
                             $scope.rutasacc[index]=data;
 
                         }).error(function(data, headers){
@@ -132,7 +165,18 @@
     });
     
     TBC.controller("getRutas", function($http, $scope){
-       $http.get('http://localhost:9000/rutas').success(function(data, status, headers, config){
+        var peti={
+                    method: 'GET',
+                    url: urlP +'/rutas',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
+       $http(peti).success(function(data, status, headers, config){
           $scope.rutas = [];
             for(i = 0; i < data.length; i++){
               var ruta = {

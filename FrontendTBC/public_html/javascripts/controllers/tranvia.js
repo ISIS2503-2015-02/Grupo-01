@@ -27,7 +27,18 @@
             $scope.form = false;
         };
         $scope.addTranvia = function(){
-            $http.post('localhost:9000/tranvias',JSON.stringify($scope.tranvia)).success(function(data,status,headers,config){
+            var peti={
+                    method: 'POST',
+                    url: urlP +'/tranvias',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
+            $http(peti).success(function(data,status,headers,config){
                 var tran = {
                         estado : data.estado,
                         id : data.id,
@@ -43,7 +54,18 @@
             }).error();
         };
         $scope.eliminar = function(index){
-            $http.delete('http://localhost:9000/conductores/'+$scope.conductores[index].id).success(function(data, status, headers, config){
+            var peti={
+                    method: 'DELETE',
+                    url: urlP +'/tranvias/'+$scope.tranvias[index].id,
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
+            $http(peti).success(function(data, status, headers, config){
                 $scope.conductores.splice(index,1);
             }).error(function(data, status, headers, config){
                 
@@ -52,7 +74,18 @@
         $scope.showOcupados = function(){
             $scope.ocupados = true;
             $scope.disponibles = false;
-            $http.get('http://localhost:9000/tranviasOcupados').
+            var peti={
+                    method: 'GET',
+                    url: urlP +'/tranviasOcupados',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
+            $http(peti).
             success(function(data, status, headers, config) {
                 $scope.tranvias = [];
                 for(i = 0; i < data.length; i++){
@@ -123,9 +156,20 @@
             });
         };
         $scope.showDisponibles = function(){
+            var peti={
+                    method: 'GET',
+                    url: urlP +'/tranviasDisponibles',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
             $scope.disponibles = true;
             $scope.ocupados = false;
-            $http.get('http://localhost:9000/tranviasDisponibles').
+            $http(peti).
             success(function(data, status, headers, config) {
                 $scope.tranvias = [];
                 for(i = 0; i < data.length; i++){
@@ -196,9 +240,20 @@
             });
         };
         $scope.showAll = function(){
+            var peti={
+                    method: 'GET',
+                    url: urlP +'/tranvias',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
             $scope.ocupados = false;
             $scope.disponibles = false;
-            $http.get('http://localhost:9000/tranvias').
+            $http().
             success(function(data, status, headers, config) {
                 $scope.tranvias = [];
                 for(i = 0; i < data.length; i++){
@@ -269,8 +324,19 @@
             });
         };
         $scope.showReviews = function(index){
+            var peti={
+                    method: 'GET',
+                    url: urlP +'/tranvias/'+$scope.tranvias[index].id+'/revisiones',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
             $scope.reviews = $scope.tranvias[index].id;
-            $http.get('http://localhost:9000/tranvias/'+$scope.tranvias[index].id+'/revisiones').success(function(data, status, headers, config){
+            $http(peti).success(function(data, status, headers, config){
                 for (i = 0; i < data.length; i++){
                     var rev = {
                        id : data[i].id,
@@ -288,7 +354,18 @@
             $scope.reviews = 0;
             $scope.revisiones = [];
         };
-        $http.get('http://localhost:9000/tranvias').
+        var petiV={
+                    method: 'GET',
+                    url: urlP +'/tranvias',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': getCookie("token"),
+                    },
+                    data: JSON.stringify($scope.tranvia)
+
+
+                };
+        $http(petiV).
             success(function(data, status, headers, config) {
                 for(i = 0; i < data.length; i++){
                     var tran = {

@@ -35,11 +35,11 @@
                     url: urlP +'/estaciones',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     },
                     data: JSON.stringify($scope.estacion)
                 };
-            $http.post(peti).success(function(data, status, headers, config){
+            $http(peti).success(function(data, status, headers, config){
                 var estacion = {
                             id : data.id,
                             capacidad : data.capacidad,
@@ -63,16 +63,16 @@
                var station = {
                     estacionId : $scope.estaciones[i].id
                     };
-                    var peti={
+                    var peti2={
                     method: 'PUT',
                     url: urlP +'/estaciones/llenar',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     },
                     data: JSON.stringify(JSON.stringify(estacionId))
                 };
-                    $http.put(peti).success(function(data, status, headers, config){
+                    $http(peti2).success(function(data, status, headers, config){
                     console.log(data);
                     for(i = 0; i < data.length; i++){
                         var estacion = {
@@ -106,15 +106,15 @@
            $scope.mostrarTab();
         };
         $scope.estaciones = [];
-        var peti={
+        var peti3={
                     method: 'GET',
                     url: urlP +'/estaciones',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     }
                 };
-        $http.get(peti).success(function(data, status, headers, config){
+        $http(peti3).success(function(data, status, headers, config){
             for(i = 0; i < data.length; i++){
                 var estacion = {
                 id : data[i].id,

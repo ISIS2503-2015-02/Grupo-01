@@ -34,10 +34,10 @@
                     url: urlP +'/mobibusesOcupados',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     },
                 };
-            $http.get(peti).
+            $http(peti).
             success(function(data, status, headers, config) {
                 $scope.buses = [];
                 for(i = 0; i < data.length; i++){
@@ -115,10 +115,10 @@
                     url: urlP +'/mmobibusesDisponibles',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     }
                 };
-            $http.get(peti).
+            $http(peti).
             success(function(data, status, headers, config) {
                 $scope.buses = [];
                 for(i = 0; i < data.length; i++){
@@ -191,15 +191,16 @@
         $scope.showAll = function(){
             $scope.ocupados = false;
             $scope.disponibles = false;
+            console.log(getCookie("token"));
             var peti={
                     method: 'GET',
-                    url: urlP +'/tranvias',
+                    url: urlP +'/mobibuses',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     }
                 };
-            $http.get(urlP+'/tranvias').
+            $http(peti).
             success(function(data, status, headers, config) {
                 $scope.buses = [];
                 for(i = 0; i < data.length; i++){
@@ -254,7 +255,7 @@
                         map: $scope.map,
                         position: new google.maps.LatLng(info.posiciones[info.posiciones.length-1].longitud, info.posiciones[info.posiciones.length-1].latitud),
                     });
-                    marker.content = '<div class="infoWindowContent"> Tranvia ' + info.id + '</div>';
+                    marker.content = '<div class="infoWindowContent"> Mobibus ' + info.id + '</div>';
                     google.maps.event.addListener(marker, 'click', function(){
                         infoWindow.setContent(marker.content);
                         infoWindow.open($scope.map, marker);
@@ -276,7 +277,7 @@
                     url: urlP +'/mobibuses/'+$scope.buses[index].id+'/revisiones',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     }
                 };
             $http.get(peti).success(function(data, status, headers, config){
@@ -297,15 +298,16 @@
             $scope.reviews = 0;
             $scope.revisiones = [];
         };
-        var peti={
+        console.log(getCookie("token"));
+        var petiV={
                     method: 'GET',
                     url: urlP +'/mobibuses',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     }
                 };
-       $http.get(urlP+'/mobibuses').success(function(data, status, headers, config){
+       $http(petiV).success(function(data, status, headers, config){
             for(i = 0; i < data.length; i++){
               var bus = {
               estado : data[i].estado,

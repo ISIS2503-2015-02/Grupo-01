@@ -1,3 +1,4 @@
+<div class="container" ng-if="!usActual.numeroIdentificacion">
 <div class="jumbotron">
     <div class="container">
         <form ng-submit="login()" ng-controller="usuario" novalidate>
@@ -9,7 +10,7 @@
                 </div>
                 <div class="form-group">
                     <label>Contrasena</label>
-                    <input type="text" class="form-control"  ng-model="user.pass">
+                    <input type="password" class="form-control"  ng-model="user.pass">
                 </div>
                 <button type="submit" class="btn btn-default">Login</button>    <button type="reset" class="btn btn-default">Cancelar</button>
         </form>
@@ -22,13 +23,15 @@
             <a class="navbar-brand" href="index.html">TBC</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right" role="form" action="index.html" ng-controller="usuario" ng-submit="logout()">
+            <form class="navbar-form navbar-right" role="form"  ng-controller="usuario" ng-submit="logout()">
             <button type="submit" class="btn btn-info" >Cerrar Sesi&oacute;n</button>
             </form>
         </div><!--/.navbar-collapse -->
     </div>
 </nav> 
-      
+</div>
+    
+<div class="container" ng-if=true>
 <div class="jumbotron">
     <div class="container">
         <div class="row">
@@ -108,4 +111,5 @@
     <footer>
         <p>&copy; TBC 2015</p>
     </footer>
+</div>
 </div>

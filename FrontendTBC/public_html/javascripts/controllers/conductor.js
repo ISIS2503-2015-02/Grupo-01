@@ -1,5 +1,5 @@
 (function(){
-    var TBC = angular.module('cond',[]);
+    var TBC = angular.module('con',[]);
     
       TBC.controller("getConductores", function($http, $scope){
         $scope.formulario = false;
@@ -10,7 +10,7 @@
                     url: urlP +'/conductores/'+$scope.conductores[index].id,
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     }
                 };
             $http.delete(peti).success(function(data, status, headers, config){
@@ -32,7 +32,7 @@
                     url: urlP +'/conductores',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     },
                     data: JSON.stringify($scope.conductor)
                 };
@@ -60,7 +60,7 @@
                     url: urlP +'/conductores',
                     headers:{
                         'Content-Type': 'application/json',
-                        'X-AUTH-TOKEN': usActual.authToken
+                        'X-AUTH-TOKEN': getCookie("token")
                     },
                 };
         $http.get(peti).success(function(data, status, headers, config){
