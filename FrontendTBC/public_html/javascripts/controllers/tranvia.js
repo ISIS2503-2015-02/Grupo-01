@@ -18,6 +18,8 @@
         $scope.form = false;
         $scope.ocupados = false;
         $scope.disponibles = false;
+        $scope.reviews = -1;
+        $scope.revisiones = [];
         $scope.showForm = function(){
             $scope.form = true;
         };
@@ -267,7 +269,24 @@
             });
         };
         $scope.showReviews = function(index){
-            
+            $scope.reviews = $scope.tranvias[index].id;
+            $http.get('http://localhost:9000/tranvias/'+$scope.tranvias[index].id+'/revisiones').success(function(data, status, headers, config){
+                for (i = 0; i < data.length; i++){
+                    var rev = {
+                       id : data[i].id,
+                       fechaAnterior :data[i].fechaAnterior,
+                       fecha : data[i].fecha,
+                       kilometraje : data[i].kilometraje
+                    };
+                    $scope.revisiones.push(rev);
+                }
+            }).error(function(){
+                
+            });
+        };
+        $scope.hideReviews = function(){
+            $scope.reviews = 0;
+            $scope.revisiones = [];
         };
         $http.get('http://localhost:9000/tranvias').
             success(function(data, status, headers, config) {

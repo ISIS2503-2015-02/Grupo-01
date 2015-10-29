@@ -27,16 +27,32 @@
             <td>{{tranvia.estado}}</td>
             <td>{{tranvia.panico}}</td>
             <td>{{tranvia.temperatura}}</td>
-            <td><a ng-click="showReviews($index)">Ver revisiones</a></td>
+            <td><a ng-click="showReviews($index)" ng-if="reviews != tranvia.id">Ver revisiones</a><a ng-if="reviews == tranvia.id" ng-click="hideReviews()">Ocultar</a></td>
         </tr>
         <tr ng-repeat="tranvia in tranvias | orderBy: 'id'" ng-if="!tranvia.isAccidentado()">
             <td>{{tranvia.id}}</td>
             <td>{{tranvia.estado}}</td>
             <td>{{tranvia.panico}}</td>
-            <td>{{tranvia.longitud}}</td>
-            <td>{{tranvia.latitud}}</td>
             <td>{{tranvia.temperatura}}</td>
+            <td><a ng-click="showReviews($index)" ng-if="reviews != tranvia.id">Ver revisiones</a><a ng-if="reviews == tranvia.id" ng-click="hideReviews()">Ocultar</a></td>
+        </tr>    
+    </tbody>                
+</table>
+<table class="table table-hover" ng-if="revisiones.length > 0">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha anterior</th>
+            <th>Fecha</th> 
+            <th>Kilometraje actual</th>
         </tr>
-        
+    </thead>
+    <tbody id="sensualtablabody2">
+        <tr ng-repeat="revision in revisiones | orderBy: 'id'"  class="danger">
+            <td>{{revision.id}}</td>
+            <td>{{revision.fechaAnterior}}</td>
+            <td>{{revision.fecha}}</td>
+            <td>{{revision.kilometraje}}</td>
+        </tr>       
     </tbody>                
 </table>
