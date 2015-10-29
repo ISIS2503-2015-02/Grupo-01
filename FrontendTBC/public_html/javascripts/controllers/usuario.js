@@ -65,7 +65,7 @@
         console.log(JSON.stringify($scope.reserva));
         
         var peti={
-                    method: 'POST',
+                    method: 'PUT',
                     url: urlP +'/reserva',
                     headers:{
                         'Content-Type': 'application/json',
@@ -92,6 +92,17 @@
     
     $scope.verReservas = function(){
         $scope.reservasus = [];
+        var peti={
+                    method: 'PUT',
+                    url: urlP +'/reserva',
+                    headers:{
+                        'Content-Type': 'application/json',
+                        'X-AUTH-TOKEN': usActual.authToken,
+                    },
+                    data: JSON.stringify(usActual)
+
+
+                };
         $http.get('http://localhost:9000/usuarios/'+usActual.numeroIdentificacion + '/reservas').
             success(function(data, status, headers, config) {
                 console.log(data);
