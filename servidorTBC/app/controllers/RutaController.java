@@ -1,10 +1,10 @@
 package controllers;
 
 import com.avaje.ebean.Model;
-import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import play.libs.Json;
+import play.Logger;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -14,7 +14,6 @@ import actions.ForceHttps;
 import security.*;
 
 import java.util.List;
-import java.util.ArrayList;
 
 @CorsComposition.Cors
 @ForceHttps.Https
@@ -31,7 +30,7 @@ public class RutaController extends Controller {
         ruta.setTranvia(tranvia);
         ruta.save();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(ruta));
     }
 
@@ -53,7 +52,7 @@ public class RutaController extends Controller {
         ruta.setConductor(conductor);
         ruta.update();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(ruta));
 
     }
@@ -77,7 +76,7 @@ public class RutaController extends Controller {
         ruta.setConductor(conductor);
         ruta.update();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(ruta));
 
     }
@@ -86,7 +85,7 @@ public class RutaController extends Controller {
     public Result darRutas() {
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).all();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(rutas));
     }
 
@@ -95,14 +94,14 @@ public class RutaController extends Controller {
       List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
       where().eq("tipo_accidente", "choque").eq("tipo", "Ruta tranvia").findList();
 
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(rutas));  
     }
 
     @With(SecuredActionAdmin.class)
     public Result darRuta(Long id){
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(ruta));
     }
 
@@ -118,7 +117,7 @@ public class RutaController extends Controller {
         bus.update();
         ruta.update();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(ruta));
     }
 
@@ -134,13 +133,12 @@ public class RutaController extends Controller {
         tranvia.update();
         ruta.update();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(ruta));
     }
 
     @With(SecuredActionAdmin.class)
     public Result darBusesCercanosAccidente(Long id){
-        JsonNode j = Controller.request().body().asJson();
         Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
         ruta.setTerminado(Cons.ET_ANORMAL);   
         Mobibus bus = ruta.getBus();
@@ -172,7 +170,7 @@ public class RutaController extends Controller {
             }
         }
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(buses));
     }
 
@@ -181,7 +179,7 @@ public class RutaController extends Controller {
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
         where().eq("terminado", Cons.ET_ANORMAL).findList();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(rutas));
     }
 
@@ -190,7 +188,7 @@ public class RutaController extends Controller {
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).
         where().eq("terminado", Cons.ET_TERMINADO).findList();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(rutas));
     }
 
@@ -221,7 +219,7 @@ public class RutaController extends Controller {
             rutas.get(i).delete();
         }
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(""));
     }
 
@@ -229,7 +227,7 @@ public class RutaController extends Controller {
     public Result eliminarRuta(Long id){
       Ruta ruta = (Ruta) new Model.Finder(Long.class, Ruta.class).byId(id);
       ruta.delete();
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(""));  
     }
 }

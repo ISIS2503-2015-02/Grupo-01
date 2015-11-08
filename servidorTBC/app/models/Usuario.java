@@ -1,10 +1,6 @@
 package models;
-import com.avaje.ebean.Model;
+
 import com.fasterxml.jackson.databind.JsonNode;
-import play.libs.Json;
-import play.mvc.BodyParser;
-import play.mvc.Controller;
-import play.mvc.Result;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.*;
 
@@ -17,7 +13,7 @@ import java.util.UUID;
 public class Usuario extends Persona{
 
 
-    public String authToken;
+    private String authToken;
 
     private String rol;
 
@@ -27,26 +23,28 @@ public class Usuario extends Persona{
     private String condicion;
 
     @Column(unique = true)
-    public String usuario;
+    private String user;
 
-    public String password;
+    private String password;
 
     @OneToMany(cascade=CascadeType.ALL)
     @JsonManagedReference
     private List<Reserva> reservas;
 
-    public static Finder<Integer,Usuario> find = new Finder(Integer.class, Usuario.class);
+    public static final Finder<Integer,Usuario> find = new Finder(Integer.class, Usuario.class);
 
     //--------------------------------------------
     //Constructores
     //--------------------------------------------
-    public Usuario(){ super();}
+    public Usuario(){
+        super();
+    }
 
     public Usuario(String user, String pass,Long identificacion, int edad, String nombre, String tipoId, String telefono,
                    String condicion, List<Reserva> nReservas, String rol){
         super(identificacion, edad, nombre, tipoId, telefono);
         this.condicion = condicion;
-        this.usuario = user;
+        this.user = user;
         this.password = pass;
         reservas = nReservas;
         this.rol = rol;
@@ -92,11 +90,11 @@ public class Usuario extends Persona{
     }
 
     public void setUsuario(String usuario){
-        this.usuario = usuario;
+        this.user = usuario;
     }
 
     public String getUsuario(){
-        return usuario;
+        return user;
     }
 
     public void setPassword(String password){
@@ -125,7 +123,6 @@ public class Usuario extends Persona{
         String telefono = j.findPath("telefono").asText();
         String condicion = j.findPath("condicion").asText();
         String rol = j.findPath("rol").asText();
-        Usuario usuario = new Usuario(user, pass, id, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>(), rol);
-        return usuario;
+        return new Usuario(user, pass, id, edad, nombre, tipoId, telefono, condicion, new ArrayList<Reserva>(), rol);
     }
 }

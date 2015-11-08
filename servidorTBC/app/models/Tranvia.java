@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import java.util.UUID;
 
@@ -19,7 +16,7 @@ public class Tranvia extends Model{
 	// Atributos
 	//-----------------------------------
 
-	public String authToken;
+	private String authToken;
 	
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -155,10 +152,9 @@ public class Tranvia extends Model{
         double presionChoque = j.findPath("presionChoque").asDouble();
         double temperatura = j.findPath("temperatura").asDouble();
         boolean panico = j.findPath("panico").asBoolean();
-        ArrayList<Revision> revs = new ArrayList<Revision>();
-        Tranvia tranvia = new Tranvia( estado, presionChoque,
-         temperatura, panico, new ArrayList<Revision>());
-        return tranvia;
+        List<Revision> revs = new ArrayList<Revision>();
+        return new Tranvia( estado, presionChoque,
+         temperatura, panico, revs);
     }
 
 }

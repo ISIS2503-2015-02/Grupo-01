@@ -16,7 +16,6 @@ public class SecuredActionTranvia extends Action.Simple {
 
         if (token != null) {
 
-             //DESENCRIPTACION TODO
             Tranvia tranvia = (Tranvia) new Model.Finder(Long.class, Tranvia.class).where().eq("authToken", token).findUnique();
             if (tranvia != null) {
                     ctx.request().setUsername(tranvia.getId()+"");

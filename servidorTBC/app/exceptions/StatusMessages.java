@@ -1,9 +1,8 @@
 package exceptions;
 
-/**
- * Created by sfrsebastian on 4/18/15.
- */
 public class StatusMessages {
+
+    
     //Status Codes
     public static final int C_UNAUTHORIZED = 401;
     public static final int C_CREATED = 201;
@@ -23,4 +22,7 @@ public class StatusMessages {
     public static final String M_METODO_NO_AUTORIZADO = "Método no autorizado";
     public static final String M_LOGIN_FAILED = "Usuario y/o contraseña incorrecto";
     public static final String M_UNSUPPORTED_DEVICE = "Dispositivo no válido" ;
+
+    private StatusMessages(){
+    }
 }

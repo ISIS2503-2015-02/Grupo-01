@@ -4,10 +4,7 @@ package models;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.*;
-import models.Persona;
-import play.libs.Json;
 import play.mvc.*;
-import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -17,7 +14,7 @@ import java.util.UUID;
 @Entity
 public class Estacion extends Model 
 {
-	public String authToken;
+	private String authToken;
 	/**
 	 * Capacidad 
 	 */
@@ -56,7 +53,9 @@ public class Estacion extends Model
 	 */
 	private double ocupacion;
 	
-	public Estacion(){}
+	public Estacion(){
+
+	}
 	
 	//Constructor
 	/**
@@ -171,7 +170,7 @@ public class Estacion extends Model
 	}
 	
 	public void setOcupacion(){
-		this.ocupacion = this.vcubs.size()/this.capacidad;
+		this.ocupacion = (double) this.vcubs.size()/this.capacidad;
 	}
 	/**
 	 * 
@@ -184,7 +183,7 @@ public class Estacion extends Model
 
 	public void actualizarOcupacion(){
 		ocupacion = (double) vcubs.size()/capacidad;
-		if(ocupacion==1){
+		if(vcubs.size()-capacidad == 0){
 			llena=true;
 		}
 	}
@@ -205,29 +204,11 @@ public class Estacion extends Model
 		return latitud;
 	}
 		
-	
-	/**
-	 * Elimina un Vcub de la estacion dado su ID
-	 */
-	//public void retirarVcub(Long ID)
-	//{
-	//	for (int i = 0; i < vcubs.size(); i++) 
-	//	{
-	//		Vcub actual = vcubs.get(i);
-	//		if(actual.getId().equals(ID))
-	//		{
-	//			vcubs.remove(actual);				
-	//		}
-	//	}
-	//	actualizarOcupacion();
-	//}
-
 	public static Estacion bind(JsonNode j) {
         int capacidad = j.findPath("capacidad").asInt();
         String ubicacion = j.findPath("ubicacion").asText();
         double latitud = j.findPath("latitud").asDouble();
         double longitud = j.findPath("longitud").asDouble();
-        Estacion estacion= new Estacion(capacidad, ubicacion, longitud, latitud);
-        return estacion;
+        return new Estacion(capacidad, ubicacion, longitud, latitud);
     }	
 }

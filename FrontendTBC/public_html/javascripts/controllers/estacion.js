@@ -60,9 +60,7 @@
         };
         $scope.llenarTodas = function(){
             for (i = 0 ; i < $scope.estaciones.length; i++){
-               var station = {
-                    estacionId : $scope.estaciones[i].id
-                    };
+                    
                     var peti2={
                     method: 'PUT',
                     url: urlP +'/estaciones/llenar',
@@ -70,7 +68,7 @@
                         'Content-Type': 'application/json',
                         'X-AUTH-TOKEN': getCookie("token")
                     },
-                    data: JSON.stringify(JSON.stringify(estacionId))
+                    data: JSON.stringify(JSON.stringify({estacion_id: $scope.estaciones[i].id}))
                 };
                     $http(peti2).success(function(data, status, headers, config){
                     console.log(data);
@@ -93,6 +91,7 @@
                 }).error(function(data, status, headers, config){
               
                 });
+                
             }  
         };
         $scope.ocultar = function(index){

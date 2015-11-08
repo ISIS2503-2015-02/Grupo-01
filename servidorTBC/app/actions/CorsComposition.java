@@ -25,14 +25,14 @@ public class CorsComposition  {
             Http.Response response = context.response();
             response.setHeader("Access-Control-Allow-Origin", "*");
             response.setHeader("Access-Control-Allow-Origin", "http://localhost:8383");
-            if(context.request().method().equals("OPTIONS")) {
+            if("OPTIONS".equals(context.request().method())) {
                 response.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE");
                 response.setHeader("Access-Control-Max-Age", "3600");
                 response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization, X-Auth-Token, X-Hash, X-Device");
                 response.setHeader("Access-Control-Allow-Credentials", "true");
                 return F.Promise.promise(() -> ok());
             }
-            else if(context.request().method().equals("POST") || context.request().method().equals("PUT")|| context.request().method().equals("GET") || context.request().method().equals("DELETE")){
+            else if("POST".equals(context.request().method()) || "PUT".equals(context.request().method())|| "GET".equals(context.request().method()) || "DELETE".equals(context.request().method())){
                 return delegate.call(context);
             }
             else{

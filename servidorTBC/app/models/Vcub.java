@@ -21,7 +21,7 @@ public class Vcub extends Model
 		 * Estado del Vcub
 		 */
 
-		public String authToken;
+		private String authToken;
 		
 		@Id
    		@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -115,7 +115,6 @@ public class Vcub extends Model
 		
 	public static Vcub bind(JsonNode j) {
        	String estado = j.findPath("estado").asText();
-       	Vcub vcub= new Vcub(estado);
-       	return vcub;
+       	return new Vcub(estado);
    	}	
 }

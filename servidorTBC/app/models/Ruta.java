@@ -3,8 +3,6 @@ package models;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import com.fasterxml.jackson.annotation.*; 
 
 @Entity
@@ -169,7 +167,6 @@ public class Ruta extends Model {
         String ubicacionDes = j.findPath("ubicacionDestino").asText();
         String tipoo = j.findPath("tipo").asText();
         double tiempoTrayecto = j.findPath("tiempoTrayecto").asDouble();
-        Ruta rout = new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, Cons.ET_CURSO, Cons.EA_NORMAL ,null , null , null);
-        return rout;
+        return new Ruta(ubicacionOri, ubicacionDes, tipoo, tiempoTrayecto, Cons.ET_CURSO, Cons.EA_NORMAL ,null , null , null);
     }
 }

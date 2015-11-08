@@ -5,11 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.*;
 import com.avaje.ebean.Model;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.*;
+import play.Logger;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 @Entity
@@ -49,7 +47,9 @@ public class Posicion extends Model {
 	// Constructores
 	//-----------------------------------
 	
-	public Posicion(){}
+	public Posicion(){
+
+	}
 
 	public Posicion(double latitud, double longitud, Date fecha) {
 		this.latitud = latitud;
@@ -116,12 +116,9 @@ public class Posicion extends Model {
 
 	// Crea un objeto a partir de un nodo JSon
     public static Posicion bind(JsonNode j) {
-    	String fechaStr = j.findPath("fecha").asText();
-    	Date fecha = stringToDate(fechaStr);
     	double latitud = j.findPath("latitud").asDouble();
     	double longitud = j.findPath("longitud").asDouble();
-        Posicion posicion = new Posicion(latitud, longitud, new Date());
-        return posicion;
+        return new Posicion(latitud, longitud, new Date());
     }
 
     // Auxiliar
@@ -129,10 +126,10 @@ public class Posicion extends Model {
     public static Date stringToDate(String dateStr){
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		try{
-			Date parsedDate = formatter.parse(dateStr);
-			return parsedDate;
+			return formatter.parse(dateStr);
 		}
 		catch(Exception e){
+			Logger.info(e.getMessage());
 			return null;
 		}
     }

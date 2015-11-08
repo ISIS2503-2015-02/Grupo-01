@@ -2,12 +2,12 @@ package controllers;
 
 import java.util.Date;
 import com.avaje.ebean.Model;
-import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
 import play.libs.Json;
 import play.mvc.BodyParser;
+import play.Logger;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.With;
@@ -21,7 +21,7 @@ import java.util.List;
 @ForceHttps.Https
 public class VcubController extends Controller{
 	
-    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public static final String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
     public static final String AUTH_TOKEN = "authToken";
     
 	@BodyParser.Of(BodyParser.Json.class)
@@ -32,15 +32,13 @@ public class VcubController extends Controller{
         double[] coords = Utilidad.coordenadasNuevas();
         Posicion pos = new Posicion(coords[0], coords[1], new Date());
         
-        //Posicion posicion = Posicion.bind(j);
-
         vcub.agregarPosicion(pos);
         String authToken = vcub.createToken();
         ObjectNode authTokenJson = Json.newObject();
         authTokenJson.put(AUTH_TOKEN, authToken);
         response().setCookie(AUTH_TOKEN, authToken);
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(vcub));
     }
 
@@ -48,25 +46,25 @@ public class VcubController extends Controller{
     public Result darVcubs() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).all();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(vcubs));
     }
 
     @With(SecuredActionAdmin.class)
     public Result darVcubsDisponibles() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).
-        where().eq("estado", Cons.V_DISPONIBLE).findList();;
+        where().eq("estado", Cons.V_DISPONIBLE).findList();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(vcubs));
     }
 
     @With(SecuredActionAdmin.class)
     public Result darVcubsOcupados() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
-        where().eq("estado", Cons.V_OCUPADO).findList();;
+        where().eq("estado", Cons.V_OCUPADO).findList();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(tranvias));
     }
 
@@ -74,7 +72,7 @@ public class VcubController extends Controller{
     public Result darVcub(Long id){
       Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
       
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(vcub));  
     }
 
@@ -87,7 +85,7 @@ public class VcubController extends Controller{
         posicion.setVcub(vcub);
         posicion.save();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(posicion));
     }
 
@@ -102,7 +100,7 @@ public class VcubController extends Controller{
         vcub.setUsuario(usuario);
         vcub.update();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(vcub));
     }
 
@@ -114,7 +112,7 @@ public class VcubController extends Controller{
         Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(new Long(j.findPath("estacionId").asInt()));
         Usuario usuario = (Usuario) new Model.Finder(Long.class,  Usuario.class).byId(new Long(j.findPath("usuarioId").asInt()));
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         if(vcub.getUsuario().getNumeroIdentificacion().equals(usuario.getNumeroIdentificacion())){
             vcub.setEstacion(estacion);
             vcub.setEstado(Cons.V_DISPONIBLE);
@@ -134,7 +132,7 @@ public class VcubController extends Controller{
             vcubs.get(i).delete();
         }
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(""));
     }
 
@@ -142,7 +140,7 @@ public class VcubController extends Controller{
     public Result eliminarVcub(Long id){
       Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
       vcub.delete();
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(""));  
     }
 

@@ -16,8 +16,6 @@ public class SecuredActionEstacion extends Action.Simple {
 
         if (token != null) {
 
-            //DESENCRIPTACION TODO
-
             Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).where().eq("authToken", token).findUnique();
             if (estacion != null) {
                     ctx.request().setUsername(estacion.getId()+"");

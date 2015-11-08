@@ -1,10 +1,10 @@
 package controllers;
 
 import com.avaje.ebean.Model;
-import com.avaje.ebean.LikeType;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
 import play.libs.Json;
+import play.Logger;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -23,7 +23,7 @@ public class UsuarioController extends Controller {
     public Result darUsuarios() {
         List<Usuario> usuarios = new Model.Finder(Long.class, Usuario.class).all();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(usuarios));
     }
 
@@ -44,14 +44,14 @@ public class UsuarioController extends Controller {
         reserva.update();
 
     	
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(usuario));
    	}   
 
     @With(SecuredActionUsuario.class)
     public Result darReservasUsuario(Long id){
       List<Reserva> reservas = new Model.Finder(Long.class, Reserva.class).where().eq("usuario_numero_identificacion", id ).findList();
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(reservas));  
     }
 
@@ -62,7 +62,7 @@ public class UsuarioController extends Controller {
             usuarios.get(i).delete();
         }
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(""));
     }
 
@@ -70,7 +70,7 @@ public class UsuarioController extends Controller {
     public Result darUsuario(Long id){
       Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(id);
 
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(usuario));  
     }
 
@@ -78,7 +78,7 @@ public class UsuarioController extends Controller {
     public Result eliminarUsuario(Long id){
       Usuario usuario = (Usuario) new Model.Finder(Long.class, Usuario.class).byId(id);
       usuario.delete();
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(usuario));  
     }
 

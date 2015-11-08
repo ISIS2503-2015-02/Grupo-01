@@ -2,11 +2,10 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Usuario;
-import play.Logger;
-import play.data.Form;
+import models.Cons;
 import play.data.validation.Constraints;
-import play.libs.F;
 import play.libs.Json;
+import play.Logger;
 import play.mvc.*;
 import com.fasterxml.jackson.databind.JsonNode;
 import actions.CorsComposition;
@@ -22,7 +21,7 @@ import static play.mvc.Controller.response;
 @ForceHttps.Https
 public class SecureUsuarioController extends Controller {
 
-    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public static final String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
     public static final String AUTH_TOKEN = "authToken";
 
 
@@ -36,7 +35,7 @@ public class SecureUsuarioController extends Controller {
         Usuario usuario = Usuario.bind(j);
         usuario.save();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(usuario));
     }
 
@@ -44,7 +43,7 @@ public class SecureUsuarioController extends Controller {
     @BodyParser.Of(BodyParser.Json.class)
     public Result login() {
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         JsonNode j = Controller.request().body().asJson();
         String user = j.findPath("user").asText();
         String pass = j.findPath("pass").asText();
@@ -68,7 +67,7 @@ public class SecureUsuarioController extends Controller {
         String id = j.findPath("numeroIdentificacion").asText();
         Usuario usuario = (Usuario) new Model.Finder(String.class, Usuario.class).where().eq("numero_identificacion",id).findUnique();
         usuario.deleteAuthToken();
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok("User logged out");
     }
 

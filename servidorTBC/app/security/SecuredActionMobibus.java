@@ -16,8 +16,6 @@ public class SecuredActionMobibus extends Action.Simple {
 
         if (token != null) {
 
-            //DESENCRIPTACION TODO
-
             Mobibus mobibus = (Mobibus) new Model.Finder(Long.class, Mobibus.class).where().eq("authToken", token).findUnique();
             if (mobibus != null) {
                     ctx.request().setUsername(mobibus.getId()+"");

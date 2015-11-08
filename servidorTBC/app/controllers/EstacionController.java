@@ -1,11 +1,11 @@
 package controllers;
 
 import java.util.Date;
-import com.avaje.ebean.LikeType;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.*;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -22,7 +22,7 @@ import java.util.List;
 @ForceHttps.Https
 public class EstacionController  extends Controller{
 	
-    public final static String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+    public static final String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
     public static final String AUTH_TOKEN = "authToken";
     
 	@BodyParser.Of(BodyParser.Json.class)
@@ -35,28 +35,28 @@ public class EstacionController  extends Controller{
         authTokenJson.put(AUTH_TOKEN, authToken);
         response().setCookie(AUTH_TOKEN, authToken);
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(estacion));
     }
 
     public Result darEstaciones() {
         List<Estacion> estaciones = new Model.Finder(Long.class, Estacion.class).all();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(estaciones));
     }
 
     public Result darEstacion(Long id){
       Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
       
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(estacion));  
     }
 
     public Result darEstacionesDesocupadas(){
         List<Estacion> estaciones = new Model.Finder(Long.class, Estacion.class).where().lt("ocupacion", 0.10).findList();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(estaciones));
     }
 
@@ -77,7 +77,7 @@ public class EstacionController  extends Controller{
         }
         estacion.update();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(estacion));  
     }
 
@@ -87,14 +87,14 @@ public class EstacionController  extends Controller{
             estaciones.get(i).delete();
         }
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson("")); 
     }
 
     public Result eliminarEstacion(Long id){
       Estacion estacion = (Estacion) new Model.Finder(Long.class, Estacion.class).byId(id);
       estacion.delete();
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(""));  
     }
 

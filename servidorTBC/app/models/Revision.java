@@ -8,12 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import java.util.ArrayList;
-import java.util.List;
 import javax.persistence.ManyToOne;
-import javax.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.*;
+import play.Logger;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 @Entity
@@ -45,12 +43,30 @@ public class Revision extends Model {
 	// Constructores
 	//-----------------------------------
 	
-	public Revision(){}
+	public Revision(){
+
+	}
 
 	public Revision(Date fechaAnterior, Date fecha, double kilometraje) {
 		this.fechaAnterior = fechaAnterior;
 		this.fecha = fecha;
 		this.kilometraje = kilometraje;
+	}
+
+	public void setTranvia(Tranvia tranv){
+		this.tranv = tranv;
+	}
+
+	public void setMobibus(Mobibus mobi){
+		this.mobi = mobi;
+	}
+
+	public Tranvia getTranvia(){
+		return tranv;
+	}
+
+	public Mobibus getMobibus(){
+		return mobi;
 	}
 	
 	// Getters & Setters
@@ -93,8 +109,7 @@ public class Revision extends Model {
     	String fechaStr = j.findPath("fecha").asText();
     	Date fecha = stringToDate(fechaStr);
     	double kilometraje = j.findPath("kilometraje").asDouble();
-        Revision revision = new Revision(fechaAnt, fecha, kilometraje);
-        return revision;
+        return new Revision(fechaAnt, fecha, kilometraje);
     }
 
     // Auxiliar
@@ -102,10 +117,10 @@ public class Revision extends Model {
     public static Date stringToDate(String dateStr){
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		try{
-			Date parsedDate = formatter.parse(dateStr);
-			return parsedDate;
+			return formatter.parse(dateStr);
 		}
 		catch(Exception e){
+			Logger.info(e.getMessage());
 			return null;
 		}
     }

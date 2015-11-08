@@ -16,7 +16,7 @@ public class Mobibus extends Model{
     // Atributos
     //-----------------------------------------------------------
     
-    public String authToken;
+    private String authToken;
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -50,7 +50,7 @@ public class Mobibus extends Model{
         
     }
 
-    public Mobibus(String estado, int capacidad, String placa, ArrayList<Revision> revisiones) {
+    public Mobibus(String estado, int capacidad, String placa, List<Revision> revisiones) {
         this.estado = estado;
         this.posiciones = new ArrayList<Posicion>();
         this.capacidad = capacidad;
@@ -149,8 +149,6 @@ public class Mobibus extends Model{
         String laPlaca = j.findPath("placa").asText();
         String estadoA = j.findPath("estado").asText();
         int caps = j.findPath("capacidad").asInt();
-        Posicion pos = Posicion.bind(j);
-        Mobibus mobibus = new Mobibus(estadoA, caps, laPlaca, new ArrayList<Revision>());
-        return mobibus;
+        return new Mobibus(estadoA, caps, laPlaca, new ArrayList<Revision>());
     }
 }

@@ -2,6 +2,7 @@ package actions;
 
 import exceptions.StatusMessages;
 import play.Play;
+import play.Logger;
 import play.libs.F;
 import play.mvc.*;
 
@@ -24,8 +25,8 @@ public class ForceHttps  {
 
         @Override
         public F.Promise<Result> call(Http.Context context) throws Throwable {
-            System.out.println("PROD: " + Play.isProd());
-            System.out.println("IS REQUEST: " + !isHttpsRequest(context.request()));
+            Logger.info("PROD: " + Play.isProd());
+            Logger.info("IS REQUEST: " + !isHttpsRequest(context.request()));
             if (Play.isProd() && !isHttpsRequest( context.request() )) {
                 return F.Promise.promise(() -> status(StatusMessages.C_SSL_REQUIRED,StatusMessages.M_SSL_REQUIRED));
             }
@@ -36,8 +37,8 @@ public class ForceHttps  {
 
         private static boolean isHttpsRequest(Http.Request request) {
             // heroku passes header on
-            System.out.println("SSL HEADER: " + request.getHeader(SSL_HEADER));
-            System.out.println("SSL CONTIENE: " + request.getHeader(SSL_HEADER).contains("https"));
+            Logger.info("SSL HEADER: " + request.getHeader(SSL_HEADER));
+            Logger.info("SSL CONTIENE: " + request.getHeader(SSL_HEADER).contains("https"));
             return request.getHeader(SSL_HEADER) != null && request.getHeader(SSL_HEADER).contains("https");
         }
     }

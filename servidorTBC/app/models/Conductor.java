@@ -1,11 +1,8 @@
 package models;
 
-import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.Persona;
-import play.libs.Json;
 import play.mvc.*;
-import javax.management.modelmbean.ModelMBeanAttributeInfo;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +30,10 @@ public class Conductor extends Persona{
     //--------------------------------------------
     //Constructores
     //--------------------------------------------
-    public Conductor(){super();}
-    public Conductor(Long identificacion, int edad, String nombre, String tipoId, String telefono,
-                     String nLicencia, String nFechaVen, String nEstado, List<Ruta> conductores){
+    public Conductor(){
+        super();
+    }
+    public Conductor(Long identificacion, int edad, String nombre, String tipoId, String telefono, String nLicencia, String nFechaVen, String nEstado, List<Ruta> rutas){
         super(identificacion, edad, nombre, tipoId, telefono);
         licenciaDeConduccion = nLicencia;
         fechaVencimientoLicencia = nFechaVen;
@@ -90,17 +88,15 @@ public class Conductor extends Persona{
         String telefono = j.findPath("telefono").asText();
         String licenciaConducccion = j.findPath("licenciaConduccion").asText();
         String fechaVenLicencia = j.findPath("fechaVenLicencia").asText();
-        String estado = j.findPath("estado").asText();
-        Conductor conductor = new Conductor(id,edad, nombre, tipoId, telefono, licenciaConducccion,
-         fechaVenLicencia, estado, new ArrayList<Ruta>());
-        return conductor;
+        return new Conductor(id,edad, nombre, tipoId, telefono, licenciaConducccion,
+         fechaVenLicencia, Cons.V_DISPONIBLE, new ArrayList<Ruta>());
     }
 
     public double darTiempoPromedioRutas(){
         double acum = 0;
         for(int i = 0; i< rutas.size(); i++)
             acum+=rutas.get(i).getTiempoTrayecto();
-        if(rutas.size()!=0)
+        if(rutas.isEmpty())
             return acum/rutas.size();
         return -1;
     }

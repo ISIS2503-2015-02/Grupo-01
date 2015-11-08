@@ -208,6 +208,7 @@
               console.log($scope.rutas);
             }
             
+            if(!(info.tranvia === null || info.bus === null)){
             var mapOptions = {
                             zoom: 14,
                             center: new google.maps.LatLng(4.60, -74.08),
@@ -243,7 +244,7 @@
                         $scope.markers.push(marker);
 
                         }  
-
+            };
                         for (i = 0; i < data.length; i++){
                             createMarker(data[i]);
                         }

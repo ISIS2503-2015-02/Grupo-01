@@ -15,9 +15,7 @@ public class SecuredActionVcub extends Action.Simple {
         String token = getTokenFromHeader(ctx);
 
         if (token != null) {
-
-            //DESENCRIPTACION TODO
-             
+         
             Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).where().eq("authToken", token).findUnique();
             if (vcub != null) {
                     ctx.request().setUsername(vcub.getId()+"");

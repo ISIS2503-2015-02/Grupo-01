@@ -8,10 +8,14 @@ import java.util.ArrayList;
 
 public class DummyData {
 
-    public static Usuario user1;
-    public static Usuario user2;
-    public static Usuario user3;
-    public static Usuario user4;
+    public static  Usuario user1;
+    public static  Usuario user2;
+    public static  Usuario user3;
+    public static  Usuario user4;
+
+    private DummyData(){
+
+    }
 
     public static void loadDemoData() {
         
@@ -65,5 +69,4 @@ public class DummyData {
         }
     
     }
-
 }

@@ -16,14 +16,10 @@ public class SecuredActionAdmin extends Action.Simple {
 
         if (token != null) {
 
-            //DESENCRIPTACION TODO
-
             Usuario user = (Usuario) new Model.Finder(Long.class, Usuario.class).where().eq("authToken", token).findUnique();
-            if (user != null) {
-                if(user.getRol().equals(Cons.ROL_ADMIN)){
-                    ctx.request().setUsername(user.getUsuario());
-                    return delegate.call(ctx);
-                }
+            if (user != null && user.getRol().equals(Cons.ROL_ADMIN)) {
+                ctx.request().setUsername(user.getUsuario());
+                return delegate.call(ctx);
             }
 
         }

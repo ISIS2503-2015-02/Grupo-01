@@ -3,15 +3,12 @@ package models;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import com.fasterxml.jackson.annotation.*;
+import play.Logger;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import java.util.Date;
-import java.util.Calendar;
 
 @Entity
 public class Reserva extends Model {
@@ -124,27 +121,16 @@ public class Reserva extends Model {
     public static Reserva bind(JsonNode j){
         String fechaa = j.findPath("fecha").asText();
         Date fechaDate = stringToDate(fechaa);
-        Reserva reserva = new Reserva(Cons.R_ESPERA, fechaDate, 15000, null);
-        return reserva;
+        return new Reserva(Cons.R_ESPERA, fechaDate, 15000, null);
     }
 
     public static Date stringToDate(String dateStr){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try{
-            Date parsedDate = formatter.parse(dateStr);
-            return parsedDate;
-        }
-        catch(Exception e){
+            return formatter.parse(dateStr);
+        } catch(Exception e) {
+            Logger.info(e.getMessage());
             return null;
         }
-    }
-
-    public static Date maniana(){
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date();
-        Calendar cal =  Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, 1);
-        return cal.getTime();
     }
 }

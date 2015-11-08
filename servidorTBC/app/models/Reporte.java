@@ -1,19 +1,11 @@
 package models;
 
-import java.lang.Integer;
-import java.lang.Long;
-import java.lang.String;
 import java.util.Date;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.*;
 import com.avaje.ebean.Model;
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import models.*;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 
@@ -73,10 +65,8 @@ public class Reporte extends Model {
         double tiempoPromedioMobibus =  darTiempoPromedioMobibuses();
         double tasaReservas = darTasaReservasMobibuses();
 
-        Reporte nuevo = new Reporte( fechaStr, accidenteComun, conductorMasEfectivo,
+        return new Reporte( fechaStr, accidenteComun, conductorMasEfectivo,
                 conductorMenosEfectivo , tiempoPromedioRutas, tiempoPromedioTranvias, tiempoPromedioMobibus, tasaReservas);
-
-        return nuevo;
     }
 
     //-----------------------------------------------------------
@@ -87,10 +77,14 @@ public class Reporte extends Model {
         int n1 = new Model.Finder(Long.class, Ruta.class).where().eq("tipoAccidente", Cons.EA_CHOQUE).findRowCount();
         int n2 = new Model.Finder(Long.class, Ruta.class).where().eq("tipoAccidente", Cons.EA_INCENDIO).findRowCount();
         int n3 = new Model.Finder(Long.class, Ruta.class).where().eq("tipoAccidente", Cons.EA_ATROPELLO).findRowCount();
-        if(n1>n2 && n1>n3) return Cons.EA_CHOQUE;
-        else if(n2>n1 && n2>n3) return Cons.EA_INCENDIO;
-        else if (n3>n1 && n3>n2) return Cons.EA_ATROPELLO;
-        else return "Ninguno";
+        if(n1>n2 && n1>n3) 
+            return Cons.EA_CHOQUE;
+        else if(n2>n1 && n2>n3) 
+            return Cons.EA_INCENDIO;
+        else if (n3>n1 && n3>n2) 
+            return Cons.EA_ATROPELLO;
+        else 
+            return "Ninguno";
     }
 
     //Retorna el identificador del conductor con menor tiempo promedio de rutas, null si ninguno tiene rutas
@@ -107,8 +101,7 @@ public class Reporte extends Model {
                 masEficiente = actual;
             }
         }
-        Long respuesta =(masEficiente==null)?null:masEficiente.getNumeroIdentificacion();
-        return respuesta;
+        return (masEficiente==null) ?null:masEficiente.getNumeroIdentificacion();
     }
 
     //Retorna el identificador del conductor con menor tiempo promedio de rutas, null si ninguno tiene rutas
@@ -125,15 +118,14 @@ public class Reporte extends Model {
                 menosEficiente = actual;
             }
         }
-        Long respuesta =(menosEficiente==null)?null:menosEficiente.getNumeroIdentificacion();
-        return respuesta;
+        return (menosEficiente==null)?null:menosEficiente.getNumeroIdentificacion();
     }
 
     //Retorna el tiempo promedio de ruta de los tranvias. -1 si ningun tranvia tiene rutas
     @JsonIgnore
     public static double darTiempoPromedioTranvias(){
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).where().eq("bus", null ).findList();
-        if(rutas.size()==0)
+        if(rutas.isEmpty())
             return -1;
         double tAcum = 0;
         for(int i = 0; i<rutas.size(); i++)
@@ -145,7 +137,7 @@ public class Reporte extends Model {
     @JsonIgnore
     public static double darTiempoPromedioMobibuses(){
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).where().eq("tranvia", null).findList();
-        if(rutas.size()==0)
+        if(rutas.isEmpty())
             return -1;
         double tAcum = 0;
         for(int i = 0; i<rutas.size(); i++)
@@ -157,7 +149,7 @@ public class Reporte extends Model {
     @JsonIgnore
     public static double darTiempoPromedioRutas(){
         List<Ruta> rutas = new Model.Finder(Long.class, Ruta.class).findList();
-        if(rutas.size()==0)
+        if(rutas.isEmpty())
             return -1;
         double tAcum = 0;
         for(int i = 0; i<rutas.size(); i++)
@@ -173,7 +165,7 @@ public class Reporte extends Model {
         if(total==0){
             return 1;
         }
-        return asignadas/total;
+        return (double)asignadas/total;
     }
 
     //-----------------------------------------------------------
@@ -181,30 +173,73 @@ public class Reporte extends Model {
     //-----------------------------------------------------------
 
 
-    public Long getId() {  return id;  }
-    public void setId(Long id) {  this.id = id;  }
+    public Long getId() {  
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getFecha() {   return fecha;  }
-    public void setFecha(String fecha) {   this.fecha = fecha;  }
+    public String getFecha() {
+        return fecha;
+    }
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
 
-    public String getTipoAccidenteMasComun() {   return tipoAccidenteMasComun;  }
-    public void setTipoAccidenteMasComun(String tipoAccidenteMasComun) {   this.tipoAccidenteMasComun = tipoAccidenteMasComun;  }
+    public String getTipoAccidenteMasComun() {
+        return tipoAccidenteMasComun;
+    }
+    
+    public void setTipoAccidenteMasComun(String tipoAccidenteMasComun) {
+        this.tipoAccidenteMasComun = tipoAccidenteMasComun;
+    }
 
-    public Long getConductorMasEfectivo() {  return conductorMasEfectivo;  }
-    public void setConductorMasEfectivo(Long conductorMasEfectivo) {   this.conductorMasEfectivo = conductorMasEfectivo;  }
+    public Long getConductorMasEfectivo() {  
+        return conductorMasEfectivo;
+    }
+    
+    public void setConductorMasEfectivo(Long conductorMasEfectivo) {
+        this.conductorMasEfectivo = conductorMasEfectivo;
+    }
 
-    public Long getConductorMenosEfectivo() {  return conductorMenosEfectivo;  }
-    public void setConductorMenosEfectivo(Long conductorMenosEfectivo) {  this.conductorMenosEfectivo = conductorMenosEfectivo;  }
+    public Long getConductorMenosEfectivo() {
+        return conductorMenosEfectivo;
+    }
+    
+    public void setConductorMenosEfectivo(Long conductorMenosEfectivo) {
+        this.conductorMenosEfectivo = conductorMenosEfectivo;
+    }
 
-    public double getTiempoPromedioRuta() {   return tiempoPromedioRuta;  }
-    public void setTiempoPromedioRuta(double tiempoPromedioRuta) {  this.tiempoPromedioRuta = tiempoPromedioRuta;  }
+    public double getTiempoPromedioRuta() {   
+        return tiempoPromedioRuta;
+    }
 
-    public double getTiempoPromedioTranvias() {  return tiempoPromedioTranvias;  }
-    public void setTiempoPromedioTranvias(double tiempoPromedioTranvias) {   this.tiempoPromedioTranvias = tiempoPromedioTranvias;  }
+    public void setTiempoPromedioRuta(double tiempoPromedioRuta) {
+        this.tiempoPromedioRuta = tiempoPromedioRuta;
+    }
 
-    public double getTiempoPromedioMobibuses() {  return tiempoPromedioMobibuses;  }
-    public void setTiempoPromedioMobibuses(double tiempoPromedioMobibuses) {  this.tiempoPromedioMobibuses = tiempoPromedioMobibuses;  }
+    public double getTiempoPromedioTranvias() {
+        return tiempoPromedioTranvias;
+    }
+    
+    public void setTiempoPromedioTranvias(double tiempoPromedioTranvias) {
+        this.tiempoPromedioTranvias = tiempoPromedioTranvias;
+    }
 
-    public double getTasaReservasAsignadas(){ return tasaReservasAsignadas;}
-    public void setTasaReservasAsignadas(double tasaReservasAsignadas){ this.tasaReservasAsignadas = tasaReservasAsignadas;}
+    public double getTiempoPromedioMobibuses() {
+        return tiempoPromedioMobibuses;
+    }
+    
+    public void setTiempoPromedioMobibuses(double tiempoPromedioMobibuses) {
+        this.tiempoPromedioMobibuses = tiempoPromedioMobibuses;
+    }
+
+    public double getTasaReservasAsignadas(){ 
+        return tasaReservasAsignadas;
+    }
+    
+    public void setTasaReservasAsignadas(double tasaReservasAsignadas){
+        this.tasaReservasAsignadas = tasaReservasAsignadas;
+    }
 }

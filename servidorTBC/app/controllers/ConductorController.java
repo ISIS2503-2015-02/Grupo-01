@@ -4,6 +4,7 @@ package controllers;
 import com.avaje.ebean.Model;
 import com.fasterxml.jackson.databind.JsonNode;
 import models.*;
+import play.Logger;
 import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Controller;
@@ -26,28 +27,28 @@ public class ConductorController extends Controller{
         Conductor conductor = Conductor.bind(j);
         conductor.save();
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(conductor));
     }
 
     public Result darConductores() {
         List<Conductor> conductores = new Model.Finder(Long.class, Conductor.class).all();
         
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(conductores));
     }
 
     public Result darConductor(Long cedula){
       Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(cedula);
       
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(conductor));  
     }
 
     public Result eliminarConductor(Long cedula){
       Conductor conductor = (Conductor) new Model.Finder(Long.class, Conductor.class).byId(cedula);
       conductor.delete();
-      response().setHeader("Access-Control-Allow-Origin", "*");
+      response().setHeader(Cons.CORS, "*");
       return ok(Json.toJson(""));  
     }
 
@@ -57,7 +58,7 @@ public class ConductorController extends Controller{
             conductores.get(i).delete();
         }
 
-        response().setHeader("Access-Control-Allow-Origin", "*");
+        response().setHeader(Cons.CORS, "*");
         return ok(Json.toJson(""));
     }
 }
