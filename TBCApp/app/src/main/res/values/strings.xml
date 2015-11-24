@@ -7,10 +7,13 @@
     <string name="password">Password</string>
     <string name="button_submit">LogIn</string>
     <string name="title_activity_login">LoginActivity</string>
+
     <string name="title_activity_ver">Ver</string>
     <string name="title_activity_crear_reserva">CrearReservaActivity</string>
 
     <string name="button_verRes">Ver reservas</string>
     <string name="button_nuevaRes">Nueva reserva</string>
+    <string name="title_activity_ver_reservas">VerReservas</string>
+
 
 </resources>

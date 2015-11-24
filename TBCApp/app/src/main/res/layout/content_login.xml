@@ -17,7 +17,9 @@
         android:layout_marginTop="37dp"
         android:layout_below="@+id/textView"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:onClick="verReservas"
+        />
 
     <Button
         android:layout_width="400dp"
@@ -27,7 +29,9 @@
         android:layout_below="@+id/button2"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="42dp" />
+        android:layout_marginTop="42dp"
+        android:onClick="nuevaReserva"
+        />
 
     <TextView
         android:layout_width="wrap_content"

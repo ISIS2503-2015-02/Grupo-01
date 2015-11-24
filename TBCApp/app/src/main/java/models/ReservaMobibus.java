@@ -1,11 +1,12 @@
 package models;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by user on 11/22/2015.
  */
-public class ReservaMobibus {
+public class ReservaMobibus implements Serializable {
 
     //----------------------------------------------------------------------
     // Atributos

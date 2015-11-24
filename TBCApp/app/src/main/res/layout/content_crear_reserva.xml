@@ -10,4 +10,53 @@
     tools:showIn="@layout/activity_crear_reserva"
     tools:context="wilisoft.tbcapp.CrearReservaActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Solicitar reserva de mobibus"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ubicacionOrigen"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="75dp"
+        android:text="Ubicacion origen" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ubicacionDestino"
+        android:layout_below="@+id/ubicacionOrigen"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Ubicacion destino" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reservar"
+        android:id="@+id/buttonCrearReserva"
+        android:onClick="crearReserva"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText3"
+        android:layout_below="@+id/ubicacionDestino"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Fecha de viaje" />
 </RelativeLayout>

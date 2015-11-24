@@ -1,6 +1,7 @@
 package models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,7 +38,7 @@ public class User implements Serializable{
     //-----------------------------------------------------------------------
 
     public User(String numeroIdentificacion, int edad, String nombre, String telefono, String authToken,
-                String rol, String condicion, String usuario, String password, List<ReservaMobibus> reservas){
+                String rol, String condicion, String usuario, String password){
         this.numeroIdentificacion = numeroIdentificacion;
         this.edad = edad;
         this.nombre = nombre;
@@ -47,7 +48,7 @@ public class User implements Serializable{
         this.condicion = condicion;
         this.usuario = usuario;
         this.password = password;
-        this.reservas = reservas;
+        this.reservas = new ArrayList<ReservaMobibus>();
     }
 
     //------------------------------------------------------------------------

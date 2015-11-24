@@ -35,6 +35,11 @@
             android:label="@string/title_activity_crear_reserva"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name=".VerReservasActivity"
+            android:label="@string/title_activity_ver_reservas"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
     </application>
 
 </manifest>
