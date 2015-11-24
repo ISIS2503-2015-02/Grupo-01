@@ -45,7 +45,7 @@ public class UsuarioController extends Controller {
 
     	
         response().setHeader(Cons.CORS, "*");
-        return ok(Json.toJson(usuario));
+        return ok(Json.toJson(reserva));
    	}   
 
     @With(SecuredActionUsuario.class)

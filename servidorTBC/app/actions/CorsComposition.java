@@ -9,6 +9,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+* Clase que permite incluir el header CORS para cada servicio REST
+*/
 public class CorsComposition  {
 
     @With(CorsAction.class)

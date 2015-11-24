@@ -11,6 +11,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+* Clase que forza que cada peticion de un servicio REST se haga por el protocolo https
+*/
 public class ForceHttps  {
 
     @With(HttpsAction.class)

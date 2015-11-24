@@ -3,6 +3,9 @@ import com.avaje.ebean.Model;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Id;
 
+/**
+* Clase que representa a una persona que juega algun papel en el sistema TBC
+*/
 @MappedSuperclass
 public class Persona extends Model
 
@@ -12,15 +15,30 @@ public class Persona extends Model
     //Atributos
     //--------------------------------------------
     
+    /**
+    * Numero de indentificacion unico de la persona en el sistema
+    */
     @Id
     private Long numeroIdentificacion;
 
+    /**
+    * Elimina el token de sesion
+    */
     private int edad;
 
+    /**
+    * Nombre de la persona
+    */
     private String nombre;
 
+    /**
+    * Tipo de numero de identificacion de la persona
+    */
     private String tipoId;
 
+    /**
+    * Telefono fijo o celular de la persona
+    */
     private String telefono;
 
     //--------------------------------------------

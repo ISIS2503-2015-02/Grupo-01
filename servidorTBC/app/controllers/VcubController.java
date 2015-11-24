@@ -17,13 +17,27 @@ import security.*;
 
 import java.util.List;
 
+/**
+* Controlador sobre el modelo de una Vcub
+*/
 @CorsComposition.Cors
 @ForceHttps.Https
 public class VcubController extends Controller{
 	
+    /**
+    * Constante  para el token de autenticacion
+    */
     public static final String AUTH_TOKEN_HEADER = "X-AUTH-TOKEN";
+
+    /**
+    * Token
+    */
     public static final String AUTH_TOKEN = "authToken";
     
+    /**
+    * Crea un objeto vcbu a patir de un json de un request
+    * @return Result resultado en html con el valor creado
+    */
 	@BodyParser.Of(BodyParser.Json.class)
     public Result crearVcub() {
         JsonNode j = Controller.request().body().asJson();
@@ -42,6 +56,10 @@ public class VcubController extends Controller{
         return ok(Json.toJson(vcub));
     }
 
+    /**
+    * Retorna todas las vcbus del sistema
+    * @return resultado  html con las vcubs
+    */
     @With(SecuredActionAdmin.class)
     public Result darVcubs() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).all();
@@ -50,6 +68,10 @@ public class VcubController extends Controller{
         return ok(Json.toJson(vcubs));
     }
 
+    /**
+    * Retornal todas las vcbus  con estado disponible
+    * @return Result html con las vcbus disponibles en json
+    */
     @With(SecuredActionAdmin.class)
     public Result darVcubsDisponibles() {
         List<Vcub> vcubs = new Model.Finder(Long.class, Vcub.class).
@@ -59,6 +81,10 @@ public class VcubController extends Controller{
         return ok(Json.toJson(vcubs));
     }
 
+    /**
+    * Retorna todas las cbus con estado ocupado
+    * @return result html con las vcbus ocupadas en json
+    */
     @With(SecuredActionAdmin.class)
     public Result darVcubsOcupados() {
         List<Tranvia> tranvias = new Model.Finder(Long.class, Tranvia.class).
@@ -68,6 +94,10 @@ public class VcubController extends Controller{
         return ok(Json.toJson(tranvias));
     }
 
+    /**
+    * Retorna una sola vcub dado su id
+    * @return Result con la vcub
+    */
     @With(SecuredActionAdmin.class)
     public Result darVcub(Long id){
       Vcub vcub = (Vcub) new Model.Finder(Long.class, Vcub.class).byId(id);
@@ -76,6 +106,9 @@ public class VcubController extends Controller{
       return ok(Json.toJson(vcub));  
     }
 
+    /**
+    * 
+    */
     @With(SecuredActionVcub.class)
     @BodyParser.Of(BodyParser.Json.class)
     public Result actualizarUbicacion(){

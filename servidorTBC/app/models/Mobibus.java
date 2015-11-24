@@ -6,9 +6,13 @@ import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import play.libs.Crypto;
 
 import java.util.UUID;
 
+/**
+* Clase que representa un movibus de la empresa TBC
+*/
 @Entity
 public class Mobibus extends Model{
 
@@ -16,25 +20,49 @@ public class Mobibus extends Model{
     // Atributos
     //-----------------------------------------------------------
     
+    /**
+    * Token de sesion para controlar autorizacion en el sistema
+    */
     private String authToken;
     
+    /**
+    * Id unico del movibus en el sistema
+    */
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
     
+    /**
+    * Estado actual del movibus
+    */
     private String estado;
 
+    /**
+    * Lista de todas las posiciones que ha tenido el movibus
+    */
     @OneToMany(cascade=CascadeType.ALL)
     @JsonManagedReference
     private List<Posicion> posiciones;
 
+    /**
+    * Capacidad maxima de usuarios que pueden subir al movibus
+    */
     private int capacidad;
 
+    /**
+    * Placa del movibus
+    */
     private String placa;
 
+    /**
+    * Lista con todas las revisiones tecnomecanicas que ha tenido el movibus
+    */
     @OneToMany(cascade=CascadeType.ALL)
     private List<Revision> revisiones;
 
+    /**
+    * Ruta actual que esta siguiendo el mobibus
+    */
     @ManyToOne
     @JoinColumn(name="ruta_id")
     @JsonBackReference
@@ -43,7 +71,6 @@ public class Mobibus extends Model{
     //-----------------------------------------------------------
     // Constructores
     //-----------------------------------------------------------
-
 
 
     public Mobibus(){
@@ -61,12 +88,20 @@ public class Mobibus extends Model{
     //--------------------------------------------
     //Metodos token
     //--------------------------------------------
+
+    /**
+    * Asigna un nuevo token de sesion aleatorio a la estacion
+    */
     public String createToken() {
-        authToken = UUID.randomUUID().toString();
+        String tok = UUID.randomUUID().toString();
+        authToken = tok;
         save();
-        return authToken;
+        return tok;
     }
 
+    /**
+    * Elimina el token de sesion
+    */
      public void deleteAuthToken() {
         authToken = null;
         save();
@@ -144,7 +179,9 @@ public class Mobibus extends Model{
     //-----------------------------------------------------------
     // Métodos auxiliares
     //-----------------------------------------------------------
-
+    /**
+    * Permite crear un nuevo movibus a partir de un nodo Json
+    */
     public static Mobibus bind(JsonNode j) {
         String laPlaca = j.findPath("placa").asText();
         String estadoA = j.findPath("estado").asText();

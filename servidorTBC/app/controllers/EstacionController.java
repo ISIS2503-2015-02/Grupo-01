@@ -17,6 +17,9 @@ import security.*;
 
 import java.util.List;
 
+/**
+* Clase que representa y define todos los servicios relacionados con una estacion de TBC
+*/
 @With(SecuredActionAdmin.class)
 @CorsComposition.Cors
 @ForceHttps.Https

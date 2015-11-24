@@ -9,7 +9,9 @@ import java.util.List;
 import java.text.SimpleDateFormat;
 
 
-
+/**
+* Calse que representa un reporte generado para evaluar ciretos indicadores de la empresa TBC
+*/
 @Entity
 public class Reporte extends Model {
 
@@ -17,16 +19,52 @@ public class Reporte extends Model {
     //-----------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------
+
+    /**
+    * Id unico del reporte en el sistema
+    */
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
+
+    /**
+    * Fecha en la que se creo el reporte
+    */
     private String fecha;
+
+    /**
+    * Indica cual fue el tipo de accidente mas comun
+    */
     private String tipoAccidenteMasComun;
+
+    /**
+    * Indica cual fue el condcutor mas efectivo
+    */
     private Long conductorMasEfectivo;
+
+    /**
+    * Indica cual fue el conductor menos efectivo
+    */
     private Long conductorMenosEfectivo;
+
+    /**
+    * Indica el tiempo promedio para la completitud de una ruta
+    */
     private double tiempoPromedioRuta;
+
+    /**
+    * Indica el tiempo promedio en que un tranvia completa una ruta
+    */
     private double tiempoPromedioTranvias;
+
+    /**
+    * Indica el tiempo promedio en que un movibus completa una ruta
+    */
     private double tiempoPromedioMobibuses;
+
+    /**
+    * Indica la tasa de las reservas que son asignadas a un conductor y vehiculo
+    */
     private double tasaReservasAsignadas;
 
 
@@ -52,6 +90,9 @@ public class Reporte extends Model {
         this.tasaReservasAsignadas = tasaReservas;
     }
 
+    /**
+    * Se encarga de generar un reporte usando todos los metodos definidos para generar los indicadores
+    */
     public static Reporte generarReporte(){
         Date fecha = new Date();
         SimpleDateFormat format = new SimpleDateFormat("DD/MM/YYYY");
@@ -72,6 +113,7 @@ public class Reporte extends Model {
     //-----------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------
+
     //Retorna el tipo de accidente mas comun, si no hay ninguno, retorna "Ninguno"
     public static String darTipoAccidenteMasComun(){
         int n1 = new Model.Finder(Long.class, Ruta.class).where().eq("tipoAccidente", Cons.EA_CHOQUE).findRowCount();
@@ -169,7 +211,7 @@ public class Reporte extends Model {
     }
 
     //-----------------------------------------------------------
-    // Getters && Setters
+    // Getters & Setters
     //-----------------------------------------------------------
 
 

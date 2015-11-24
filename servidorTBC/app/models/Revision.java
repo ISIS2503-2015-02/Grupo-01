@@ -13,7 +13,9 @@ import com.fasterxml.jackson.annotation.*;
 import play.Logger;
 
 import java.text.SimpleDateFormat;
-
+/**
+* Clase que representa una revision tecnomecanica de un vehiculo de TBC
+*/
 @Entity
 public class Revision extends Model {
 
@@ -21,20 +23,38 @@ public class Revision extends Model {
 	// Atributos
 	//-----------------------------------
 
+	/**
+    * Id unico de la revision
+    */
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	/**
+    * Fecha de la ultima revision anterior a esta
+    */
 	private Date fechaAnterior;
 	
+	/**
+    * Fecha en la que se hizo la revision
+    */
 	private Date fecha;
 	
+	/**
+    * Kilometraje registrado en la revision
+    */
 	private double kilometraje;
 
+	/**
+    * Tranvia asociado a la revision
+    */
 	@ManyToOne
 	@JoinColumn(name="tranvia_id")
 	private Tranvia tranv;
 
+	/**
+    * Movibus asociado a la revision
+    */
 	@ManyToOne
 	@JoinColumn(name="mobibus_id")
 	private Mobibus mobi;	
