@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -15,10 +15,10 @@ function getCookie(cname) {
     return "";
 }
 
-urlP = "https://transporte-tbc.herokuapp.com";
+urlP = "https://transitotbc.herokuapp.com";
 (function(){
     var TBC = angular.module('TBC',[]);
-    
+
     TBC.directive('toolbar', function(){
         return{
             restrict:'E',
@@ -35,7 +35,7 @@ urlP = "https://transporte-tbc.herokuapp.com";
             controllerAs:'toolbar'
         };
     });
-    
+
     var compareTo = function() {
     return {
         require: "ngModel",
@@ -43,18 +43,18 @@ urlP = "https://transporte-tbc.herokuapp.com";
             otherModelValue: "=compareTo"
         },
         link: function(scope, element, attributes, ngModel) {
-             
+
             ngModel.$validators.compareTo = function(modelValue) {
                 return modelValue == scope.otherModelValue;
             };
- 
+
             scope.$watch("otherModelValue", function() {
                 ngModel.$validate();
             });
         }
     };
 };
- 
+
 TBC.directive("compareTo", compareTo);
-    
+
 })();
