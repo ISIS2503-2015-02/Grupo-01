@@ -9,11 +9,26 @@
         return{
             restrict:'E',
             templateUrl:'partials/tabla-buses.html',
-            controller: 'buses'
+            controller : 'buses'
         };
     });
     
+    TBC.directive('datatableSetup', ['$timeout',
+        function ($timeout) {
+            return {
+                restrict: 'A',
+                link: function (scope, element, attrs) {
+ 
+                    $timeout(function () {
+                        element.dataTable();
+                    });
+                }
+            };
+        }
+    ]);
+    
     TBC.controller("buses", function($http, $scope){
+        console.log("meh");
         $scope.buses = [];
         $scope.form = false;
         $scope.ocupados = false;
@@ -54,6 +69,7 @@
                     };  
                     $scope.buses.push(tran);
                 }
+                $scope.totalR = $scope.buses;
                 $scope.map = {
                         center: {
                             latitude: 40.454018, 
@@ -135,6 +151,7 @@
                     };  
                     $scope.buses.push(tran);
                 }
+                $scope.totalR = $scope.buses;
                 $scope.map = {
                         center: {
                             latitude: 40.454018, 
@@ -217,6 +234,7 @@
                     };  
                     $scope.buses.push(tran);
                 }
+                $scope.totalR = $scope.buses;
                 $scope.map = {
                         center: {
                             latitude: 40.454018, 
@@ -308,6 +326,7 @@
                     }
                 };
        $http(petiV).success(function(data, status, headers, config){
+       console.log("done");
             for(i = 0; i < data.length; i++){
               var bus = {
               estado : data[i].estado,
@@ -321,8 +340,8 @@
                 return bus.estado === "Accidentado";  
               };  
               $scope.buses.push(bus);
-              console.log($scope.buses);
             }
+            $scope.totalR = $scope.buses;
             var mapOptions = {
                 zoom: 14,
                 center: new google.maps.LatLng(4.60, -74.08),
@@ -359,7 +378,9 @@
        }).
       error(function(data, status, headers, config) {
         // log error
-      }); 
+      }).then(function () {
+                    $scope.totalR = $scope.buses;
+                });; 
     });
     
     var compareTo = function() {
