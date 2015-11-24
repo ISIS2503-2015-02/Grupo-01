@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.*; 
 
+/**
+* Clase que representa una ruta que sigue un vehiculo de TBC
+*/
 @Entity
 public class Ruta extends Model {
 
@@ -12,34 +15,67 @@ public class Ruta extends Model {
     // Atributos
     //-----------------------------------------------------------
 
+    /**
+    * Id unico de la ruta
+    */
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     
+    /**
+    * La ubicacion en donde inicia la ruta
+    */
     private String ubicaiconOrigen;
 
+    /**
+    * La ubicacion en donde acaba la ruta
+    */
     private String ubicacionDestino;
 
+    /**
+    * El tipo de la ruta
+    */
     private String tipo;
 
+    /**
+    * El tiempo transcurrido desde el inicio del recorrido de la ruta
+    */
     private double tiempoTrayecto;
 
+    /**
+    * Indica si la ruta ya fue terminada o no
+    */
     private String terminado;
 
+    /**
+    * Indica el tipo de accidente que se presento en la ruta
+    */
     private String tipoAccidente;
 
+    /**
+    * Movibus asociado a la ruta
+    */
     @OneToOne
     @JoinColumn(name="mobibus_id")
     private Mobibus bus;
 
+    /**
+    * Tranvia asociado a la ruta
+    */
     @OneToOne
     @JoinColumn(name="tranvia_id")
     private Tranvia tranvia;
 
+    /**
+    * Conductor asignado a la ruta
+    */
     @ManyToOne
     @JoinColumn(name="conductor_numero_identificacion")
     private Conductor conductor;
 
+    /**
+    * Reserva asociada a la ruta
+    */
     @OneToOne
     @JoinColumn(name="reserva_id")
     private Reserva reserva;
@@ -162,6 +198,9 @@ public class Ruta extends Model {
     // Métodos auxiliares
     //-----------------------------------------------------------
 
+    /**
+    * Permite la creacion de una ruta a partir de un nodo Json
+    */
     public static Ruta bind(JsonNode j) {
         String ubicacionOri = j.findPath("ubicacionOrigen").asText();
         String ubicacionDes = j.findPath("ubicacionDestino").asText();

@@ -10,6 +10,9 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 
+/**
+* Clase que representa un reserva de movibus de un usuario
+*/
 @Entity
 public class Reserva extends Model {
 
@@ -17,23 +20,44 @@ public class Reserva extends Model {
     // Atributos
     //-----------------------------------------------------------
 
+    /**
+    * Id unico de la reserva en el sistema
+    */
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    /**
+    * Estado actual de la reserva
+    */
     private String estado;
 
+    /**
+    * Fecha para la que se solicito el servicio de movibus
+    */
     private Date fecha;
 
+    /**
+    * Costo del servicio de transporte
+    */
     private double costo;
 
+    /**
+    * Turno de atencion para la reserva
+    */
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int turno;
 
+    /**
+    * Ruta que se quiere recorrer en movibus
+    */
     @OneToOne
     @JoinColumn(name="ruta_id")
     private Ruta ruta;
 
+    /**
+    * Usuario que hizo la reserva
+    */
     @ManyToOne
     @JoinColumn(name="usuario_numero_identificacion")
     @JsonBackReference
@@ -118,12 +142,18 @@ public class Reserva extends Model {
     // Métodos auxiliares
     //-----------------------------------------------------------
 
+    /**
+    * Permite la creacion de una nueva reserva a partir de un nodo Json
+    */
     public static Reserva bind(JsonNode j){
         String fechaa = j.findPath("fecha").asText();
         Date fechaDate = stringToDate(fechaa);
         return new Reserva(Cons.R_ESPERA, fechaDate, 15000, null);
     }
 
+    /**
+    * Permite convertir una fecha de tipo String a tipo Date
+    */
     public static Date stringToDate(String dateStr){
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         try{

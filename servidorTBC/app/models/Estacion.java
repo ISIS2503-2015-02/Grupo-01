@@ -6,17 +6,26 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.annotation.*;
 import play.mvc.*;
 import javax.persistence.*;
+import play.libs.Crypto;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+* Clase que representa una estacion de vcubs en el contexto de la empresa TBC
+*/
 @Entity
 public class Estacion extends Model 
 {
-	private String authToken;
+
 	/**
-	 * Capacidad 
+	* Token de sesion para controlar autorizacion en el sistema
+	*/
+	private String authToken;
+
+	/**
+	 * Capacidad de la estacion
 	 */
 	private int capacidad;
 	
@@ -32,8 +41,14 @@ public class Estacion extends Model
 	 */
 	private String ubicacion;
 
+	/**
+	* Longitud de la ubicacion de la estacion
+	*/
 	private double longitud;
 
+	/**
+	* Latitud de la ubicacion de la estacion
+	*/
 	private double latitud;
 	
 	/**
@@ -53,16 +68,24 @@ public class Estacion extends Model
 	 */
 	private double ocupacion;
 	
+	/**
+	* Constructor vacio requerido
+	*/
 	public Estacion(){
 
 	}
 	
+	//--------------------------
 	//Constructor
+	//--------------------------
+
 	/**
-	 * 
-	 * @param ID
-	 * @param ubicacion
-	 */
+	* Construye una estacion con datos iniciales
+	* @param capacidad - int la capacidad maxima de la estacion
+	* @param ubicacion - String la ubicacion de la estacion
+	* @param longitud - double longitud donde se encuentra la estacion
+	* @param latitud - double latitud ddonde se encuentra la estacion
+	*/
 	public Estacion (int capacidad, String ubicacion, double longitud, double latitud)
 	{
 		this.capacidad = capacidad;
@@ -74,21 +97,36 @@ public class Estacion extends Model
 		this.latitud = latitud;
 	}
 
-	//Metodos
-	
-	//--------------------------------------------
-    //Metodos token
-    //--------------------------------------------
+	//---------------------------------
+	// Metodos
+	//---------------------------------
+
+		//--------------------------------------------
+	    //Metodos token
+	    //--------------------------------------------
+
+    /**
+	* Asigna un nuevo token de sesion aleatorio a la estacion
+	*/
     public String createToken() {
-        authToken = UUID.randomUUID().toString();
+    	String tok = UUID.randomUUID().toString();
+        authToken = tok;
         save();
-        return authToken;
+        return tok;
     }
 
+    /**
+	* Elimina el token de sesion
+	*/
      public void deleteAuthToken() {
         authToken = null;
         save();
     }
+
+    //--------------------------------------------
+    //Getters & Setters
+    //--------------------------------------------
+
 	/**
 	 * Devuelve el ID de la estacion
 	 * @return El ID. String
@@ -129,7 +167,7 @@ public class Estacion extends Model
 		return llena;
 	}
 
-		/**
+	/**
 	 * Devuelve el porcentage de ocupacion de la estacion
 	 * @return
 	 */
@@ -147,6 +185,10 @@ public class Estacion extends Model
 		this.llena = llena;
 	}
 
+	/**
+	* Cambia la capacidad de la estacion
+	* @param capacidad int
+	*/
 	public void setCapacidad(int capacidad){
 		this.capacidad = capacidad;
 	}
@@ -161,19 +203,32 @@ public class Estacion extends Model
 		this.ocupacion = ocupacion;
 	}
 
+	/**
+	* Asigna el valor de la ubicacion
+	* @param ubicacion Strin la nueva ubicacion
+	*/
 	public void setUbiacion(String ubicacion){
 		this.ubicacion = ubicacion;
 	}
 
+	/**
+	* Asigna el valor de la las vcbus de la estacion
+	*/
 	public void setVcubs(List<Vcub> vcubs){
 		this.vcubs = vcubs;
 	}
 	
+	/**
+	* Asigna e valor de la ocupacion de la estacion
+	* lo hace con respecto a la cantidad que esten en la lista, y su capacidad
+	*/
 	public void setOcupacion(){
 		this.ocupacion = (double) this.vcubs.size()/this.capacidad;
 	}
+
 	/**
-	 * 
+	 * Agrega una bicicleta a la estacion
+	 * @param bicicleta Vcub una bicicleta
 	 */
 	public void agregarVcub(Vcub bicicleta)
 	{
@@ -181,6 +236,10 @@ public class Estacion extends Model
 		actualizarOcupacion();			
 	}
 
+	/**
+	* Actualizza el valor de la ocupacion de la estacion
+	* he indica si el cambio es la dejo llena
+	*/
 	public void actualizarOcupacion(){
 		ocupacion = (double) vcubs.size()/capacidad;
 		if(vcubs.size()-capacidad == 0){
@@ -188,22 +247,41 @@ public class Estacion extends Model
 		}
 	}
 
+	/**
+	*  Asigna el valor de la longitud de la estacion
+	* @param longitud la longitud de a poner - double
+	*/
 	public void setLongitud(double longitud){
 		this.longitud = longitud;
 	}
 
+	/**
+	* retorna la longitud
+	* @return double la longitud
+	*/
 	public double getLongitud(){
 		return longitud;
 	}
 
+	/**
+	* asigna la latitud
+	* @param latitud double 
+	*/
 	public void setLatitud(double latitud){
 		this.latitud = latitud;
 	}
 
+	/**
+	* retorna la latitud 
+	* @eturn latitud
+	*/
 	public double getLatitud(){
 		return latitud;
 	}
 		
+	/**
+    * Permite crear una nueva estacion a partir de un nodo Json
+    */
 	public static Estacion bind(JsonNode j) {
         int capacidad = j.findPath("capacidad").asInt();
         String ubicacion = j.findPath("ubicacion").asText();

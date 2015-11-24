@@ -3,34 +3,59 @@ package models;
 import com.fasterxml.jackson.databind.JsonNode;
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.*;
-
+import play.libs.Crypto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 
+/**
+* Clase que representa a un usuario del sistema de reservas y monitoreo TBC
+*/
 @Entity
 public class Usuario extends Persona{
-
-
-    private String authToken;
-
-    private String rol;
 
     //--------------------------------------------
     //Atributos
     //--------------------------------------------
+    
+
+    /**
+    * Token de sesion 
+    */
+    private String authToken;
+
+    /**
+    * Rol que otorga ciertos permisos a un usuario
+    */
+    private String rol;
+
+    /**
+    * Condicion de salud del usuario
+    */
     private String condicion;
 
+    /**
+    * Nombre de usuario para el portal web
+    */
     @Column(unique = true)
     private String user;
 
+    /**
+    * Contrasena de usuario para el portal web
+    */
     private String password;
 
+    /**
+    * Lista de todas las reservas de movibus que ha hecho el usuario
+    */
     @OneToMany(cascade=CascadeType.ALL)
     @JsonManagedReference
     private List<Reserva> reservas;
 
+    /**
+    * permite encontrar un usuario
+    */
     public static final Finder<Integer,Usuario> find = new Finder(Integer.class, Usuario.class);
 
     //--------------------------------------------
@@ -52,12 +77,20 @@ public class Usuario extends Persona{
     //--------------------------------------------
     //Metodos token
     //--------------------------------------------
+
+    /**
+    * Crea un token de sesion para controlar autorizacion
+    */
     public String createToken() {
-        authToken = UUID.randomUUID().toString();
+        String tok = UUID.randomUUID().toString();
+        authToken = tok;
         save();
-        return authToken;
+        return tok;
     }
 
+    /**
+    * Elimina un token de sesion
+    */
      public void deleteAuthToken() {
         authToken = null;
         save();
@@ -113,6 +146,9 @@ public class Usuario extends Persona{
         this.rol = rol;
     }
 
+    /**
+    * Permite crear un usuario a partir de un nodo Json
+    */
     public static Usuario bind(JsonNode j) {
         String user = j.findPath("user").asText();
         String pass = j.findPath("pass").asText();

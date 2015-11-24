@@ -6,9 +6,12 @@ import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import play.libs.Crypto;
 import java.util.UUID;
 
+/**
+* Clase que representa a un tranvia de TBC
+*/
 @Entity
 public class Tranvia extends Model{
 
@@ -16,26 +19,53 @@ public class Tranvia extends Model{
 	// Atributos
 	//-----------------------------------
 
+	/**
+    * Token de sesion
+    */
 	private String authToken;
 	
+	/**
+    * Id unico del tranvia
+    */
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	
+	/**
+    * Estado actual del tranvia
+    */
 	private String estado;
 
+	/**
+    * Lista con todas las posiciones del tranvia
+    */
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Posicion> posiciones;
 
+	/**
+    * Valor que marca el sensor de presion de choque del tranvia
+    */
 	private double presionChoque;
 
+	/**
+    * Valor que marca el sensor de temperatura del tranvia
+    */
 	private double temperatura;
 
+	/**
+    * Indica si el boton de panico del tranvia fue oprimido
+    */
 	private boolean panico;
 	
+	/**
+    * Lista de todas las revisiones tecnomecanicas del tranvia
+    */
 	@OneToMany(cascade=CascadeType.ALL)
 	private List<Revision> revisiones;
 
+	/**
+    * Ruta actual que recorre el tranvia
+    */
 	@ManyToOne
 	@JoinColumn(name="ruta_id")
 	@JsonBackReference
@@ -61,12 +91,20 @@ public class Tranvia extends Model{
 	//--------------------------------------------
     //Metodos token
     //--------------------------------------------
+
+    /**
+    * Asigna un nuevo token de sesion para autorizacion
+    */
     public String createToken() {
-        authToken = UUID.randomUUID().toString();
+        String tok = UUID.randomUUID().toString();
+        authToken = tok;
         save();
-        return authToken;
+        return tok;
     }
 
+    /**
+    * Elimina el token de sesion
+    */
      public void deleteAuthToken() {
         authToken = null;
         save();
@@ -146,6 +184,7 @@ public class Tranvia extends Model{
     public void setRuta(Ruta ruta){
         this.ruta = ruta;
     }
+    
 	// Crea un objeto a partir de un nodo JSon
     public static Tranvia bind(JsonNode j) {
         String estado = j.findPath("estado").asText();

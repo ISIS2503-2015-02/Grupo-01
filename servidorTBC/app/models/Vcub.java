@@ -7,39 +7,56 @@ import com.fasterxml.jackson.annotation.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import play.libs.Crypto;
 import java.util.UUID;
 
-
+/**
+* Clase que representa una vcub en el sistema TBC
+*/
 @Entity
 public class Vcub extends Model
 {
-		
+	//-----------------------------------------------------	
 	//Atributos 
-		
-		/**
-		 * Estado del Vcub
-		 */
+	//-----------------------------------------------------	
 
-		private String authToken;
+	/**
+    * Token de sesion
+    */
+	private String authToken;
 		
-		@Id
-   		@GeneratedValue(strategy=GenerationType.IDENTITY)
-		private long id;
+	/**
+    * Id unico del vcub
+    */	
+	@Id
+   	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private long id;
 	
-		private String estado;
+	/**
+    * Estado actual del vcub
+    */
+	private String estado;
 
-		@OneToMany(cascade=CascadeType.ALL)
-		private List<Posicion> posiciones;
+	/**
+    * Lista con todas las posiciones de la vcub
+    */
+	@OneToMany(cascade=CascadeType.ALL)
+	private List<Posicion> posiciones;
 
-		@OneToOne
-		@JoinColumn(name="usuario_numero_identificacion")
-		private Usuario usuario;
+	/**
+    * Usuario que tiene rentada la vcub actualmente
+    */
+	@OneToOne
+	@JoinColumn(name="usuario_numero_identificacion")
+	private Usuario usuario;
 		
-		@ManyToOne
-		@JoinColumn(name="estacion_id")
-		@JsonBackReference
-		private Estacion estacion;
+	/**
+    * Estacion en donde se encuentra la vcub actualmente
+    */	
+	@ManyToOne
+	@JoinColumn(name="estacion_id")
+	@JsonBackReference
+	private Estacion estacion;
 
 		
 	//Constructor 
@@ -57,9 +74,10 @@ public class Vcub extends Model
     //Metodos token
     //--------------------------------------------
     public String createToken() {
-        authToken = UUID.randomUUID().toString();
+        String tok = UUID.randomUUID().toString();
+        authToken = tok;
         save();
-        return authToken;
+        return tok;
     }
 
      public void deleteAuthToken() {
@@ -113,6 +131,9 @@ public class Vcub extends Model
 		this.estacion = estacion;
 	}
 		
+	/**
+    * Permite crear una vcub a partir de un nodo Json
+    */	
 	public static Vcub bind(JsonNode j) {
        	String estado = j.findPath("estado").asText();
        	return new Vcub(estado);
