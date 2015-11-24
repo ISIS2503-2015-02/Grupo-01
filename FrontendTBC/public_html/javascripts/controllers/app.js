@@ -15,7 +15,7 @@ function getCookie(cname) {
     return "";
 }
 
-urlP = "https://transitotbc.herokuapp.com";
+urlP = "https://tbc-transporte-tbc.herokuapp.com";
 (function(){
     var TBC = angular.module('TBC',[]);
 
