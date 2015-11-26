@@ -37,12 +37,12 @@
         android:layout_below="@+id/ubicacionOrigen"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="Ubicacion destino" />
+        android:hint="Ubicacion destino" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reservar"
+        android:hint="Reservar"
         android:id="@+id/buttonCrearReserva"
         android:onClick="crearReserva"
         android:layout_centerVertical="true"
@@ -58,5 +58,5 @@
         android:layout_below="@+id/ubicacionDestino"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="Fecha de viaje" />
+        android:hint="Fecha de viaje" />
 </RelativeLayout>

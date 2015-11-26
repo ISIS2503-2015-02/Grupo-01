@@ -19,7 +19,7 @@
         </tr>
     </thead>
     <tbody id="sensualtablabody">  
-        <tr ng-repeat="bus in totalR | orderBy: 'id'" ng-if="bus.isAccidentado()" class="danger">
+        <tr ng-repeat="bus in buses | orderBy: 'id'" ng-if="bus.isAccidentado()" class="danger">
             <td>{{bus.id}}</td>
             <td>{{bus.estado}}</td>
             <td>{{bus.placa}}</td>
@@ -28,7 +28,7 @@
             <td>{{bus.Longitud}}</td>
             <td><a ng-click="showReviews($index)" ng-if="reviews != bus.id">Ver revisiones</a><a ng-if="reviews == bus.id" ng-click="hideReviews()">Ocultar</a></td>
         </tr>
-        <tr ng-repeat="bus in totalR | orderBy: 'id'" ng-if="!bus.isAccidentado()">
+        <tr ng-repeat="bus in buses | orderBy: 'id'" ng-if="!bus.isAccidentado()">
             <td>{{bus.id}}</td>
             <td>{{bus.estado}}</td>
             <td>{{bus.placa}}</td>

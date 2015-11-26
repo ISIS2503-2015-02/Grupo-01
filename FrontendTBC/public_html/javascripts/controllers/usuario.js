@@ -1,49 +1,46 @@
+ 
    (function(){
     var TBC = angular.module('us',[]);
-
-TBC.directive('registro', function(){
+   
+   TBC.directive('registro', function(){
        return{
            restrict : 'E',
            templateUrl: 'partials/registro.html',
            controller: 'registro'
-       };
-   });
-
-   Tdirective('usuario',function(){
+       }; 
+    });
+   
+   TBC.directive('usuario',function(){
         return {
             restric : 'E',
             templateUrl:'partials/usuario.html',
             controller:'usuario'
         };
     });
-
-    TBCtroller('usuario',function($http, $scope, $location){
+    
+    TBC.controller('usuario',function($http, $scope, $location){
     $scope.active = {};
     $scope.crearReserva = false;
     $scope.verReserva = false;
-
-
-    $scopeifunction(){
+    
+    
+    $scope.login = function(){
         console.log(JSON.stringify($scope.user));
         $http.post(urlP + '/login',JSON.stringify($scope.user)).success(function(data,headers){
             $scope.active = data;
             document.cookie="id=" + data.numeroIdentificacion;
-            document.cookie="token=" + data.authToken;
+            document.cookie="token=" + data.token;
 
             console.log(getCookie("id"));
-            if(data.rol==='admin'){
-              var admin="admin.html"
-              function redireccionar()
-              {
-              location.href=admin;
-              }
-              setTimeout ("redireccionar()", 20000);
+            if(data.rol == 'admin'){
+                window.location.href = 'admin.html';
             }
-        }).error(fu headers){
-
+            
+        }).error(function(data, headers){
+            
         });
     };
-    $scope.ltion(){
+    $scope.logout = function(){
         console.log(document.cookie);
         var peti={
                     method: 'POST',
@@ -56,8 +53,8 @@ TBC.directive('registro', function(){
 
 
                 };
-        console.log(peti);
-        $http(peti).success(function(data,h
+        console.log(peti);        
+        $http(peti).success(function(data,headers){
             console.log(data);
             console.log(":)")
         }).error(function(data, headers){
@@ -66,15 +63,15 @@ TBC.directive('registro', function(){
         });
     };
     $scope.reservar = function(){
-
+        
         $scope.reserva.ruta.tipo = "Ruta Mobibus";
-$scope.reserva.usuarioId = getCookie("id");
+        $scope.reserva.usuarioId = getCookie("id");
         console.log($scope.active);
         console.log(JSON.stringify($scope.reserva));
-
+        
         var peti={
                     method: 'PUT',
-            url: urlP +'/usuarios/reserva',
+                    url: urlP +'/usuarios/reserva',
                     headers:{
                         'Content-Type': 'application/json',
                         'X-AUTH-TOKEN': getCookie("token"),
@@ -85,22 +82,23 @@ $scope.reserva.usuarioId = getCookie("id");
                 };
         $http(peti).success(function(data,headers){
             console.log(data);
-
+            
         }).error(function(data, headers){
-            console.log(d  });
+            console.log(data);
+        });
     };
     $scope.accioncrear = function(){
         if($scope.crearReserva === false)
-            $scope.crearReserva = true;
+            $scope.crearReserva = true;   
         else
             $scope.crearReserva = false;
-
+        
     };
-
-    $scope.verRevas = function(){
+    
+    $scope.verReservas = function(){
         $scope.reservasus = [];
-     eti={
-                method: 'GET',
+        var peti={
+                    method: 'GET',
                     url: urlP +'/usuarios/'+getCookie("id") + '/reservas',
                     headers:{
                         'Content-Type': 'application/json',
@@ -121,56 +119,58 @@ $scope.reserva.usuarioId = getCookie("id");
                         precio : data[i].costo,
                         estado : data[i].estado,
                         turno : data[i].turno
-                    };
+                    }; 
                     $scope.reservasus.push(res);
-                    $scope.cancelarRes = funcion(ind){
+                    $scope.cancelarRes = function(ind){
                     $http.delete(urlP + '/reservas/'+$scope.reservasus[ind].id).
                         success(function(data, status, headers, config) {
-
+                        
                 });
-                }
+                }       
     }
             });
         }
-
-    $scope.accionver = fcope.verReserva === false){
-          e.verReserva = true;
-            pe.verReservas();
+    
+    $scope.accionver = function(){
+        if($scope.verReserva === false){
+            $scope.verReserva = true;
+            $scope.verReservas();
         }
          else
             $scope.verReserva = false;
     };
-
+           
     });
-
+    
     TBC.controller('registro',function($http, $scope, $location){
         $scope.addUser=function(){
-            $http.polocalhost0/usuarios', JSON.stringify($scope.usuario)).success(function(data,headers){
+            $http.post('http://localhost:9000/usuarios', JSON.stringify($scope.usuario)).success(function(data,headers){
                 $scope.usuario={};
                 window.location.assign("/FrontendTBC/index.html");
             });
-        };
+        };	
     });
-
+    
    var compareTo = function() {
     return {
         require: "ngModel",
         scope: {
             otherModelValue: "=compareTo"
-       },
-    link: function(scope, element, attributes, ngModel) {
-
+        },
+        link: function(scope, element, attributes, ngModel) {
+             
             ngModel.$validators.compareTo = function(modelValue) {
                 return modelValue == scope.otherModelValue;
             };
-
-       atch("otherModelValue", function() {
+ 
+            scope.$watch("otherModelValue", function() {
                 ngModel.$validate();
             });
         }
     };
 };
-
-TBC.directive("compareTo", compaeTo);
-
+ 
+TBC.directive("compareTo", compareTo);
+    
 })();
+

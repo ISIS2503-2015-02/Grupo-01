@@ -28,7 +28,7 @@ import models.User;
  */
 public class Client {
 
-    public final static String URL = "https://transporte-tbc.herokuapp.com";
+    public final static String URL = "https://tbc-transporte-tbc.herokuapp.com";
 
     public Client(){
     }
@@ -45,7 +45,7 @@ public class Client {
             int edad = j.getInt("edad");
             String nombre = j.getString("nombre");
             String telefono = j.getString("telefono");
-            String authToken = j.getString("authToken");
+            String authToken = j.getString("token");
             String rol = j.getString("rol");
             String condicion = j.getString("condicion");
             String usuario = j.getString("usuario");
@@ -131,7 +131,7 @@ public class Client {
             jsonObj = new JSONObject(output);
 
 
-            System.out.println(jsonObj.getString("authToken"));
+            System.out.println(jsonObj.getString("token"));
 
             conn.disconnect();
             return buildUser(jsonObj);
